@@ -2,11 +2,15 @@ package garbageboys.garbageman_mk_2.Sound;
 
 import java.util.List;
 
+import garbageboys.garbageman_mk_2.Sound.DefaultSoundManager.Sound;
+
 public interface SoundManager {
 	
 	final public static String STARTUP_SOUND = "/assets/Sounds/SoundEffects/Startup.wav";
 	final public static String TITLE_THEME = "/assets/Sounds/Songs/Themey.wav";
 	final public static String CHEERY = "/assets/Sounds/Songs/Cheery.wav";
+	final public static String TESTY1 = "/assets/Sounds/Songs/Testy1.wav";
+	final public static String TESTY2 = "/assets/Sounds/Songs/Testy2.wav";
 
 	enum SoundTypes {
 		Music,
@@ -19,7 +23,7 @@ public interface SoundManager {
 	 * 
 	 * @return true on success
 	 */
-	public boolean loadSound(String resource, SoundTypes type);
+	public Sound loadSound(String resource, SoundTypes type);
 
 	/**
 	 * Loads a list of audio files of a specific type
@@ -27,7 +31,7 @@ public interface SoundManager {
 	 * @param type
 	 * @return true on success
 	 */
-	public boolean loadSounds(List<String> resources, SoundTypes type);
+	public List<Sound> loadSounds(SoundTypes type, String...resources);
 
 	/**
 	 * Call after loading a set of files to prepare them for rendering.
@@ -130,6 +134,8 @@ public interface SoundManager {
 	//Playlist functionality
 
 	public boolean addToPlaylist(List<String> sounds, SoundTypes playlist);
+	
+	public boolean addToPlaylist(SoundTypes playlist, List<Sound> Sounds);
 
 	public boolean addToPlaylist(String sound, SoundTypes playlist);
 
@@ -146,4 +152,6 @@ public interface SoundManager {
 	public boolean pausePlaylist(SoundTypes playlist);
 
 	public boolean unpausePlaylist(SoundTypes playlist);
+
+	public boolean killAll();
 }

@@ -22,6 +22,7 @@ public class DefaultSoundManager implements SoundManager {
 	private HashMap<String, Sound> runningClips = new HashMap<String, Sound>();
 	private HashMap<SoundTypes, ArrayList<Sound>> queues = new HashMap<SoundTypes, ArrayList<Sound>>();
 	private HashMap<SoundTypes, Sound> queuesPlaying = new HashMap<SoundTypes, Sound>();
+	private HashMap<SoundTypes, Integer> queuesPlayingIndex = new HashMap<SoundTypes, Integer>();
 	private HashMap<SoundTypes, Boolean> queuesLooped = new HashMap<SoundTypes, Boolean>();
 	private float masterVol = 0f;
 	
@@ -35,7 +36,7 @@ public class DefaultSoundManager implements SoundManager {
 	 * For that example, the type would be SoundManager.Music
 	 */
 	@Override
-	public boolean loadSound(String resource, SoundTypes type) {
+	public Sound loadSound(String resource, SoundTypes type) {
 		URL url = ResourceLoader.FindResourceURL(resource);
 		AudioInputStream stream = null;
 		Clip clip = null;
@@ -46,22 +47,23 @@ public class DefaultSoundManager implements SoundManager {
 			clip.open(stream);
 		} catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
 			e.printStackTrace();
-			return false;
+			return null;
 		}
 		
 		Sound tc = new Sound(clip, type, resource);
 		loadedClips.put(resource, tc);
 		setVolume(volumes.get(type),tc,type);
 		
-		return true;
+		return tc;
 	}
 
 	@Override
-	public boolean loadSounds(List<String> resources, SoundTypes type) {
+	public List<Sound> loadSounds(SoundTypes type, String...resources) {
+		ArrayList<Sound> sounds = new ArrayList<Sound>();
 		for(String res : resources){
-			loadSound(res, type);
+			sounds.add(loadSound(res, type));
 		}
-		return true;
+		return sounds;
 	}
 
 	/**
@@ -94,7 +96,7 @@ public class DefaultSoundManager implements SoundManager {
 		if(sound == null){
 			throw new RuntimeException("Attempted to load a null clip");
 		}
-		if(runningClips.get(resource) == null) return false;
+		if(runningClips.get(resource) != null) return false;
 		runningClips.put(resource,sound);
 		Thread thread = new Thread(sound);
 		thread.start();
@@ -151,9 +153,19 @@ public class DefaultSoundManager implements SoundManager {
 
 	@Override
 	public boolean addToPlaylist(List<String> sounds, SoundTypes playlist) {
+		if(queues.get(playlist) == null) queues.put(playlist, new ArrayList<Sound>());
 		for(int i = 0; i < sounds.size(); i++){
 			Sound clip = loadedClips.get(sounds.get(i));
 			queues.get(playlist).add(clip);
+		}
+		return true;
+	}
+
+	@Override
+	public boolean addToPlaylist(SoundTypes playlist, List<Sound> sounds) {
+		if(queues.get(playlist) == null) queues.put(playlist, new ArrayList<Sound>());
+		for(int i = 0; i < sounds.size(); i++){
+			queues.get(playlist).add(sounds.get(i));
 		}
 		return true;
 	}
@@ -193,31 +205,27 @@ public class DefaultSoundManager implements SoundManager {
 
 	//Simple recursive method that creates a thread, plays the song on that thread, then calls itself before disposing the thread.
 	private void playSong(ArrayList<Sound> queue, SoundTypes playlist, int index){
-		new Thread () {
-			@Override
-			public void run () {
-				int i = index;
+		System.out.println("Playing sound");
 
-				if(queue.size() <= index){ //If queue has been iterated thru, either loop it or end.
-					if(queuesLooped.get(playlist)){
-						i = 0;
-					}
-					else{
-						return;
-					}
-				}
 
-				try{
-					Thread thread = new Thread(queue.get(0));
-					thread.start();
-					queuesPlaying.put(playlist, queue.get(0));
-				}
-				finally{
-					playSong(queue, playlist, i + 1);
-				}
+		if(queue.size() <= index){ //If queue has been iterated thru, either loop it or end.
+			if(queuesLooped.get(playlist) != null && queuesLooped.get(playlist)){
+				index = 0;
 			}
-			
-		}.start ();
+			else{
+				return;
+			}
+		}
+
+		queue.get(index).index = index;
+		queue.get(index).queue = queue;
+
+		Thread thread = new Thread(queue.get(index));
+		runningClips.put(queue.get(index).resource, queue.get(index));
+		queuesPlaying.put(playlist, queue.get(index));
+		thread.start();
+
+
 	}
 
 	@Override
@@ -292,7 +300,7 @@ public class DefaultSoundManager implements SoundManager {
 	 * @author Pangur
 	 *
 	 */
-	class Sound implements Runnable {
+	public class Sound implements Runnable {
 		
 		public SoundTypes type;
 		private FloatControl volControl;
@@ -310,6 +318,9 @@ public class DefaultSoundManager implements SoundManager {
 		private float intensity;
 		
 		private int loopTimes = 0;
+
+		public ArrayList<Sound> queue;
+		public int index;
 	
 		public Sound(Clip clip, SoundTypes type, String resource) {
 			this.clip = clip;
@@ -352,7 +363,8 @@ public class DefaultSoundManager implements SoundManager {
 			this.running = true;
 			while(running) {
 				try {
-					if(fading || fadein) {
+
+					if(fading || fadein) { //Fading logic
 						this.millisLeft -= THREAD_SLEEP_TIME;
 						modulateIntensity();
 						if(millisLeft <= 0 && fading) {
@@ -367,15 +379,19 @@ public class DefaultSoundManager implements SoundManager {
 							fadein = false;
 						}
 					}
-					if(!clip.isRunning()) {
+
+					if(!clip.isRunning()) { //Exit loop
 						System.out.println("Stopped running: "+resource);
 						this.running = false;
 					}
-					Thread.sleep(THREAD_SLEEP_TIME);
+
+					Thread.sleep(THREAD_SLEEP_TIME); //Sleep time for checking up on whether the clip is done/fading in and out
 				}catch(InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
+			
+			if(queue != null) playSong(queue, this.type, index + 1);
 			//Thread dies when sound finishes and run() stops.
 		}
 		
@@ -443,6 +459,8 @@ public class DefaultSoundManager implements SoundManager {
 		volControl.setValue(masterVol + volumes.get(type));
 	}
 
+
+	//TODO: Make master volume make sense
 	@Override
 	public void setMasterVolume(float volume) {
 		masterVol = volume;
@@ -476,6 +494,13 @@ public class DefaultSoundManager implements SoundManager {
 		FloatControl volControl = (FloatControl) c.clip.getControl(FloatControl.Type.MASTER_GAIN);
 		volControl.setValue(masterVol + volumes.get(type) - (intensity * (millis/100)));
 		c.doFadeIn(millis, intensity);
+		return true;
+	}
+
+	@Override
+	public boolean killAll() {
+		clearPlaylists();
+		unloadAllSounds();
 		return true;
 	}
 
