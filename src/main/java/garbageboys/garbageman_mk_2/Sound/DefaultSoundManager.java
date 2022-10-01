@@ -99,7 +99,7 @@ public class DefaultSoundManager implements SoundManager {
 		if(runningClips.get(resource) != null) return false;
 		
 		runningClips.put(resource,sound);
-		sound.setLoop(Clip.LOOP_CONTINUOUSLY);
+		if(loop) sound.setLoop(Clip.LOOP_CONTINUOUSLY);
 		Thread thread = new Thread(sound);
 		thread.start();
 		return true;

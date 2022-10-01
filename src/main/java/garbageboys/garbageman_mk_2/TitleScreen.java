@@ -94,7 +94,7 @@ public class TitleScreen implements Screen {
 		if (frame == title_background_frames_1.size() * 5) {
 			title_loop_complete = true;
 			soundManager.loadSound(SoundManager.TITLE_THEME, SoundManager.SoundTypes.Music);
-			//soundManager.loopSound(TITLE_THEME);
+			soundManager.loopSound(TITLE_THEME);
 		}
 		if (frame == title_background_frames_1.size() * 5 + 100) {
 			

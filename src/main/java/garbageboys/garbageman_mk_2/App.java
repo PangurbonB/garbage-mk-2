@@ -61,23 +61,23 @@ public class App {
 		soundManager = new DefaultSoundManager();
 		
 		
-		//soundManager.loadSound(SoundManager.STARTUP_SOUND, SoundManager.SoundTypes.Effects);
-		//soundManager.loadSound(SoundManager.TITLE_THEME, SoundManager.SoundTypes.Music);
-		//soundManager.loadSound(SoundManager.CHEERY, SoundManager.SoundTypes.Music);
+		soundManager.loadSound(SoundManager.STARTUP_SOUND, SoundManager.SoundTypes.Effects);
+		soundManager.loadSound(SoundManager.TITLE_THEME, SoundManager.SoundTypes.Music);
+		soundManager.loadSound(SoundManager.CHEERY, SoundManager.SoundTypes.Music);
 		
-		soundManager.setMasterVolume(-20f);
+		soundManager.setMasterVolume(-10f);
 		soundManager.setTypeVolume(0f, SoundTypes.Effects, true);
 		soundManager.setTypeVolume(6f, SoundTypes.Music, true);
 		
-		//soundManager.playSound(SoundManager.STARTUP_SOUND);
+		soundManager.playSound(SoundManager.STARTUP_SOUND);
 
 		
-		soundManager.addToPlaylist(
-			SoundManager.SoundTypes.Music,
-			soundManager.loadSounds(SoundManager.SoundTypes.Music, SoundManager.TESTY1, SoundManager.TESTY2)
-		);
-		soundManager.startPlaylist(SoundManager.SoundTypes.Music);
-		soundManager.loopPlaylist(SoundManager.SoundTypes.Music, true);
+		// soundManager.addToPlaylist(
+		// 	SoundManager.SoundTypes.Music,
+		// 	soundManager.loadSounds(SoundManager.SoundTypes.Music, SoundManager.TESTY1, SoundManager.TESTY2)
+		// );
+		// soundManager.startPlaylist(SoundManager.SoundTypes.Music);
+		// soundManager.loopPlaylist(SoundManager.SoundTypes.Music, true);
 		// soundManager.loadSound(SoundManager.TESTY1, SoundTypes.Music);
 		// soundManager.loopSound(SoundManager.TESTY1);
 
