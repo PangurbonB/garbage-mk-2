@@ -22,6 +22,14 @@ public interface SoundManager {
 	public boolean loadSound(String resource, SoundTypes type);
 
 	/**
+	 * Loads a list of audio files of a specific type
+	 * @param resources
+	 * @param type
+	 * @return true on success
+	 */
+	public boolean loadSounds(List<String> resources, SoundTypes type);
+
+	/**
 	 * Call after loading a set of files to prepare them for rendering.
 	 */
 	public void refreshSounds();
@@ -50,8 +58,9 @@ public interface SoundManager {
 	/**
 	 * Plays an audio file. The audio file will play until completion, or until stopped.
 	 * @param resource - e.g. "/assets/Sounds/Songs/Cheery.wav"
+	 * @return true if successful and there is no other copy of this sound playing
 	 */
-	public void playSound(String resource);
+	public boolean playSound(String resource);
 	
 	/**
 	 * Stops an audio file if it is currently playing.
@@ -85,9 +94,18 @@ public interface SoundManager {
     public boolean isSoundRunning(String resource);
     
     public List<String> getRunningResources();
+
+	//Volume Controls
     
+	/**
+	 * Sets volume for a specific sound type
+	 * @param volume Volume to set sound type to
+	 * @param type Specify type, e.g. SoundTypes.Music
+	 * @param overrideRunningClips if true changes volume of currently playing clip
+	 * @return true if successful
+	 */
     public boolean setTypeVolume(float volume, SoundTypes type, boolean overrideRunningClips);
-    
+
     public void setMasterVolume(float volume);
     
     public float getMasterVolume();
@@ -96,4 +114,21 @@ public interface SoundManager {
 
 	public boolean fadeOutSong(String resource, int millis, float intensity);
 
+	//Playlist functionality
+
+	public boolean addToPlaylist(List<String> sounds, SoundTypes playlist);
+
+	public boolean addToPlaylist(String sound, SoundTypes playlist);
+
+	public boolean clearPlaylist(SoundTypes playlist);
+
+	public boolean clearPlaylists();
+
+	public boolean skipSound(SoundTypes playlist);
+
+	public boolean loopPlaylist(SoundTypes playlist);
+
+	public boolean startPlaylist(SoundTypes playlist);
+
+	public boolean stopPlaylist(SoundTypes playlist);
 }

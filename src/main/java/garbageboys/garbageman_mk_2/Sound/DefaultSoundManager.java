@@ -18,8 +18,10 @@ import garbageboys.garbageman_mk_2.ResourceLoader;
 public class DefaultSoundManager implements SoundManager {
 
 	private HashMap<SoundTypes, Float> volumes = new HashMap<SoundTypes, Float>();
-	private HashMap<String, TypedClip> clips = new HashMap<String, TypedClip>();
-	private HashMap<String, TypedClip> runningClips = new HashMap<String, TypedClip>();
+	private HashMap<String, Sound> loadedClips = new HashMap<String, Sound>();
+	private HashMap<String, Sound> runningClips = new HashMap<String, Sound>();
+	private HashMap<SoundTypes, ArrayList<Sound>> queues = new HashMap<SoundTypes, ArrayList<Sound>>();
+	private HashMap<SoundTypes, Sound> queuesPlaying = new HashMap<SoundTypes, Sound>();
 	private float masterVol = 0f;
 	
 	public DefaultSoundManager() {
@@ -46,10 +48,18 @@ public class DefaultSoundManager implements SoundManager {
 			return false;
 		}
 		
-		TypedClip tc = new TypedClip(clip, type, resource);
-		clips.put(resource, tc);
+		Sound tc = new Sound(clip, type, resource);
+		loadedClips.put(resource, tc);
 		setVolume(volumes.get(type),tc,type);
 		
+		return true;
+	}
+
+	@Override
+	public boolean loadSounds(List<String> resources, SoundTypes type) {
+		for(String res : resources){
+			loadSound(res, type);
+		}
 		return true;
 	}
 
@@ -65,11 +75,16 @@ public class DefaultSoundManager implements SoundManager {
 	 * Plays a loaded sound. Throws a runtime exception if it isn't loaded/doesn't exist.
 	 */
 	@Override
-	public void playSound(String resource) {
-		TypedClip clip = clips.get(resource);
-		Thread thread = new Thread(clip);
+	public boolean playSound(String resource) {
+		Sound sound = loadedClips.get(resource);
+		if(sound == null){
+			throw new RuntimeException("Attempted to load a null clip");
+		}
+		if(runningClips.get(resource) == null) return false;
+		runningClips.put(resource,sound);
+		Thread thread = new Thread(sound);
 		thread.start();
-		runningClips.put(resource,clip);
+		return true;
 	}
 
 	/**
@@ -77,19 +92,21 @@ public class DefaultSoundManager implements SoundManager {
 	 */
 	@Override
 	public void resetSounds(SoundTypes type) {
-		for(TypedClip c : clips.values()) { 
+		for(Sound c : loadedClips.values()) { 
 			if(c.type.equals(type)) { 
 				c.stopClip();
 			}
 		}
 	}
 
+	
+
 	/**
 	 * Plays a sound on infinite loop.
 	 */
 	@Override
 	public void loopSound(String resource) {
-		TypedClip clip = clips.get(resource);
+		Sound clip = loadedClips.get(resource);
 		Thread thread = new Thread(clip);
 		clip.setLoop(Clip.LOOP_CONTINUOUSLY);
 		thread.start();
@@ -101,7 +118,7 @@ public class DefaultSoundManager implements SoundManager {
 	 */
 	@Override
 	public void unloopSound(String resource) {
-		TypedClip c = clips.get(resource);
+		Sound c = loadedClips.get(resource);
 		c.unloop();
 	}
 
@@ -110,8 +127,86 @@ public class DefaultSoundManager implements SoundManager {
 	 */
 	@Override
 	public void stopSound(String resource) {
-		TypedClip c = clips.get(resource);
+		Sound c = loadedClips.get(resource);
 		c.stopClip();
+	}
+
+
+	//-------------------Playlists-------------------//
+
+	@Override
+	public boolean addToPlaylist(List<String> sounds, SoundTypes playlist) {
+		for(int i = 0; i < sounds.size(); i++){
+			Sound clip = loadedClips.get(sounds.get(i));
+			queues.get(playlist).add(clip);
+		}
+		return true;
+	}
+
+	@Override
+	public boolean addToPlaylist(String sound, SoundTypes playlist) {
+		Sound clip = loadedClips.get(sound);
+		queues.get(playlist).add(clip);
+		return true;
+	}
+
+	@Override
+	public boolean clearPlaylist(SoundTypes playlist) {
+		queues.get(playlist).clear();
+		return true;
+	}
+
+	@Override
+	public boolean clearPlaylists() {
+		for(ArrayList<Sound> c : queues.values()){
+			c.clear();
+		}
+		return true;
+	}
+
+	@Override
+	public boolean skipSound(SoundTypes playlist) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean loopPlaylist(SoundTypes playlist) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	//Simple recursive method that creates a thread, plays the song on that thread, then calls itself before disposing the thread.
+	private void playSong(ArrayList<Sound> queue, SoundTypes playlist){
+		if(queue.size() == 0) return;
+		new Thread () {
+			@Override
+			public void run () {
+				try{
+					Thread thread = new Thread(queue.get(0));
+					thread.start();
+					queuesPlaying.put(playlist, queue.get(0));
+				}
+				finally{
+					queue.remove(0);
+					playSong(queue, playlist);
+				}
+			}
+			
+		}.start ();
+	}
+
+	@Override
+	public boolean startPlaylist(SoundTypes playlist) {
+		ArrayList<Sound> queue = queues.get(playlist);
+		playSong(queue, playlist);
+		return true;
+	}
+
+	@Override
+	public boolean stopPlaylist(SoundTypes playlist) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	/**
@@ -119,9 +214,9 @@ public class DefaultSoundManager implements SoundManager {
 	 */
 	@Override
 	public boolean unloadSound(String resource) {
-		TypedClip clip = clips.get(resource);
+		Sound clip = loadedClips.get(resource);
 		clip.stopClip();
-		clips.remove(resource);
+		loadedClips.remove(resource);
 		return true;
 	}
 
@@ -130,12 +225,12 @@ public class DefaultSoundManager implements SoundManager {
 	 */
 	@Override
 	public boolean unloadSoundType(SoundTypes type) {
-		for(String s : clips.keySet()) {
-			TypedClip c = clips.get(s);
+		for(String s : loadedClips.keySet()) {
+			Sound c = loadedClips.get(s);
 			if(c.type.equals(type)) {
 				c.stopClip();
 				c.unload();
-				clips.remove(s);
+				loadedClips.remove(s);
 				runningClips.remove(s);
 			}
 		}
@@ -147,11 +242,12 @@ public class DefaultSoundManager implements SoundManager {
 	 */
 	@Override
 	public boolean unloadAllSounds() {
-		for(TypedClip c : clips.values()) {
+		for(Sound c : loadedClips.values()) {
 			c.stopClip();
 			c.unload();
 		}
-		clips.clear();
+		queues.clear();
+		loadedClips.clear();
 		runningClips.clear();
 		return true;
 	}
@@ -162,7 +258,7 @@ public class DefaultSoundManager implements SoundManager {
 	 * @author Pangur
 	 *
 	 */
-	class TypedClip implements Runnable {
+	class Sound implements Runnable {
 		
 		public SoundTypes type;
 		private FloatControl volControl;
@@ -181,7 +277,7 @@ public class DefaultSoundManager implements SoundManager {
 		
 		private int loopTimes = 0;
 	
-		public TypedClip(Clip clip, SoundTypes type, String resource) {
+		public Sound(Clip clip, SoundTypes type, String resource) {
 			this.clip = clip;
 			this.type = type;
 			this.resource = resource;
@@ -246,12 +342,15 @@ public class DefaultSoundManager implements SoundManager {
 					e.printStackTrace();
 				}
 			}
+			//Thread dies when sound finishes and run() stops.
 		}
 		
 		public void stopClip(){
 			clip.stop();
 			this.running = false;
 		}
+
+		//TODO: add support for pausing/unpausing clips
 		
 		public void doFadeOut(int millis, float fadeIntensity) {
 			System.out.println("Fading out "+type+": "+resource);
@@ -278,15 +377,15 @@ public class DefaultSoundManager implements SoundManager {
 	
 	@Override
 	public boolean isSoundRunning(String resource) {
-		Clip c = clips.get(resource).clip;
+		Clip c = loadedClips.get(resource).clip;
 		return c.isRunning();
 	}
 
 	@Override
 	public List<String> getRunningResources() {
 		List<String> list = new ArrayList<String>();
-		for(String s : clips.keySet()) {
-			TypedClip c = clips.get(s);
+		for(String s : loadedClips.keySet()) {
+			Sound c = loadedClips.get(s);
 			if(c.clip.isRunning()) {
 				list.add(s);
 			}
@@ -297,7 +396,7 @@ public class DefaultSoundManager implements SoundManager {
 	@Override
 	public boolean setTypeVolume(float volume, SoundTypes type, boolean overrideRunningClips) {
 		volumes.replace(type, volume);
-		for(TypedClip c : clips.values()) {
+		for(Sound c : loadedClips.values()) {
 			if(c.type.equals(type) && (overrideRunningClips || !c.clip.isRunning())) {
 				setVolume(volume, c, type);
 			}
@@ -305,7 +404,7 @@ public class DefaultSoundManager implements SoundManager {
 		return true;
 	}
 	
-	private void setVolume(float volume, TypedClip clip, SoundTypes type) {
+	private void setVolume(float volume, Sound clip, SoundTypes type) {
 		FloatControl volControl = (FloatControl) clip.clip.getControl(FloatControl.Type.MASTER_GAIN);
 		volControl.setValue(masterVol + volumes.get(type));
 	}
@@ -324,7 +423,7 @@ public class DefaultSoundManager implements SoundManager {
 
 	@Override
 	public boolean fadeOutSong(String resource, int millis, float intensity) {
-		TypedClip c = runningClips.get(resource);
+		Sound c = runningClips.get(resource);
 		if(c == null) return false;
 		c.doFadeOut(millis, intensity);
 		return true;
@@ -332,7 +431,7 @@ public class DefaultSoundManager implements SoundManager {
 
 	@Override
 	public boolean fadeInSong(String resource, SoundTypes type, int millis, float intensity, boolean loop) {
-		TypedClip c = clips.get(resource);
+		Sound c = loadedClips.get(resource);
 		if(c == null) return false;
 		if(loop) {
 			loopSound(resource);
