@@ -1,16 +1,21 @@
 package garbageboys.garbageman_mk_2;
 
-import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.system.MemoryStack.stackPush;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_TAB;
+import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
+import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
+import static org.lwjgl.glfw.GLFW.glfwGetWindowSize;
+import static org.lwjgl.glfw.GLFW.glfwPollEvents;
+import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
+import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
+import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
 
 import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.ArrayList; 
-import java.io.*; 
 
-import org.lwjgl.*;
-import org.lwjgl.glfw.GLFWJoystickCallback;
+import org.lwjgl.Version;
 import org.lwjgl.system.Configuration;
 import org.lwjgl.system.MemoryStack;
 
@@ -22,6 +27,7 @@ import garbageboys.garbageman_mk_2.Screens.Screen;
 import garbageboys.garbageman_mk_2.Screens.TitleScreen;
 import garbageboys.garbageman_mk_2.Sound.DefaultSoundManager;
 import garbageboys.garbageman_mk_2.Sound.SoundManager;
+import garbageboys.garbageman_mk_2.Sound.DefaultSoundManager.Sound;
 import garbageboys.garbageman_mk_2.Sound.SoundManager.SoundTypes;
 import garbageboys.garbageman_mk_2.Text.TextLoader;
 import garbageboys.garbageman_mk_2.Text.TextManager;
@@ -63,11 +69,23 @@ public class App {
 		soundManager.loadSound(SoundManager.STARTUP_SOUND, SoundManager.SoundTypes.Effects);
 		soundManager.loadSound(SoundManager.TITLE_THEME, SoundManager.SoundTypes.Music);
 		soundManager.loadSound(SoundManager.CHEERY, SoundManager.SoundTypes.Music);
-		soundManager.setMasterVolume(-20f);
+		
+		soundManager.setMasterVolume(-10f);
 		soundManager.setTypeVolume(0f, SoundTypes.Effects, true);
 		soundManager.setTypeVolume(6f, SoundTypes.Music, true);
-		soundManager.playSound(SoundManager.STARTUP_SOUND);
 		
+		soundManager.playSound(SoundManager.STARTUP_SOUND);
+
+		
+		// soundManager.addToPlaylist(
+		// 	SoundManager.SoundTypes.Music,
+		// 	soundManager.loadSounds(SoundManager.SoundTypes.Music, SoundManager.TESTY1, SoundManager.TESTY2)
+		// );
+		// soundManager.startPlaylist(SoundManager.SoundTypes.Music);
+		// soundManager.loopPlaylist(SoundManager.SoundTypes.Music, true);
+		// soundManager.loadSound(SoundManager.TESTY1, SoundTypes.Music);
+		// soundManager.loopSound(SoundManager.TESTY1);
+
 		
 		// Setup a key callback. It will be called every time a key is pressed, repeated or released.
 		glfwSetKeyCallback(renderer.getWindowID(), (window, key, scancode, action, mods) -> {
@@ -153,7 +171,7 @@ public class App {
 	int counter = 0;
 
 	private void cleanup() {
-		soundManager.unloadAllSounds();
+		soundManager.killAll();
 		currentScreen.unloadAssets();
 		text.cleanupText();
 	}
