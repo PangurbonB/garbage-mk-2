@@ -229,7 +229,7 @@ public class GarbageRenderer implements Render2D {
 		stack.pop();
 	}
 
-	enum RenderMode {
+	public enum RenderMode {
 		PLAIN,
 		VSYNC,
 		/* Benefits of VSYNC if above refresh rate

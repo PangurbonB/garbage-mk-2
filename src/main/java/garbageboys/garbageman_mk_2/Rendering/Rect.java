@@ -1,12 +1,12 @@
 package garbageboys.garbageman_mk_2.Rendering;
 
 public class Rect {
-	Object user_data;
+	public Object user_data;
 	/* (0, 0) is the bottom left
 	 * shapes grow upward, and rightward
 	 * (not that it really matters for external usage) */
-	int x;
-	int y;
-	int width;
-	int height;
+	public int x;
+	public int y;
+	public int width;
+	public int height;
 }
