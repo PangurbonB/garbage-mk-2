@@ -14,7 +14,12 @@ import org.lwjgl.glfw.GLFWJoystickCallback;
 import org.lwjgl.system.Configuration;
 import org.lwjgl.system.MemoryStack;
 
-import garbageboys.garbageman_mk_2.SoundManager.SoundTypes;
+import garbageboys.garbageman_mk_2.Rendering.GarbageRenderer;
+import garbageboys.garbageman_mk_2.Rendering.Render2D;
+import garbageboys.garbageman_mk_2.Rendering.RendererValidation;
+import garbageboys.garbageman_mk_2.Sound.DefaultSoundManager;
+import garbageboys.garbageman_mk_2.Sound.SoundManager;
+import garbageboys.garbageman_mk_2.Sound.SoundManager.SoundTypes;
 
 public class App {
 
@@ -55,10 +60,10 @@ public class App {
 		soundManager.loadSound(SoundManager.CHEERY, SoundManager.SoundTypes.Music);
 		soundManager.setMasterVolume(-10f);
 		soundManager.setTypeVolume(0f, SoundTypes.Effects, true);
-		soundManager.setTypeVolume(10f, SoundTypes.Music, true);
+		soundManager.setTypeVolume(6f, SoundTypes.Music, true);
 		soundManager.playSound(SoundManager.STARTUP_SOUND);
 		
-
+		
 		// Setup a key callback. It will be called every time a key is pressed, repeated or released.
 		glfwSetKeyCallback(renderer.getWindowID(), (window, key, scancode, action, mods) -> {
 			if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE) {

@@ -1,4 +1,4 @@
-package garbageboys.garbageman_mk_2;
+package garbageboys.garbageman_mk_2.Rendering;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;

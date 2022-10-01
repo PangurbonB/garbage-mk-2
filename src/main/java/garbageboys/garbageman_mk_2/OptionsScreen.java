@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.lwjgl.system.MemoryStack;
 
-import garbageboys.garbageman_mk_2.Render2D.InteractEvent;
+import garbageboys.garbageman_mk_2.Rendering.Render2D;
+import garbageboys.garbageman_mk_2.Rendering.Render2D.InteractEvent;
+import garbageboys.garbageman_mk_2.Sound.SoundManager;
 
 public class OptionsScreen implements Screen {
 
@@ -39,7 +41,14 @@ public class OptionsScreen implements Screen {
 
 	@Override
 	public void renderFrame(int frame) {
+
+		renderer.renderBatchStart();
+		MemoryStack stack = MemoryStack.stackPush();
+		renderer.batchImageScreenScaled(volumeSliderBG, 1, 0.40f, 0.508f, 0.23f, 0.15f);
 		
+		
+		renderer.renderBatchEnd();
+
 		renderer.fillEventList(events);
 		for(InteractEvent e : events) {
 			System.out.println(e.handle);
@@ -49,13 +58,7 @@ public class OptionsScreen implements Screen {
 				}
 			}
 		}
-		
-		renderer.renderBatchStart();
-		MemoryStack stack = MemoryStack.stackPush();
-		renderer.batchImageScreenScaled(volumeSliderBG, 1, 0.40f, 0.508f, 0.23f, 0.15f);
-		
-		
-		renderer.renderBatchEnd();
+
 		stack.pop();
 	}
 

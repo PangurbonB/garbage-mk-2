@@ -1,5 +1,8 @@
 package garbageboys.garbageman_mk_2;
 
+import garbageboys.garbageman_mk_2.Rendering.Render2D;
+import garbageboys.garbageman_mk_2.Sound.SoundManager;
+
 /**
  * An interface for a 'Screen' object, like the title screen or inventory screen. Handles rendering on frames, and assets.
  * @author Pangur

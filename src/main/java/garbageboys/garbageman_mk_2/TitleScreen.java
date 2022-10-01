@@ -6,6 +6,9 @@ import java.util.List;
 
 import org.lwjgl.system.MemoryStack;
 
+import garbageboys.garbageman_mk_2.Rendering.Render2D;
+import garbageboys.garbageman_mk_2.Sound.SoundManager;
+
 public class TitleScreen implements Screen {
 
 	private Render2D renderer;

@@ -1,4 +1,4 @@
-package garbageboys.garbageman_mk_2;
+package garbageboys.garbageman_mk_2.Rendering;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.*;
@@ -6,6 +6,11 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GLXSGIVideoSync;
 import org.lwjgl.stb.STBImage;
 import org.lwjgl.system.*;
+
+import garbageboys.garbageman_mk_2.GarbageLoader;
+import garbageboys.garbageman_mk_2.ResourceLoader;
+import garbageboys.garbageman_mk_2.Rendering.Render2D.InteractEvent;
+import garbageboys.garbageman_mk_2.Rendering.Render2D.InteractEventType;
 
 import java.io.BufferedOutputStream;
 import java.io.File;

@@ -1,4 +1,4 @@
-package garbageboys.garbageman_mk_2;
+package garbageboys.garbageman_mk_2.Rendering;
 
 public class Rect {
 	Object user_data;

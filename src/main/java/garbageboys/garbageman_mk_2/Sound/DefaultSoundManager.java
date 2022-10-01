@@ -1,4 +1,4 @@
-package garbageboys.garbageman_mk_2;
+package garbageboys.garbageman_mk_2.Sound;
 
 import java.io.IOException;
 import java.net.URL;
@@ -12,6 +12,8 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+
+import garbageboys.garbageman_mk_2.ResourceLoader;
 
 public class DefaultSoundManager implements SoundManager {
 
@@ -163,6 +165,7 @@ public class DefaultSoundManager implements SoundManager {
 	class TypedClip implements Runnable {
 		
 		public SoundTypes type;
+		private FloatControl volControl;
 		private Clip clip;
 		public String resource;
 		
@@ -177,11 +180,12 @@ public class DefaultSoundManager implements SoundManager {
 		private float intensity;
 		
 		private int loopTimes = 0;
-		
+	
 		public TypedClip(Clip clip, SoundTypes type, String resource) {
 			this.clip = clip;
 			this.type = type;
 			this.resource = resource;
+			volControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 		}
 		
 		public void setLoop(int b) {
@@ -207,15 +211,7 @@ public class DefaultSoundManager implements SoundManager {
 		@Override
 		public void run() {
 			clip.loop(loopTimes);
-			String addInfo;
-			if(loopTimes == 0) {
-				addInfo = " ONCE";
-			}
-			else {
-				addInfo = " ON LOOP";
-			}
-			System.out.println("Started running: "+resource+addInfo);
-			//System.out.println(clip.isRunning());
+			System.out.println("Started running: "+resource+ (loopTimes == 0 ? " ONCE" : " ON LOOP"));
 			while(!clip.isRunning()) {
 				try {
 					Thread.sleep(1);					//This INFINITELY stupid sleep is because the thread associated with Java's clips doesn't initialize 
@@ -274,7 +270,6 @@ public class DefaultSoundManager implements SoundManager {
 		}
 		
 		private void modulateIntensity() {
-			FloatControl volControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 			this.intensity += fadeIntensity;
 			volControl.setValue(this.intensity);
 		}

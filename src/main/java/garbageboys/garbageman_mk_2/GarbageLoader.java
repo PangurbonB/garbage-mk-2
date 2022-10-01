@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import garbageboys.garbageman_mk_2.Rendering.Render2D;
+
 public class GarbageLoader {
 
 	enum GarbageType {
