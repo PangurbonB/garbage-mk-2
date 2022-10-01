@@ -13,7 +13,7 @@ import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import garbageboys.garbageman_mk_2.ResourceLoader;
+import garbageboys.garbageman_mk_2.Loaders.ResourceLoader;
 
 public class DefaultSoundManager implements SoundManager {
 

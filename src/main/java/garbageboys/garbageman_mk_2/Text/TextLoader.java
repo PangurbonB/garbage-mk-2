@@ -1,7 +1,7 @@
 /**
  * 
  */
-package garbageboys.garbageman_mk_2;
+package garbageboys.garbageman_mk_2.Text;
 
 import static org.lwjgl.glfw.GLFW.glfwGetWindowSize;
 
@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.ArrayList;
 import org.lwjgl.system.MemoryStack;
 
+import garbageboys.garbageman_mk_2.App;
 import garbageboys.garbageman_mk_2.Rendering.Render2D;
 
 /**

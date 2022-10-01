@@ -7,8 +7,8 @@ import org.lwjgl.opengl.GLXSGIVideoSync;
 import org.lwjgl.stb.STBImage;
 import org.lwjgl.system.*;
 
-import garbageboys.garbageman_mk_2.GarbageLoader;
-import garbageboys.garbageman_mk_2.ResourceLoader;
+import garbageboys.garbageman_mk_2.Loaders.GarbageLoader;
+import garbageboys.garbageman_mk_2.Loaders.ResourceLoader;
 import garbageboys.garbageman_mk_2.Rendering.Render2D.InteractEvent;
 import garbageboys.garbageman_mk_2.Rendering.Render2D.InteractEventType;
 

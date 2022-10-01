@@ -1,13 +1,15 @@
-package garbageboys.garbageman_mk_2;
+package garbageboys.garbageman_mk_2.Screens;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.system.MemoryStack;
 
+import garbageboys.garbageman_mk_2.App;
 import garbageboys.garbageman_mk_2.Rendering.Render2D;
 import garbageboys.garbageman_mk_2.Rendering.Render2D.InteractEvent;
 import garbageboys.garbageman_mk_2.Sound.SoundManager;
+import garbageboys.garbageman_mk_2.Text.TextManager;
 
 public class OptionsScreen implements Screen {
 

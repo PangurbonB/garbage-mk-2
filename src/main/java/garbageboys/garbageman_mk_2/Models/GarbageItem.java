@@ -1,10 +1,11 @@
-package garbageboys.garbageman_mk_2;
+package garbageboys.garbageman_mk_2.Models;
 
 import java.awt.Point;
 import java.util.List;
 
-import garbageboys.garbageman_mk_2.GarbageLoader.GarbageTier;
-import garbageboys.garbageman_mk_2.GarbageLoader.GarbageType;
+import garbageboys.garbageman_mk_2.Loaders.GarbageLoader;
+import garbageboys.garbageman_mk_2.Loaders.GarbageLoader.GarbageTier;
+import garbageboys.garbageman_mk_2.Loaders.GarbageLoader.GarbageType;
 
 public class GarbageItem {
 	

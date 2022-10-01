@@ -17,9 +17,14 @@ import org.lwjgl.system.MemoryStack;
 import garbageboys.garbageman_mk_2.Rendering.GarbageRenderer;
 import garbageboys.garbageman_mk_2.Rendering.Render2D;
 import garbageboys.garbageman_mk_2.Rendering.RendererValidation;
+import garbageboys.garbageman_mk_2.Screens.OptionsScreen;
+import garbageboys.garbageman_mk_2.Screens.Screen;
+import garbageboys.garbageman_mk_2.Screens.TitleScreen;
 import garbageboys.garbageman_mk_2.Sound.DefaultSoundManager;
 import garbageboys.garbageman_mk_2.Sound.SoundManager;
 import garbageboys.garbageman_mk_2.Sound.SoundManager.SoundTypes;
+import garbageboys.garbageman_mk_2.Text.TextLoader;
+import garbageboys.garbageman_mk_2.Text.TextManager;
 
 public class App {
 

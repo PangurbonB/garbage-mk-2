@@ -1,4 +1,6 @@
-package garbageboys.garbageman_mk_2;
+package garbageboys.garbageman_mk_2.Text;
+
+import garbageboys.garbageman_mk_2.App;
 
 public class TextCharacter {//provides a class for each separate character on fontImage
 	int ascii_char;

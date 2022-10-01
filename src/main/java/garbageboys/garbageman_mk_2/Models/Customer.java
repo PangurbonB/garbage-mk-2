@@ -1,4 +1,4 @@
-package garbageboys.garbageman_mk_2;
+package garbageboys.garbageman_mk_2.Models;
 
 import java.awt.Point;
 

@@ -1,4 +1,4 @@
-package garbageboys.garbageman_mk_2;
+package garbageboys.garbageman_mk_2.Loaders;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.stb.STBImage;

@@ -13,6 +13,7 @@ import java.util.Random;
 import org.lwjgl.stb.STBImage;
 import org.lwjgl.system.MemoryStack;
 
+import garbageboys.garbageman_mk_2.Loaders.ResourceLoader;
 import garbageboys.garbageman_mk_2.Rendering.Rect;
 import garbageboys.garbageman_mk_2.Rendering.RectPacker;
 import junit.framework.TestCase;

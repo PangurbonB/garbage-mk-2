@@ -1,18 +1,19 @@
-package garbageboys.garbageman_mk_2;
+package garbageboys.garbageman_mk_2.Loaders;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import garbageboys.garbageman_mk_2.Models.GarbageItem;
 import garbageboys.garbageman_mk_2.Rendering.Render2D;
 
 public class GarbageLoader {
 
-	enum GarbageType {
+	public enum GarbageType {
 		Junk, Meat, Veggie, Wrap, Filler, Sweetener, Sauce;
 	};
 
-	enum GarbageTier {
+	public enum GarbageTier {
 		Junk(0.5), Purchased(0), Common(0.3), Uncommon(0.12), Rare(0.0495), VeryRare(0.025), Legendary(0.005),
 		QuestionMarkQuestionMarkQuestionMark(0.0005);
 
