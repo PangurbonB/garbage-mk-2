@@ -63,10 +63,22 @@ public interface SoundManager {
 	public boolean playSound(String resource);
 	
 	/**
-	 * Stops an audio file if it is currently playing.
+	 * Abrupty stops an audio file if it is currently playing. Audio file must be restarted.
 	 * @param resource - e.g. "/assets/Sounds/Songs/Cheery.wav"
 	 */
 	public void stopSound(String resource);
+
+	/**
+	 * Pauses an audio file if it is currently playing.
+	 * @param resource - e.g. "/assets/Sounds/Songs/Cheery.wav"
+	 */
+	public void pauseSound(String resource);
+
+	/**
+	 * Unpauses an audio file if it is currently playing.
+	 * @param resource - e.g. "/assets/Sounds/Songs/Cheery.wav"
+	 */
+	public void unpauseSound(String resource);
 
 	/**
 	 * Stops all sounds of a specific type.
@@ -77,8 +89,9 @@ public interface SoundManager {
 	/**
 	 * Plays an audio file on loop, until it is stopped, unloaded or unlooped.
 	 * @param resource - e.g. "/assets/Sounds/Songs/Cheery.wav"
+	 * @return true if successful
 	 */
-	public void loopSound(String resource);
+	public boolean loopSound(String resource);
 
 	/**
 	 * Stops a currently looping sound, so that the sound plays to completion and does not repeat.
@@ -126,9 +139,11 @@ public interface SoundManager {
 
 	public boolean skipSound(SoundTypes playlist);
 
-	public boolean loopPlaylist(SoundTypes playlist);
+	public boolean loopPlaylist(SoundTypes playlist, Boolean bool);
 
 	public boolean startPlaylist(SoundTypes playlist);
 
-	public boolean stopPlaylist(SoundTypes playlist);
+	public boolean pausePlaylist(SoundTypes playlist);
+
+	public boolean unpausePlaylist(SoundTypes playlist);
 }

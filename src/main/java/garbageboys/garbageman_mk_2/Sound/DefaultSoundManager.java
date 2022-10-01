@@ -22,6 +22,7 @@ public class DefaultSoundManager implements SoundManager {
 	private HashMap<String, Sound> runningClips = new HashMap<String, Sound>();
 	private HashMap<SoundTypes, ArrayList<Sound>> queues = new HashMap<SoundTypes, ArrayList<Sound>>();
 	private HashMap<SoundTypes, Sound> queuesPlaying = new HashMap<SoundTypes, Sound>();
+	private HashMap<SoundTypes, Boolean> queuesLooped = new HashMap<SoundTypes, Boolean>();
 	private float masterVol = 0f;
 	
 	public DefaultSoundManager() {
@@ -76,6 +77,19 @@ public class DefaultSoundManager implements SoundManager {
 	 */
 	@Override
 	public boolean playSound(String resource) {
+		return playSound(resource, false);
+	}
+
+	/**
+	 * Plays a sound on infinite loop.
+	 */
+	@Override
+	public boolean loopSound(String resource) {
+		return playSound(resource, true);
+	}
+
+
+	private boolean playSound(String resource, boolean loop){
 		Sound sound = loadedClips.get(resource);
 		if(sound == null){
 			throw new RuntimeException("Attempted to load a null clip");
@@ -85,6 +99,15 @@ public class DefaultSoundManager implements SoundManager {
 		Thread thread = new Thread(sound);
 		thread.start();
 		return true;
+	}
+
+	/**
+	 * Abruptly stops a sound.
+	 */
+	@Override
+	public void stopSound(String resource) {
+		Sound c = loadedClips.get(resource);
+		c.stopClip();
 	}
 
 	/**
@@ -102,18 +125,6 @@ public class DefaultSoundManager implements SoundManager {
 	
 
 	/**
-	 * Plays a sound on infinite loop.
-	 */
-	@Override
-	public void loopSound(String resource) {
-		Sound clip = loadedClips.get(resource);
-		Thread thread = new Thread(clip);
-		clip.setLoop(Clip.LOOP_CONTINUOUSLY);
-		thread.start();
-		runningClips.put(resource,clip);
-	}
-
-	/**
 	 * Stops a sound on loop gracefully. That is to say, the sound/song or whatever will finish but not play again.
 	 */
 	@Override
@@ -121,14 +132,18 @@ public class DefaultSoundManager implements SoundManager {
 		Sound c = loadedClips.get(resource);
 		c.unloop();
 	}
-
-	/**
-	 * Abruptly stops a sound.
-	 */
+	
+	//TODO: Add pausing and unpausing to individual sounds
 	@Override
-	public void stopSound(String resource) {
-		Sound c = loadedClips.get(resource);
-		c.stopClip();
+	public void pauseSound(String resource) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void unpauseSound(String resource) {
+		// TODO Auto-generated method stub
+		
 	}
 
 
@@ -166,30 +181,39 @@ public class DefaultSoundManager implements SoundManager {
 
 	@Override
 	public boolean skipSound(SoundTypes playlist) {
-		// TODO Auto-generated method stub
-		return false;
+		queuesPlaying.get(playlist).stopClip();
+		return true;
 	}
 
 	@Override
-	public boolean loopPlaylist(SoundTypes playlist) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean loopPlaylist(SoundTypes playlist, Boolean bool) {
+		queuesLooped.put(playlist, bool);
+		return true;
 	}
 
 	//Simple recursive method that creates a thread, plays the song on that thread, then calls itself before disposing the thread.
-	private void playSong(ArrayList<Sound> queue, SoundTypes playlist){
-		if(queue.size() == 0) return;
+	private void playSong(ArrayList<Sound> queue, SoundTypes playlist, int index){
 		new Thread () {
 			@Override
 			public void run () {
+				int i = index;
+
+				if(queue.size() <= index){ //If queue has been iterated thru, either loop it or end.
+					if(queuesLooped.get(playlist)){
+						i = 0;
+					}
+					else{
+						return;
+					}
+				}
+
 				try{
 					Thread thread = new Thread(queue.get(0));
 					thread.start();
 					queuesPlaying.put(playlist, queue.get(0));
 				}
 				finally{
-					queue.remove(0);
-					playSong(queue, playlist);
+					playSong(queue, playlist, i + 1);
 				}
 			}
 			
@@ -199,15 +223,25 @@ public class DefaultSoundManager implements SoundManager {
 	@Override
 	public boolean startPlaylist(SoundTypes playlist) {
 		ArrayList<Sound> queue = queues.get(playlist);
-		playSong(queue, playlist);
+		playSong(queue, playlist, 0);
 		return true;
 	}
 
+	//TODO: Add pausing/unpausing to playlists
 	@Override
-	public boolean stopPlaylist(SoundTypes playlist) {
+	public boolean pausePlaylist(SoundTypes playlist) {
+
+		queuesPlaying.get(playlist).stopClip();
+		return false;
+	}
+
+	@Override
+	public boolean unpausePlaylist(SoundTypes playlist) {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+
 
 	/**
 	 * Unloads a loaded sound. Probably useful for doing something like unloading the intro roll.
@@ -444,5 +478,7 @@ public class DefaultSoundManager implements SoundManager {
 		c.doFadeIn(millis, intensity);
 		return true;
 	}
+
+	
 	
 }
