@@ -9,8 +9,6 @@ import org.lwjgl.system.*;
 
 import garbageboys.garbageman_mk_2.GarbageLoader;
 import garbageboys.garbageman_mk_2.ResourceLoader;
-import garbageboys.garbageman_mk_2.Rendering.Render2D.InteractEvent;
-import garbageboys.garbageman_mk_2.Rendering.Render2D.InteractEventType;
 
 import java.io.BufferedOutputStream;
 import java.io.File;

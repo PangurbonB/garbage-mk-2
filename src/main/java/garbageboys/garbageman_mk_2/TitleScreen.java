@@ -1,7 +1,6 @@
 package garbageboys.garbageman_mk_2;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.lwjgl.system.MemoryStack;

@@ -1,16 +1,20 @@
 package garbageboys.garbageman_mk_2;
 
-import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.system.MemoryStack.stackPush;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_ESCAPE;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_TAB;
+import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
+import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
+import static org.lwjgl.glfw.GLFW.glfwGetWindowSize;
+import static org.lwjgl.glfw.GLFW.glfwPollEvents;
+import static org.lwjgl.glfw.GLFW.glfwSetKeyCallback;
+import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
+import static org.lwjgl.glfw.GLFW.glfwWindowShouldClose;
 
 import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
 import java.util.List;
-import java.util.ArrayList; 
-import java.io.*; 
 
-import org.lwjgl.*;
-import org.lwjgl.glfw.GLFWJoystickCallback;
+import org.lwjgl.Version;
 import org.lwjgl.system.Configuration;
 import org.lwjgl.system.MemoryStack;
 

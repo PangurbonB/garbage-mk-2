@@ -1,7 +1,5 @@
 package garbageboys.garbageman_mk_2;
 
-import java.util.HashMap;
-
 public class TextObject {//provides a class for each opened text in-game
 	String text; 
 	float size;

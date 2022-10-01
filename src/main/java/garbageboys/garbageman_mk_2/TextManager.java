@@ -1,7 +1,5 @@
 package garbageboys.garbageman_mk_2;
 
-import java.util.ArrayList; 
-
 public interface TextManager {
 
 	/**
