@@ -97,7 +97,9 @@ public class DefaultSoundManager implements SoundManager {
 			throw new RuntimeException("Attempted to load a null clip");
 		}
 		if(runningClips.get(resource) != null) return false;
+		
 		runningClips.put(resource,sound);
+		sound.setLoop(Clip.LOOP_CONTINUOUSLY);
 		Thread thread = new Thread(sound);
 		thread.start();
 		return true;
@@ -205,9 +207,6 @@ public class DefaultSoundManager implements SoundManager {
 
 	//Simple recursive method that creates a thread, plays the song on that thread, then calls itself before disposing the thread.
 	private void playSong(ArrayList<Sound> queue, SoundTypes playlist, int index){
-		System.out.println("Playing sound");
-
-
 		if(queue.size() <= index){ //If queue has been iterated thru, either loop it or end.
 			if(queuesLooped.get(playlist) != null && queuesLooped.get(playlist)){
 				index = 0;
@@ -216,6 +215,8 @@ public class DefaultSoundManager implements SoundManager {
 				return;
 			}
 		}
+
+		queue.set(index, loadSound(queue.get(index).resource, playlist));
 
 		queue.get(index).index = index;
 		queue.get(index).queue = queue;

@@ -72,14 +72,14 @@ public class App {
 		//soundManager.playSound(SoundManager.STARTUP_SOUND);
 
 		
-		// soundManager.addToPlaylist(
-		// 	SoundManager.SoundTypes.Music,
-		// 	soundManager.loadSounds(SoundManager.SoundTypes.Music, SoundManager.TESTY1, SoundManager.TESTY2)
-		// );
-		// soundManager.startPlaylist(SoundManager.SoundTypes.Music);
-		// soundManager.loopPlaylist(SoundManager.SoundTypes.Music, true);
-		soundManager.loadSound(SoundManager.TESTY1, SoundTypes.Music);
-		soundManager.loopSound(SoundManager.TESTY1);
+		soundManager.addToPlaylist(
+			SoundManager.SoundTypes.Music,
+			soundManager.loadSounds(SoundManager.SoundTypes.Music, SoundManager.TESTY1, SoundManager.TESTY2)
+		);
+		soundManager.startPlaylist(SoundManager.SoundTypes.Music);
+		soundManager.loopPlaylist(SoundManager.SoundTypes.Music, true);
+		// soundManager.loadSound(SoundManager.TESTY1, SoundTypes.Music);
+		// soundManager.loopSound(SoundManager.TESTY1);
 
 		
 		// Setup a key callback. It will be called every time a key is pressed, repeated or released.
