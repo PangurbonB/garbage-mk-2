@@ -151,7 +151,21 @@ public class GarbageRenderer implements Render2D {
 	}
 
 	private void resizeCallback(long window, int width, int height) {
-		glViewport(0, 0, width, height);
+		System.out.println(width+" "+height);
+		if((((float) width)/((float) height)) < (16f/9f)){
+
+			float lockHeight = (((float) width)/16f) * 9f;
+			float lhs = (height - lockHeight)/2f;
+
+			glViewport(0, (int) lhs, width, (int) lockHeight);
+		}
+		else{
+			float lockWidth = (((float) height)/9f) * 16f;
+			float lhs = (width - lockWidth)/2f;
+	
+			glViewport((int) lhs, 0, (int) lockWidth, height);
+		}
+		
 	}
 
 	private boolean inRectangle(GarbageHandle handle, int mouse_x, int mouse_y, int window_width, int window_height) {
@@ -854,7 +868,7 @@ public class GarbageRenderer implements Render2D {
 		sort_garbage_handles(image_handles);
 
 		// Set the clear color
-		glClearColor(0.0f, 0.0f, 0.4f, 0.0f);
+		glClearColor(0.0f, 0.0f, 0.2f, 0.0f);
 
 		/* Clear the color, and z-depth buffers */
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
