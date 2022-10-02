@@ -391,6 +391,7 @@ public class TextLoader implements TextManager {
 		MemoryStack stack = MemoryStack.stackPush();
 		IntBuffer window_width = stack.mallocInt(1);
 		IntBuffer window_height = stack.mallocInt(1);
+		
 		glfwGetWindowSize(renderer.getWindowID(), window_width, window_height);//gets window size
 		
 		for(				
