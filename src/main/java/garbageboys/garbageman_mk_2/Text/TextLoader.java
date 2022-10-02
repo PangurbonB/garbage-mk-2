@@ -3,9 +3,6 @@
  */
 package garbageboys.garbageman_mk_2.Text;
 
-import static org.lwjgl.glfw.GLFW.glfwGetWindowSize;
-
-import java.nio.IntBuffer;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
@@ -389,34 +386,35 @@ public class TextLoader implements TextManager {
 		int curr_height = 0;// ""
 		
 		MemoryStack stack = MemoryStack.stackPush();
-		IntBuffer window_width = stack.mallocInt(1);
-		IntBuffer window_height = stack.mallocInt(1);
-		
-		glfwGetWindowSize(renderer.getWindowID(), window_width, window_height);//gets window size
-		
+		Integer window_width = renderer.getWidth();
+		Integer window_height = renderer.getHeight();
+
 		for(				
 				i = 0;
 				i < text_object.text.length();
 				i++
 			)
-		{
+		{	
 			renderer.batchImageScreenScaled(duplicatedHandles.get(i + text_object.dupe_i), 
 											2, 
-											(text_object.x) + (curr_width / (float) window_width.get(0)), 
-											(text_object.y) - (curr_height / (float) window_width.get(0)) , 
-											(char_list.get(text_object.text.charAt(i) - 32).width * text_object.size) / (float) window_width.get(0), 
-											(char_list.get(text_object.text.charAt(i) - 32).height * text_object.size) / (float) window_height.get(0)
+											(text_object.x) + ((float)curr_width / window_width), 
+											(text_object.y) - ((float)curr_height / window_height) , 
+											((float)char_list.get(text_object.text.charAt(i) - 32).width / window_width) * text_object.size , 
+											((float)char_list.get(text_object.text.charAt(i) - 32).height / window_height) * text_object.size
 											);//places text images on screen
 			
-			curr_width += char_list.get(text_object.text.charAt(i) - 32).width * text_object.size;
-			//(float) window_width.get(0)
+			curr_width += (float)char_list.get(text_object.text.charAt(i) - 32).width * text_object.size;
 			if(curr_width >= text_object.width)//if reached end of the line
 			{
 				curr_width = 0;//new line
-				curr_height += char_list.get(text_object.text.charAt(i) - 32).height * text_object.size * 2;
+				curr_height += (float)char_list.get(text_object.text.charAt(i) - 32).height * text_object.size;
 				if(curr_height >= text_object.max_height)
 					return;	
 			}
+			//System.out.println(( "widthscale: " + ((float)char_list.get(text_object.text.charAt(i) - 32).width / window_width) * text_object.size) );
+			//System.out.println(( "heightscale: " + ((float)char_list.get(text_object.text.charAt(i) - 32).height / window_height) * text_object.size) );
+			System.out.println("curr_width: " + ((text_object.x) + (float)(curr_width / window_width)));
+			System.out.println("curr_height: " + ((text_object.y) - (float)(curr_height / window_height)));
 		}
 		stack.pop();
 	}
