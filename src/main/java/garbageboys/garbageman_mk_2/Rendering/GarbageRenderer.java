@@ -183,8 +183,12 @@ public class GarbageRenderer implements Render2D {
 			System.out.println();
 		}
 		
-		float mouse_x_f = (((float) mouse_x / this.getWidth()) + ((woffset / ((float) window_width))))* 2 - 1;
-		float mouse_y_f = (((float) mouse_y / this.getHeight()) + ((hoffset / ((float) window_height))))* 2 - 1;
+		float mx = (float) mouse_x - woffset;
+		float my = (float) mouse_y - hoffset;
+
+		float mouse_x_f = (mx/((float) getWidth())) *  2 - 1;
+		float mouse_y_f = (my/((float) getHeight())) * 2 - 1;
+		
 		float x_lower = handle.raw_triangle_data[0];
 		float y_lower = handle.raw_triangle_data[1];
 		float x_upper = handle.raw_triangle_data[6];
