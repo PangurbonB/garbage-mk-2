@@ -412,7 +412,7 @@ public class TextLoader implements TextManager {
 			if(curr_width >= text_object.width)//if reached end of the line
 			{
 				curr_width = 0;//new line
-				curr_height += char_list.get(text_object.text.charAt(i) - 32).height * text_object.size;
+				curr_height += char_list.get(text_object.text.charAt(i) - 32).height * text_object.size * 2;
 				if(curr_height >= text_object.max_height)
 					return;	
 			}
