@@ -18,7 +18,6 @@ public class OptionsScreen implements Screen {
 	private SoundManager soundManager;
 	
 	List<Object> loadedItems;
-	List<InteractEvent> events;
 	
 	Object background;
 	Object volumeSliderBG;
@@ -30,7 +29,6 @@ public class OptionsScreen implements Screen {
 		this.app = app;
 		this.soundManager = soundManager;
 		loadedItems = new ArrayList<Object>();
-		events = new ArrayList<InteractEvent>();
 	}
 
 	@Override
@@ -44,6 +42,8 @@ public class OptionsScreen implements Screen {
 	@Override
 	public void renderFrame(int frame) {
 
+		List<InteractEvent> events = new ArrayList<InteractEvent>();
+
 		renderer.renderBatchStart();
 		MemoryStack stack = MemoryStack.stackPush();
 		renderer.batchImageScreenScaled(volumeSliderBG, 1, 0.40f, 0.508f, 0.23f, 0.15f);
@@ -55,7 +55,7 @@ public class OptionsScreen implements Screen {
 		for(InteractEvent e : events) {
 			System.out.println(e.handle);
 			if(e.handle != null) {
-				if(e.handle.equals((volumeSliderBG))) {
+				if(e.handle.equals(volumeSliderBG)) {
 					System.out.println("MATCH!!!!!!!!");
 				}
 			}

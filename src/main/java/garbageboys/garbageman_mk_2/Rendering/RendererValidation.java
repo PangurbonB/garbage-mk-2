@@ -200,4 +200,14 @@ public class RendererValidation implements Render2D {
 		actual_renderer.deduplicateHandle(handle);
 	}
 
+	@Override
+	public int getHeight() {
+		return actual_renderer.getHeight();
+	}
+
+	@Override
+	public int getWidth() {
+		return actual_renderer.getWidth();
+	}
+
 }

@@ -384,6 +384,9 @@ public class TextLoader implements TextManager {
 	public void renderText(TextObject text_object)
 	{
 		
+		System.out.println(renderer.getHeight());
+		System.out.println(renderer.getWidth());
+
 		int i; 
 		int curr_width = 0;//keeps track of location of characters, so each new character knows where to go
 		int curr_height = 0;// ""
