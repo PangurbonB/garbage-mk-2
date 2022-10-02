@@ -44,6 +44,8 @@ public class GarbageRenderer implements Render2D {
 
 	private int h;
 	private int w;
+	private int hoffset;
+	private int woffset;
 
 	/*
 	 * GarbageImageID - A structure to quickly identify, and avoid duplication of textures in the atlas
@@ -160,7 +162,8 @@ public class GarbageRenderer implements Render2D {
 			float lhs = (height - lockHeight)/2f;
 			this.h = (int) lockHeight;
 			this.w = width;
-
+			this.hoffset = (int) lhs;
+			this.woffset = 0;
 			glViewport(0, (int) lhs, width, (int) lockHeight);
 		}
 		else{
@@ -168,7 +171,8 @@ public class GarbageRenderer implements Render2D {
 			float lhs = (width - lockWidth)/2f;
 			this.h = height;
 			this.w = (int) lockWidth;
-
+			this.woffset = (int) lhs;
+			this.hoffset = 0;
 			glViewport((int) lhs, 0, (int) lockWidth, height);
 		}
 		
@@ -178,8 +182,13 @@ public class GarbageRenderer implements Render2D {
 		if(handle.image.file_name.equals("/assets/Sliders/DefaultSlider.png")){
 			System.out.println();
 		}
-		float mouse_x_f = (float) mouse_x / this.getWidth();
-		float mouse_y_f = (float) mouse_y / this.getHeight();
+		
+		float mx = (float) mouse_x - woffset;
+		float my = (float) mouse_y - hoffset;
+
+		float mouse_x_f = (mx/((float) getWidth())) *  2 - 1;
+		float mouse_y_f = (my/((float) getHeight())) * 2 - 1;
+		
 		float x_lower = handle.raw_triangle_data[0];
 		float y_lower = handle.raw_triangle_data[1];
 		float x_upper = handle.raw_triangle_data[6];
@@ -1086,7 +1095,7 @@ public class GarbageRenderer implements Render2D {
 
 	@Override
 	public void batchImageScreenScaled(Object raw_handle, int layer, float x, float y, float width, float height) {
-		GarbageHandle handle = (GarbageHandle) raw_handle;
+			GarbageHandle handle = (GarbageHandle) raw_handle;
 
 		float fixed_x = 2 * x - 1;
 		float fixed_y = 2 * y - 1;
