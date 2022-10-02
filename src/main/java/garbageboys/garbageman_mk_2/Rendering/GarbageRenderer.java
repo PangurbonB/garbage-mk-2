@@ -42,8 +42,8 @@ public class GarbageRenderer implements Render2D {
 
 	private int program_id;
 
-	private int height = 0;
-	private int width = 0;
+	private int h;
+	private int w;
 
 	/*
 	 * GarbageImageID - A structure to quickly identify, and avoid duplication of textures in the atlas
@@ -154,28 +154,32 @@ public class GarbageRenderer implements Render2D {
 	}
 
 	private void resizeCallback(long window, int width, int height) {
-		this.height = height;
-		this.width = width;
-		System.out.println(width+" "+height);
 		if((((float) width)/((float) height)) < (16f/9f)){
 
 			float lockHeight = (((float) width)/16f) * 9f;
 			float lhs = (height - lockHeight)/2f;
-			this.height = (int) lockHeight;
+			this.h = (int) lockHeight;
+			this.w = width;
+
 			glViewport(0, (int) lhs, width, (int) lockHeight);
 		}
 		else{
 			float lockWidth = (((float) height)/9f) * 16f;
 			float lhs = (width - lockWidth)/2f;
-			this.width = (int) lockWidth;
+			this.h = height;
+			this.w = (int) lockWidth;
+
 			glViewport((int) lhs, 0, (int) lockWidth, height);
 		}
 		
 	}
 
 	private boolean inRectangle(GarbageHandle handle, int mouse_x, int mouse_y, int window_width, int window_height) {
-		float mouse_x_f = (float) mouse_x / window_width;
-		float mouse_y_f = (float) mouse_y / window_height;
+		if(handle.image.file_name.equals("/assets/Sliders/DefaultSlider.png")){
+			System.out.println();
+		}
+		float mouse_x_f = (float) mouse_x / this.getWidth();
+		float mouse_y_f = (float) mouse_y / this.getHeight();
 		float x_lower = handle.raw_triangle_data[0];
 		float y_lower = handle.raw_triangle_data[1];
 		float x_upper = handle.raw_triangle_data[6];
@@ -506,6 +510,9 @@ public class GarbageRenderer implements Render2D {
 
 	/* width = -1 for full_width (same for height) */
 	private GarbageHandle genericLoadImage(String resource, int x, int y, int width, int height) {
+		if(resource.equals("/assets/Sliders/DefaultSlider.png")){
+			System.out.println();
+		}
 		MemoryStack stack = stackPush();
 
 		IntBuffer full_width = stack.mallocInt(1);
@@ -523,6 +530,7 @@ public class GarbageRenderer implements Render2D {
 
 		GarbageImageID image_id = new GarbageImageID(resource, x, y, full_width.get(0), full_height.get(0), width, height);
 		GarbageHandle handle = new GarbageHandle();
+		handle.clickable = true;
 		handle.image = image_id;
 
 		AtlasInfo atlas_info = atlas_images.get(image_id);
@@ -1141,12 +1149,12 @@ public class GarbageRenderer implements Render2D {
 
 	@Override
 	public int getHeight() {
-		return height;
+		return h;
 	}
 
 	@Override
 	public int getWidth() {
-		return width;
+		return w;
 	}
 
 }
