@@ -425,7 +425,6 @@ public class TextLoader implements TextManager {
 
 	@Override
 	public void closeText(TextObject text_object) {// removes text from screen
-		// TODO Auto-generated method stub
 		int i;
 		for (i = text_object.dupe_i; i < (text_object.dupe_i + text_object.text.length()); i++) {
 			renderer.deduplicateHandle(duplicatedHandles.get(i));
