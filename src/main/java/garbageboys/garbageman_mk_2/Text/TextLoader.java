@@ -399,10 +399,13 @@ public class TextLoader implements TextManager {
 		Integer window_width = renderer.getWidth();
 		Integer window_height = renderer.getHeight();
 
+		System.out.println(window_width);
+		System.out.println(window_height);
+
 		for (i = 0; i < text_object.text.length(); i++) {
-			float height_scale = (char_list.get(text_object.text.charAt(i) - 32).height * text_object.size
+			float height_scale = ((float)char_list.get(text_object.text.charAt(i) - 32).height * text_object.size
 					* window_height / (default_height * default_height));
-			float width_scale = (char_list.get(text_object.text.charAt(i) - 32).width * text_object.size * window_width
+			float width_scale = ((float)char_list.get(text_object.text.charAt(i) - 32).width * text_object.size * window_width
 					/ (default_width * default_width));
 			renderer.batchImageScreenScaled(duplicatedHandles.get(i + text_object.dupe_i),
 					2,
@@ -419,19 +422,6 @@ public class TextLoader implements TextManager {
 				if (curr_height >= text_object.max_height * window_height)
 					return;
 			}
-			// .0165
-			// .047222
-
-			// .0931
-			// .337
-			System.out.println("widthscale: " + (char_list.get(text_object.text.charAt(i) - 32).width * text_object.size
-					* window_width / (default_width * default_width)));
-			System.out.println("heightscale: " + (char_list.get(text_object.text.charAt(i) - 32).height
-					* text_object.size * window_height / (default_height * default_height)));
-			// System.out.println("curr_width: " + ((text_object.x) + (float)(curr_width /
-			// window_width)));
-			// System.out.println("curr_height: " + ((text_object.y) - (float)(curr_height /
-			// window_height)));
 		}
 		stack.pop();
 	}

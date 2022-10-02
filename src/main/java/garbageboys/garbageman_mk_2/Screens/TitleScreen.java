@@ -58,9 +58,9 @@ public class TitleScreen implements Screen {
 		loadedItems.addAll(title_background_frames_2);
 		
 		
-		temp_text_object = text.openText("GARBAGEMAN: One man's trash is another's food.", .5f, .35f, .76f, (float)86/900, (float)650/1600);
+		temp_text_object = text.openText("GARBAGEMAN: One man's trash is another's food.", .5f, .35f, .76f, .07f, .45f);
 		text_list.add(temp_text_object);
-		temp_text_object = text.openText("PLAY", 1.25f, .44f, .52f, (float)1/9, (float)1/4);
+		temp_text_object = text.openText("PLAY", 1.25f, .44f, .52f, .11f, .25f);
 		text_list.add(temp_text_object);
 
 	}
@@ -109,8 +109,6 @@ public class TitleScreen implements Screen {
 			current_frames = title_background_frames_2;
 			renderer.batchImageScreenScaled(play_button, 1, 0.40f, 0.508f, 0.23f, 0.15f);
 	
-
-			
 		}
 		else {
 			current_frames = title_background_frames_1;
