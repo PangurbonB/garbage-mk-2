@@ -42,6 +42,9 @@ public class GarbageRenderer implements Render2D {
 
 	private int program_id;
 
+	private int height = 0;
+	private int width = 0;
+
 	/*
 	 * GarbageImageID - A structure to quickly identify, and avoid duplication of textures in the atlas
 	 * AtlasInfo - used to hold temporal texture atlas data for a GarbageImageID (used in rendering)
@@ -151,6 +154,8 @@ public class GarbageRenderer implements Render2D {
 	}
 
 	private void resizeCallback(long window, int width, int height) {
+		this.height = height;
+		this.width = width;
 		System.out.println(width+" "+height);
 		if((((float) width)/((float) height)) < (16f/9f)){
 
@@ -1132,6 +1137,16 @@ public class GarbageRenderer implements Render2D {
 		buff.free();
 		img.free();
 		STBImage.stbi_image_free(icon);
+	}
+
+	@Override
+	public int getHeight() {
+		return height;
+	}
+
+	@Override
+	public int getWidth() {
+		return width;
 	}
 
 }

@@ -4,6 +4,9 @@ import java.util.List;
 
 public interface Render2D {
 
+	public int getHeight();
+	public int getWidth();
+
 	public void initialize();
 	public void cleanup();
 
