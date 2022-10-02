@@ -15,8 +15,8 @@ public interface TextManager {
 						float size,
 						float x,
 						float y,
-						int max_height, 
-						int width 
+						float max_height, 
+						float width 
 						);
 	
 	public void closeText(TextObject text_object);

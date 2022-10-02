@@ -5,11 +5,11 @@ public class TextObject {//provides a class for each opened text in-game
 	float size;
 	float x;
 	float y;
-	int max_height; 
-	int width;
+	float max_height; 
+	float width;
 	int dupe_i;
 	
-	public TextObject(String init_text, float init_size, float init_x, float init_y, int init_max_height, int init_width , int init_dupe_i) 
+	public TextObject(String init_text, float init_size, float init_x, float init_y, float init_max_height, float init_width , int init_dupe_i) 
 	{
 		text = init_text;
 		size = init_size;
