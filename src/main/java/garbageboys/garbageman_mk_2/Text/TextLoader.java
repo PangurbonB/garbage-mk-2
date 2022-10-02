@@ -361,7 +361,7 @@ public class TextLoader implements TextManager {
 
 	
 	@Override
-	public TextObject openText(String text, float size, int x, int y, int max_height, int width) {//"opens" given string on screen with said coordinates and size
+	public TextObject openText(String text, float size, float x, float y, int max_height, int width) {//"opens" given string on screen with said coordinates and size
 
 		TextObject temp;
 		Object duplicatedHandle;
@@ -401,14 +401,14 @@ public class TextLoader implements TextManager {
 		{
 			renderer.batchImageScreenScaled(duplicatedHandles.get(i + text_object.dupe_i), 
 											2, 
-											(text_object.x + curr_width) /  (float) window_width.get(0), 
-											(text_object.y - curr_height) / (float) window_height.get(0), 
+											(text_object.x) + (curr_width / (float) window_width.get(0)), 
+											(text_object.y) - (curr_height / (float) window_width.get(0)) , 
 											(char_list.get(text_object.text.charAt(i) - 32).width * text_object.size) / window_width.get(0), 
 											(char_list.get(text_object.text.charAt(i) - 32).height * text_object.size) / window_height.get(0)
 											);//places text images on screen
 			
 			curr_width += char_list.get(text_object.text.charAt(i) - 32).width * text_object.size;
-			
+			//(float) window_width.get(0)
 			if(curr_width >= text_object.width)//if reached end of the line
 			{
 				curr_width = 0;//new line

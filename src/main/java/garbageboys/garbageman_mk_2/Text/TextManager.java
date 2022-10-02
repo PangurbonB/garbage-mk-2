@@ -13,8 +13,8 @@ public interface TextManager {
 	
 	public TextObject openText(String text, 
 						float size,
-						int x,
-						int y,
+						float x,
+						float y,
 						int max_height, 
 						int width 
 						);
