@@ -403,8 +403,8 @@ public class TextLoader implements TextManager {
 											2, 
 											(text_object.x) + (curr_width / (float) window_width.get(0)), 
 											(text_object.y) - (curr_height / (float) window_width.get(0)) , 
-											(char_list.get(text_object.text.charAt(i) - 32).width * text_object.size) / window_width.get(0), 
-											(char_list.get(text_object.text.charAt(i) - 32).height * text_object.size) / window_height.get(0)
+											(char_list.get(text_object.text.charAt(i) - 32).width * text_object.size) / (float) window_width.get(0), 
+											(char_list.get(text_object.text.charAt(i) - 32).height * text_object.size) / (float) window_height.get(0)
 											);//places text images on screen
 			
 			curr_width += char_list.get(text_object.text.charAt(i) - 32).width * text_object.size;
