@@ -399,14 +399,11 @@ public class TextLoader implements TextManager {
 		Integer window_width = renderer.getWidth();
 		Integer window_height = renderer.getHeight();
 
-		System.out.println(window_width);
-		System.out.println(window_height);
-
 		for (i = 0; i < text_object.text.length(); i++) {
 			float height_scale = ((float)char_list.get(text_object.text.charAt(i) - 32).height * text_object.size
-					* window_height / (default_height * default_height));
-			float width_scale = ((float)char_list.get(text_object.text.charAt(i) - 32).width * text_object.size * window_width
-					/ (default_width * default_width));
+					/ default_height);
+			float width_scale = ((float)char_list.get(text_object.text.charAt(i) - 32).width * text_object.size
+					/ default_width);
 			renderer.batchImageScreenScaled(duplicatedHandles.get(i + text_object.dupe_i),
 					2,
 					(text_object.x) + ((float) curr_width / window_width),

@@ -161,13 +161,13 @@ public class GarbageRenderer implements Render2D {
 
 			float lockHeight = (((float) width)/16f) * 9f;
 			float lhs = (height - lockHeight)/2f;
-
+			this.height = (int) lockHeight;
 			glViewport(0, (int) lhs, width, (int) lockHeight);
 		}
 		else{
 			float lockWidth = (((float) height)/9f) * 16f;
 			float lhs = (width - lockWidth)/2f;
-	
+			this.width = (int) lockWidth;
 			glViewport((int) lhs, 0, (int) lockWidth, height);
 		}
 		
