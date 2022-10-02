@@ -3,13 +3,13 @@ package garbageboys.garbageman_mk_2.Text;
 public class TextObject {//provides a class for each opened text in-game
 	String text; 
 	float size;
-	int x;
-	int y;
+	float x;
+	float y;
 	int max_height; 
 	int width;
 	int dupe_i;
 	
-	public TextObject(String init_text, float init_size, int init_x, int init_y, int init_max_height, int init_width , int init_dupe_i) 
+	public TextObject(String init_text, float init_size, float init_x, float init_y, int init_max_height, int init_width , int init_dupe_i) 
 	{
 		text = init_text;
 		size = init_size;
