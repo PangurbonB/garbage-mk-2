@@ -7,6 +7,7 @@ import org.lwjgl.system.MemoryStack;
 
 import garbageboys.garbageman_mk_2.App;
 import garbageboys.garbageman_mk_2.Rendering.Render2D;
+import garbageboys.garbageman_mk_2.Rendering.Render2D.InteractEvent;
 import garbageboys.garbageman_mk_2.Sound.SoundManager;
 import garbageboys.garbageman_mk_2.Text.TextManager;
 import garbageboys.garbageman_mk_2.Text.TextObject;
@@ -69,6 +70,7 @@ public class TitleScreen implements Screen {
 	public void renderFrame(int frame) {
 		
 		MemoryStack stack = MemoryStack.stackPush();
+		List<InteractEvent> events = new ArrayList<InteractEvent>();
 
 		renderer.renderBatchStart();
 		
@@ -120,6 +122,17 @@ public class TitleScreen implements Screen {
 				0, 0.0f, 0.0f, 1.0f, 1.0f);
 		//renderer.batchImageScaled(title_background_frames.get(title_frame), 0, 0, 0, 384 * 8, 216 * 8);
 		renderer.renderBatchEnd();
+
+		renderer.fillEventList(events);
+		for(InteractEvent e : events) {
+			//System.out.println(e.handle);
+			if(e.handle != null) {
+				if(e.handle.equals(play_button)) {
+					
+				}
+			}
+		}
+
 		counter++;
 		stack.pop();
 		

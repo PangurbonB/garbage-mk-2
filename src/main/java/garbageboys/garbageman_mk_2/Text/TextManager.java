@@ -7,7 +7,7 @@ public interface TextManager {
 	 * @param text - e.g. "Print this text"
 	 * @param max_height - cuts off text once height is reached
 	 * @param width - goes to new line at width
-	 * @param x,y - top left corner
+	 * @param x,y - bot left corner
 	 * @return true on success
 	 */
 	

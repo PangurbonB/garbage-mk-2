@@ -70,7 +70,7 @@ public class App {
 		soundManager.loadSound(SoundManager.TITLE_THEME, SoundManager.SoundTypes.Music);
 		soundManager.loadSound(SoundManager.CHEERY, SoundManager.SoundTypes.Music);
 		
-		soundManager.setMasterVolume(-30f);
+		soundManager.setMasterVolume(-25f);
 		soundManager.setTypeVolume(0f, SoundTypes.Effects, true);
 		soundManager.setTypeVolume(6f, SoundTypes.Music, true);
 		
@@ -125,7 +125,7 @@ public class App {
 				Thread.sleep(sleep_time);
 			} catch (InterruptedException e) { e.printStackTrace(); }
 			glfwPollEvents();
-			renderScreen(frame);
+			renderScreen(frame);	
 
 			//long render_start = System.nanoTime();
 			//example_render(frame);
