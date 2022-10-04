@@ -2,7 +2,7 @@ package garbageboys.garbageman_mk_2.Models;
 
 import java.awt.Point;
 
-public interface Customer {
+public interface Customer{
 	
 	public int getPickiness();
 	
