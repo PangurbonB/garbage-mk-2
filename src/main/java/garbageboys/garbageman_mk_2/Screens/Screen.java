@@ -41,4 +41,8 @@ public interface Screen {
 	 */
 	public void closeScreen();
 
+    public String nextScreen();
+
+    public String screen();
+
 }

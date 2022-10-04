@@ -16,6 +16,7 @@ public class OptionsScreen implements Screen {
 	private Render2D renderer;
 	private App app;
 	private SoundManager soundManager;
+	private String nextScreen = "";
 	
 	List<Object> loadedItems;
 	
@@ -74,6 +75,18 @@ public class OptionsScreen implements Screen {
 	@Override
 	public void closeScreen() {
 		unloadAssets();
+	}
+
+	@Override
+	public String nextScreen() {
+		// TODO Auto-generated method stub
+		return nextScreen;
+	}
+
+	@Override
+	public String screen() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

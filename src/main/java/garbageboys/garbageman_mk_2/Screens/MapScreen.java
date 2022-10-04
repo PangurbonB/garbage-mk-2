@@ -1,5 +1,6 @@
 package garbageboys.garbageman_mk_2.Screens;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.system.MemoryStack;
@@ -7,6 +8,7 @@ import org.lwjgl.system.MemoryStack;
 import garbageboys.garbageman_mk_2.App;
 import garbageboys.garbageman_mk_2.Rendering.Render2D;
 import garbageboys.garbageman_mk_2.Sound.SoundManager;
+import garbageboys.garbageman_mk_2.Sound.SoundManager.SoundTypes;
 import garbageboys.garbageman_mk_2.Text.TextManager;
 import garbageboys.garbageman_mk_2.Text.TextObject;
 
@@ -16,10 +18,14 @@ public class MapScreen implements Screen{
 	private SoundManager soundManager;
 	private TextManager text;
 
+    private String nextScreen = "";
+    private String screen = "map";
+
     int counter = 0;
 
-    Object title_background_frame;
+    Object background_frame;
     List<Object> loadedItems;
+    List<TextObject> text_list;
 
     final String MAP_THEME = "/assets/Sounds/Songs/Beachy.wav";
 
@@ -29,16 +35,16 @@ public class MapScreen implements Screen{
 		this.app = app;
 		this.soundManager = soundManager;
 		this.text = text;
-        List<Object> loadedItems;
-        List<TextObject> text_list;
+        loadedItems = new ArrayList<Object>();
+        text_list = new ArrayList<TextObject>();
         
     }
 
     @Override
     public void loadAssets() {
-        title_background_frame = renderer.loadImage("/assets/Screens/garbagemanCity.png");
-        
-        loadedItems.add(title_background_frame);
+        background_frame = renderer.loadImage("/assets/Screens/garbagemanCity.png");
+        soundManager.loadSound(MAP_THEME, SoundManager.SoundTypes.Music);
+        loadedItems.add(background_frame);
     }
 
     @Override
@@ -46,7 +52,9 @@ public class MapScreen implements Screen{
         MemoryStack stack = MemoryStack.stackPush();
         soundManager.loopSound(MAP_THEME);
         renderer.renderBatchStart();
-
+        renderer.batchImageScreenScaled(
+				background_frame,
+				0, 0.0f, 0.0f, 1.0f, 1.0f);
         renderer.renderBatchEnd();
 		counter++;
 		stack.pop();
@@ -54,14 +62,28 @@ public class MapScreen implements Screen{
 
     @Override
     public void unloadAssets() {
-        // TODO Auto-generated method stub
+        for(Object obj : loadedItems) {
+			renderer.unloadImage(obj);
+		}
         
     }
 
     @Override
     public void closeScreen() {
-        // TODO Auto-generated method stub
+        unloadAssets();
         
+    }
+
+    @Override
+    public String nextScreen() {
+        // TODO Auto-generated method stub
+        return nextScreen;
+    }
+
+    @Override
+    public String screen() {
+        // TODO Auto-generated method stub
+        return screen;
     }
     
 }

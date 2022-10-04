@@ -22,6 +22,7 @@ import org.lwjgl.system.MemoryStack;
 import garbageboys.garbageman_mk_2.Rendering.GarbageRenderer;
 import garbageboys.garbageman_mk_2.Rendering.Render2D;
 import garbageboys.garbageman_mk_2.Rendering.RendererValidation;
+import garbageboys.garbageman_mk_2.Screens.MapScreen;
 import garbageboys.garbageman_mk_2.Screens.OptionsScreen;
 import garbageboys.garbageman_mk_2.Screens.Screen;
 import garbageboys.garbageman_mk_2.Screens.TitleScreen;
@@ -70,7 +71,7 @@ public class App {
 		soundManager.loadSound(SoundManager.TITLE_THEME, SoundManager.SoundTypes.Music);
 		soundManager.loadSound(SoundManager.CHEERY, SoundManager.SoundTypes.Music);
 		
-		soundManager.setMasterVolume(-25f);
+		soundManager.setMasterVolume(-10f);
 		soundManager.setTypeVolume(0f, SoundTypes.Effects, true);
 		soundManager.setTypeVolume(6f, SoundTypes.Music, true);
 		
@@ -113,7 +114,8 @@ public class App {
 		//Random random = new Random(System.nanoTime());
 		boolean sleep = true;//random.nextBoolean();
 		while (!glfwWindowShouldClose(renderer.getWindowID())) {
-			//long start = System.nanoTime();
+			
+			gameLoop();
 
 			try {
 				long sleep_time;
@@ -148,6 +150,27 @@ public class App {
 		currentScreen.init(renderer, this, soundManager, text);
 		currentScreen.loadAssets();
 		renderer.refreshImages();
+	}
+
+	private void gameLoop() {
+		switch(currentScreen.screen()) {
+			case "title":
+				if(currentScreen.nextScreen() == "map") {
+					//currentScreen.closeScreen();
+					currentScreen = new MapScreen();
+					screenInit();
+				} else if(currentScreen.nextScreen() == "option") {
+					//currentScreen.closeScreen();
+					currentScreen = new OptionsScreen();
+					screenInit();
+				} else {
+
+				}
+				break;
+			default:
+				break;
+
+		}
 	}
 
 	Object play_button;

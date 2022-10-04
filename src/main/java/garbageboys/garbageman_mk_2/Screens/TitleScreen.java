@@ -19,6 +19,9 @@ public class TitleScreen implements Screen {
 	private SoundManager soundManager;
 	private TextManager text;
 	
+	private String screen = "title";
+	private String nextScreen = "";
+	
 	int counter = 0;
 	int i = 0;
 	
@@ -128,7 +131,8 @@ public class TitleScreen implements Screen {
 			//System.out.println(e.handle);
 			if(e.handle != null) {
 				if(e.handle.equals(play_button)) {
-					
+					nextScreen ="map";
+					soundManager.fadeOutSong(TITLE_THEME, 2000, -.6f);
 				}
 			}
 		}
@@ -136,6 +140,14 @@ public class TitleScreen implements Screen {
 		counter++;
 		stack.pop();
 		
+	}
+
+	public String nextScreen() {
+		return nextScreen;
+	}
+
+	public String screen() {
+		return screen;
 	}
 
 	@Override
@@ -150,5 +162,6 @@ public class TitleScreen implements Screen {
 		unloadAssets();
 		for(i = 0; i < text_list.size(); i++)
 			text.closeText(text_list.get(i));
+		soundManager.unloadAllSounds();
 	}
 }
