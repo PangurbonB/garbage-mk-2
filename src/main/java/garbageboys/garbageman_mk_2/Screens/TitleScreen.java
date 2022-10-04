@@ -19,7 +19,7 @@ public class TitleScreen implements Screen {
 	private SoundManager soundManager;
 	private TextManager text;
 	
-	private String screen = "title";
+	final private String screen = "title";
 	private String nextScreen = "";
 	
 	int counter = 0;

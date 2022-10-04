@@ -156,17 +156,22 @@ public class App {
 		switch(currentScreen.screen()) {
 			case "title":
 				if(currentScreen.nextScreen() == "map") {
-					//currentScreen.closeScreen();
 					currentScreen = new MapScreen();
 					screenInit();
 				} else if(currentScreen.nextScreen() == "option") {
-					//currentScreen.closeScreen();
 					currentScreen = new OptionsScreen();
 					screenInit();
 				} else {
 
 				}
 				break;
+			case "map":
+				if(currentScreen.nextScreen() == "") {
+
+				} else {
+					String dumspterMap = currentScreen.nextScreen();
+					//currentScreen = new DumpsterScreen(dumspterMap);
+				}
 			default:
 				break;
 
@@ -195,7 +200,8 @@ public class App {
 
 	private void cleanup() {
 		soundManager.killAll();
-		currentScreen.unloadAssets();
+		//currentScreen.unloadAssets();
+		currentScreen.closeScreen();
 		text.cleanupText();
 	}
 

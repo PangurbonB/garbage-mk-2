@@ -16,6 +16,7 @@ public class OptionsScreen implements Screen {
 	private Render2D renderer;
 	private App app;
 	private SoundManager soundManager;
+	final private String screen = "options";
 	private String nextScreen = "";
 	
 	List<Object> loadedItems;
