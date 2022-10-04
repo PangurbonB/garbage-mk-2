@@ -33,7 +33,8 @@ public class MapScreen implements Screen{
     "/Assets/Cars/car-blue.png",
     "/Assets/Cars/car-red.png",
     "/Assets/Cars/car-white.png"};
-    final int NUM_CARS = 4;
+    final int NUM_CARS = 12;
+    final int NUM_COLORS = 4;
 
     @Override
     public void init(Render2D renderer, App app, SoundManager soundManager, TextManager text) {
@@ -50,8 +51,12 @@ public class MapScreen implements Screen{
     @Override
     public void loadAssets() {
         background_frame = renderer.loadImage("/assets/Screens/garbagemanCity.png");
-        for(int i =0;i < NUM_CARS; i++) {
-                cars.add(renderer.loadImage(CAR_FILES[i % NUM_CARS]));
+        for(int i =0; i < NUM_CARS; i++) {
+                if(i < NUM_COLORS) {
+                    cars.add(renderer.loadImage(CAR_FILES[i]));
+                } else if(i >= NUM_COLORS) {
+                    cars.add(renderer.duplicateHandle(cars.get(i % NUM_COLORS)));
+                }
         }
         soundManager.loadSound(MAP_THEME, SoundManager.SoundTypes.Music);
         loadedItems.add(background_frame);
@@ -67,7 +72,22 @@ public class MapScreen implements Screen{
 				background_frame,
 				0, 0.0f, 0.0f, 1.0f, 1.0f);
         renderer.batchImageScreenScaled(cars.get(0), 1, .223f, (float)(frame % 1000) / 1000, .005f, .016f);
-        renderer.batchImageScreenScaled(cars.get(1), 1, .216f, -((float)(frame % 1000) / 1000) + 1 , .005f, .016f);
+        renderer.batchImageScreenScaled(cars.get(1), 1, .216f, -((float)((frame + 500) % 1000) / 1000) + 1 , .005f, .016f);
+        renderer.batchImageScreenScaled(cars.get(10), 1, .223f, (float)((frame + 600) % 1000) / 1000, .005f, .016f);
+        renderer.batchImageScreenScaled(cars.get(11), 1, .216f, -((float)((frame + 750) % 1000) / 1000) + 1 , .005f, .016f);
+        
+        //in front of school
+        renderer.batchImageScreenScaled(cars.get(2), 1, .551f, (float)((frame + 650)% 1000) / 1000, .005f, .016f);
+        renderer.batchImageScreenScaled(cars.get(3), 1, .558f, -((float)((frame + 650) % 1000) / 1000) + 1 , .005f, .016f);
+        renderer.batchImageScreenScaled(cars.get(8), 1, .551f, (float)((frame + 200)% 1000) / 1000, .005f, .016f);
+        renderer.batchImageScreenScaled(cars.get(9), 1, .558f, -((float)((frame + 150) % 1000) / 1000) + 1 , .005f, .016f);
+        
+        //horizontal
+        renderer.batchImageScreenScaled(cars.get(4), 1, (float)((frame + 100)% 1600) / 1600, .375f, .011f, .008f);
+        renderer.batchImageScreenScaled(cars.get(5), 1, -((float)((frame + 500) % 1600) / 1600) + 1, .39f, .011f, .008f);
+        renderer.batchImageScreenScaled(cars.get(6), 1, (float)((frame + 1100)% 1600) / 1600, .375f, .011f, .008f);
+        renderer.batchImageScreenScaled(cars.get(7), 1, -((float)((frame + 25) % 1600) / 1600) + 1, .39f, .011f, .008f);
+        
         renderer.renderBatchEnd();
 		counter++;
 		stack.pop();
@@ -75,9 +95,13 @@ public class MapScreen implements Screen{
 
     @Override
     public void unloadAssets() {
+        for(int i = NUM_COLORS; i < NUM_CARS; i++ ) {
+            renderer.deduplicateHandle(cars.get(i));
+        }
         for(Object obj : loadedItems) {
 			renderer.unloadImage(obj);
 		}
+        
         
     }
 
