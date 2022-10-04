@@ -404,10 +404,12 @@ public class TextLoader implements TextManager {
 					/ default_height);
 			float width_scale = ((float)char_list.get(text_object.text.charAt(i) - 32).width * text_object.size
 					/ default_width);
+			int char_location = (text_object.text.charAt(i) == 'g' || text_object.text.charAt(i) == 'p' || text_object.text.charAt(i) == 'y' || text_object.text.charAt(i) == 'q') ? 6: 0;
+			System.out.println("char_location: " + char_location);
 			renderer.batchImageScreenScaled(duplicatedHandles.get(i + text_object.dupe_i),
 					2,
 					(text_object.x) + ((float) curr_width / window_width),
-					(text_object.y) - ((float) curr_height / window_height),
+					(text_object.y) - ((float) (curr_height ) / window_height) - ((float)char_location / default_height),
 					width_scale,
 					height_scale);// places text images on screen
 

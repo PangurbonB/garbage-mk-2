@@ -64,9 +64,15 @@ public class MapScreen implements Screen{
         loadedItems.add(background_frame);
         loadedItems.addAll(cars);
 
-        temp_text_object = text.openText("Welmert", .5f, .35f, .76f, .07f, .45f);
+        temp_text_object = text.openText("Welmert", .25f, .03f, .12f, .07f, .45f);
 		text_list.add(temp_text_object);
-		temp_text_object = text.openText("Granted High School", 1.25f, .44f, .52f, .11f, .25f);
+		temp_text_object = text.openText("Granted High School", .25f, .24f, .83f, .11f, .25f);
+		text_list.add(temp_text_object);
+        temp_text_object = text.openText("Bourgeoiselwood", .25f, .79f, .675f, .11f, .25f);
+		text_list.add(temp_text_object);
+        temp_text_object = text.openText("Basecamp", .25f, .475f, .3f, .11f, .25f);
+		text_list.add(temp_text_object);
+        temp_text_object = text.openText("Park", .25f, .1f, .27f, .11f, .25f);
 		text_list.add(temp_text_object);
     }
 
@@ -75,6 +81,11 @@ public class MapScreen implements Screen{
         MemoryStack stack = MemoryStack.stackPush();
         soundManager.loopSound(MAP_THEME);
         renderer.renderBatchStart();
+
+        for(int i = 0; i < text_list.size();i++) {
+            text.renderText(text_list.get(i));
+        }
+
         renderer.batchImageScreenScaled(
 				background_frame,
 				0, 0.0f, 0.0f, 1.0f, 1.0f);
@@ -115,6 +126,8 @@ public class MapScreen implements Screen{
     @Override
     public void closeScreen() {
         unloadAssets();
+        for(int i = 0; i < text_list.size(); i++)
+			text.closeText(text_list.get(i));
         
     }
 

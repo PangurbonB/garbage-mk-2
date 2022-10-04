@@ -23,7 +23,6 @@ public class TitleScreen implements Screen {
 	private String nextScreen = "";
 	
 	int counter = 0;
-	int i = 0;
 	
 	final String ICON0 = "/assets/Icons/Garbagecan0.png";
 	final String ICON1 = "/assets/Icons/Garbagecan1.png";
@@ -161,7 +160,7 @@ public class TitleScreen implements Screen {
 	@Override
 	public void closeScreen() {
 		unloadAssets();
-		for(i = 0; i < text_list.size(); i++)
+		for(int i = 0; i < text_list.size(); i++)
 			text.closeText(text_list.get(i));
 		soundManager.unloadAllSounds();
 	}
