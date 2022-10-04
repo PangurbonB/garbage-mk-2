@@ -27,6 +27,7 @@ public class MapScreen implements Screen{
     List<Object> cars;
     List<Object> loadedItems;
     List<TextObject> text_list;
+    
 
     final String MAP_THEME = "/assets/Sounds/Songs/Beachy.wav";
     final String[] CAR_FILES = {"/Assets/Cars/car-black.png",
@@ -50,6 +51,7 @@ public class MapScreen implements Screen{
 
     @Override
     public void loadAssets() {
+        TextObject temp_text_object;
         background_frame = renderer.loadImage("/assets/Screens/garbagemanCity.png");
         for(int i =0; i < NUM_CARS; i++) {
                 if(i < NUM_COLORS) {
@@ -61,6 +63,11 @@ public class MapScreen implements Screen{
         soundManager.loadSound(MAP_THEME, SoundManager.SoundTypes.Music);
         loadedItems.add(background_frame);
         loadedItems.addAll(cars);
+
+        temp_text_object = text.openText("Welmert", .5f, .35f, .76f, .07f, .45f);
+		text_list.add(temp_text_object);
+		temp_text_object = text.openText("Granted High School", 1.25f, .44f, .52f, .11f, .25f);
+		text_list.add(temp_text_object);
     }
 
     @Override

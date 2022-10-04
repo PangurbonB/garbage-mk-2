@@ -40,7 +40,7 @@ public class TitleScreen implements Screen {
 	List<Object> loadedItems;
 	
 	List<TextObject> text_list;
-	TextObject temp_text_object;
+	
 	
 	@Override
 	public void init(Render2D renderer, App app, SoundManager soundManager, TextManager text) {
@@ -54,6 +54,7 @@ public class TitleScreen implements Screen {
 
 	@Override
 	public void loadAssets() {
+		TextObject temp_text_object;
 		play_button = renderer.loadImage("/assets/Buttons/play.png");
 		title_background_frames_1 = renderer.loadImageSeriesTopLeft("/assets/Screens/mainTitle.png", 384, 216, 23);
 		title_background_frames_2 = renderer.loadImageSeriesTopLeft("/assets/Screens/mainTitle2.png", 384, 216, 10);
