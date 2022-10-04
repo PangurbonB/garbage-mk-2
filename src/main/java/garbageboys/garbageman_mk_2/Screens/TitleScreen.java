@@ -132,7 +132,7 @@ public class TitleScreen implements Screen {
 			if(e.handle != null) {
 				if(e.handle.equals(play_button)) {
 					nextScreen ="map";
-					soundManager.fadeOutSong(TITLE_THEME, 2000, -.6f);
+					soundManager.fadeOutSong(TITLE_THEME, 500, -.6f);
 				}
 			}
 		}
