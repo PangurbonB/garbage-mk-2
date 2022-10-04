@@ -67,7 +67,9 @@ public class MapScreen implements Screen{
 				background_frame,
 				0, 0.0f, 0.0f, 1.0f, 1.0f);
         renderer.batchImageScreenScaled(cars.get(0), 1, .223f, (float)(frame % 1000) / 1000, .005f, .016f);
-        renderer.batchImageScreenScaled(cars.get(1), 1, .216f, -((float)(frame % 1000) / 1000) + 1 , .005f, .016f);
+        renderer.batchImageScreenScaled(cars.get(1), 1, .216f, -((float)((frame + 500) % 1000) / 1000) + 1 , .005f, .016f);
+        renderer.batchImageScreenScaled(cars.get(2), 1, .551f, (float)((frame + 100)% 1000) / 1000, .005f, .016f);
+        renderer.batchImageScreenScaled(cars.get(3), 1, .558f, -((float)((frame + 250) % 1000) / 1000) + 1 , .005f, .016f);
         renderer.renderBatchEnd();
 		counter++;
 		stack.pop();
