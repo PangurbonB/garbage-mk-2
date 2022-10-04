@@ -95,10 +95,10 @@ public class MapScreen implements Screen{
         renderer.batchImageScreenScaled(cars.get(11), 1, .216f, -((float)((frame + 750) % 1000) / 1000) + 1 , .005f, .016f);
         
         //in front of school
-        renderer.batchImageScreenScaled(cars.get(2), 1, .551f, (float)((frame + 650)% 1000) / 1000, .005f, .016f);
-        renderer.batchImageScreenScaled(cars.get(3), 1, .558f, -((float)((frame + 650) % 1000) / 1000) + 1 , .005f, .016f);
-        renderer.batchImageScreenScaled(cars.get(8), 1, .551f, (float)((frame + 200)% 1000) / 1000, .005f, .016f);
-        renderer.batchImageScreenScaled(cars.get(9), 1, .558f, -((float)((frame + 150) % 1000) / 1000) + 1 , .005f, .016f);
+        renderer.batchImageScreenScaled(cars.get(2), 1, .558f, (float)((frame + 650)% 1000) / 1000, .005f, .016f);
+        renderer.batchImageScreenScaled(cars.get(3), 1, .551f, -((float)((frame + 650) % 1000) / 1000) + 1 , .005f, .016f);
+        renderer.batchImageScreenScaled(cars.get(8), 1, .558f, (float)((frame + 200)% 1000) / 1000, .005f, .016f);
+        renderer.batchImageScreenScaled(cars.get(9), 1, .551f, -((float)((frame + 150) % 1000) / 1000) + 1 , .005f, .016f);
         
         //horizontal
         renderer.batchImageScreenScaled(cars.get(4), 1, (float)((frame + 100)% 1600) / 1600, .375f, .011f, .008f);
