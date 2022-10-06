@@ -7,11 +7,17 @@ public class Movable implements Move{
     private float width;
     private float height;
     private int angle;
+    private Object img;
 
     public Movable() {
     }
 
-    public Movable(float x, float y, float width, float height, int angle) {
+    public Movable(Object img) {
+        this.img = img;
+    }
+
+    public Movable(Object img, float x, float y, float width, float height, int angle) {
+        this.img = img;
         this.x = x;
         this.y = y;
         this.width = width;
@@ -88,6 +94,14 @@ public class Movable implements Move{
 
     public void setAngle(int angle) {
         this.angle = angle;
+    }
+
+    public Object getImg() {
+        return this.img;
+    }
+
+    public void setImg(Object img) {
+        this.img = img;
     }
 
 

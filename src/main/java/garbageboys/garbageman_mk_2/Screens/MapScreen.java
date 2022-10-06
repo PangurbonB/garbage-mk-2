@@ -6,6 +6,7 @@ import java.util.List;
 import org.lwjgl.system.MemoryStack;
 
 import garbageboys.garbageman_mk_2.App;
+import garbageboys.garbageman_mk_2.Models.Car;
 import garbageboys.garbageman_mk_2.Rendering.Render2D;
 import garbageboys.garbageman_mk_2.Sound.SoundManager;
 import garbageboys.garbageman_mk_2.Sound.SoundManager.SoundTypes;
@@ -24,7 +25,7 @@ public class MapScreen implements Screen{
     int counter = 0;
 
     Object background_frame;
-    List<Object> cars;
+    List<Car> cars;
     List<Object> loadedItems;
     List<TextObject> text_list;
     
@@ -45,7 +46,7 @@ public class MapScreen implements Screen{
 		this.text = text;
         loadedItems = new ArrayList<Object>();
         text_list = new ArrayList<TextObject>();
-        cars = new ArrayList<Object>();
+        cars = new ArrayList<Car>();
         
     }
 
@@ -55,14 +56,17 @@ public class MapScreen implements Screen{
         background_frame = renderer.loadImage("/assets/Screens/garbagemanCity.png");
         for(int i =0; i < NUM_CARS; i++) {
                 if(i < NUM_COLORS) {
-                    cars.add(renderer.loadImage(CAR_FILES[i]));
+                    cars.add(new Car(renderer.loadImage(CAR_FILES[i])));
                 } else if(i >= NUM_COLORS) {
-                    cars.add(renderer.duplicateHandle(cars.get(i % NUM_COLORS)));
+                    Car carSource = cars.get(i % NUM_COLORS);
+                    Object handleToDuplicate = carSource.getImg();
+                    Object duplicatedHandle = renderer.duplicateHandle(handleToDuplicate);
+                    cars.add(new Car(renderer.duplicateHandle(duplicatedHandle)));
                 }
+            loadedItems.add(cars.get(i).getImg());
         }
         soundManager.loadSound(MAP_THEME, SoundManager.SoundTypes.Music);
         loadedItems.add(background_frame);
-        loadedItems.addAll(cars);
 
         temp_text_object = text.openText("Welmert", .25f, .03f, .12f, .07f, .45f);
 		text_list.add(temp_text_object);
@@ -89,22 +93,22 @@ public class MapScreen implements Screen{
         renderer.batchImageScreenScaled(
 				background_frame,
 				0, 0.0f, 0.0f, 1.0f, 1.0f);
-        renderer.batchImageScreenScaled(cars.get(0), 1, .223f, (float)(frame % 1000) / 1000, .005f, .016f);
-        renderer.batchImageScreenScaled(cars.get(1), 1, .216f, -((float)((frame + 500) % 1000) / 1000) + 1 , .005f, .016f);
-        renderer.batchImageScreenScaled(cars.get(10), 1, .223f, (float)((frame + 600) % 1000) / 1000, .005f, .016f);
-        renderer.batchImageScreenScaled(cars.get(11), 1, .216f, -((float)((frame + 750) % 1000) / 1000) + 1 , .005f, .016f);
+        renderer.batchImageScreenScaled(cars.get(0).getImg(), 1, .223f, (float)(frame % 1000) / 1000, cars.get(0).getWidth(),  cars.get(0).getHeight());
+        renderer.batchImageScreenScaled(cars.get(1).getImg(), 1, .216f, -((float)((frame + 500) % 1000) / 1000) + 1 , .005f, .016f);
+        renderer.batchImageScreenScaled(cars.get(10).getImg(), 1, .223f, (float)((frame + 600) % 1000) / 1000, .005f, .016f);
+        renderer.batchImageScreenScaled(cars.get(11).getImg(), 1, .216f, -((float)((frame + 750) % 1000) / 1000) + 1 , .005f, .016f);
         
         //in front of school
-        renderer.batchImageScreenScaled(cars.get(2), 1, .558f, (float)((frame + 650)% 1000) / 1000, .005f, .016f);
-        renderer.batchImageScreenScaled(cars.get(3), 1, .551f, -((float)((frame + 650) % 1000) / 1000) + 1 , .005f, .016f);
-        renderer.batchImageScreenScaled(cars.get(8), 1, .558f, (float)((frame + 200)% 1000) / 1000, .005f, .016f);
-        renderer.batchImageScreenScaled(cars.get(9), 1, .551f, -((float)((frame + 150) % 1000) / 1000) + 1 , .005f, .016f);
+        renderer.batchImageScreenScaled(cars.get(2).getImg(), 1, .558f, (float)((frame + 650)% 1000) / 1000, .005f, .016f);
+        renderer.batchImageScreenScaled(cars.get(3).getImg(), 1, .551f, -((float)((frame + 650) % 1000) / 1000) + 1 , .005f, .016f);
+        renderer.batchImageScreenScaled(cars.get(8).getImg(), 1, .558f, (float)((frame + 200)% 1000) / 1000, .005f, .016f);
+        renderer.batchImageScreenScaled(cars.get(9).getImg(), 1, .551f, -((float)((frame + 150) % 1000) / 1000) + 1 , .005f, .016f);
         
         //horizontal
-        renderer.batchImageScreenScaled(cars.get(4), 1, (float)((frame + 100)% 1600) / 1600, .375f, .011f, .008f);
-        renderer.batchImageScreenScaled(cars.get(5), 1, -((float)((frame + 500) % 1600) / 1600) + 1, .39f, .011f, .008f);
-        renderer.batchImageScreenScaled(cars.get(6), 1, (float)((frame + 1100)% 1600) / 1600, .375f, .011f, .008f);
-        renderer.batchImageScreenScaled(cars.get(7), 1, -((float)((frame + 25) % 1600) / 1600) + 1, .39f, .011f, .008f);
+        renderer.batchImageScreenScaled(cars.get(4).getImg(), 1, (float)((frame + 100)% 1600) / 1600, .375f, .011f, .008f);
+        renderer.batchImageScreenScaled(cars.get(5).getImg(), 1, -((float)((frame + 500) % 1600) / 1600) + 1, .39f, .011f, .008f);
+        renderer.batchImageScreenScaled(cars.get(6).getImg(), 1, (float)((frame + 1100)% 1600) / 1600, .375f, .011f, .008f);
+        renderer.batchImageScreenScaled(cars.get(7).getImg(), 1, -((float)((frame + 25) % 1600) / 1600) + 1, .39f, .011f, .008f);
         
         renderer.renderBatchEnd();
 		counter++;
@@ -114,7 +118,7 @@ public class MapScreen implements Screen{
     @Override
     public void unloadAssets() {
         for(int i = NUM_COLORS; i < NUM_CARS; i++ ) {
-            renderer.deduplicateHandle(cars.get(i));
+            renderer.deduplicateHandle(cars.get(i).getImg());
         }
         for(Object obj : loadedItems) {
 			renderer.unloadImage(obj);
