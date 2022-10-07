@@ -71,7 +71,7 @@ public class App {
 		soundManager.loadSound(SoundManager.TITLE_THEME, SoundManager.SoundTypes.Music);
 		soundManager.loadSound(SoundManager.CHEERY, SoundManager.SoundTypes.Music);
 		
-		soundManager.setMasterVolume(-10f);
+		soundManager.setMasterVolume(-20f);
 		soundManager.setTypeVolume(0f, SoundTypes.Effects, true);
 		soundManager.setTypeVolume(6f, SoundTypes.Music, true);
 		

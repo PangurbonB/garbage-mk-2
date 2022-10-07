@@ -1,5 +1,7 @@
 package garbageboys.garbageman_mk_2.Models;
 
+import javax.swing.BoundedRangeModel;
+
 import garbageboys.garbageman_mk_2.Rendering.Render2D;
 
 public class Movable implements Move {
@@ -73,9 +75,38 @@ public class Movable implements Move {
     }
 
     @Override
-	public void move(Direction direction, EdgeBehavior edgeBehavior, float speed) {
-		
-	}
+    public void move(Direction direction, EdgeBehavior edgeBehavior, float speed) {
+        if ((x >= 1 || y >= 1 || x <= 0 || y <= 0) && edgeBehavior == EdgeBehavior.BOUNCE) {
+            bounced = !bounced;
+            if (x >= 1) {
+                x = .999f;
+            } else if (x <= 0) {
+                x = .001f;
+            } else if (y >= 1) {
+                y = .999f;
+            } else if (y <= 0) {
+                y = .001f;
+            }
+        }
+        float speedConstant = (float) 1 / (19000 * 5);
+        if (direction == Direction.DOWN) {
+            if (y <= 0 && edgeBehavior == EdgeBehavior.LOOP)
+                y = 1;
+            y = !bounced ? y - speed * speedConstant * 1.3f: y + speed * speedConstant* 1.3f;
+        } else if (direction == Direction.UP) {
+            if (y >= 1 && edgeBehavior == EdgeBehavior.LOOP)
+                y = 0;
+            y = !bounced ? y + speed * speedConstant * 1.3f : y - speed * speedConstant * 1.3f;
+        } else if (direction == Direction.LEFT) {
+            if (x <= 0 && edgeBehavior == EdgeBehavior.LOOP)
+                x = 1;
+            x = !bounced ? x - speed * speedConstant : x + speed * speedConstant;
+        } else if (direction == Direction.RIGHT) {
+            if (x >= 1 && edgeBehavior == EdgeBehavior.LOOP)
+                x = 0;
+            x = !bounced ? x + speed * speedConstant : x - speed * speedConstant;
+        }
+    }
 
     @Override
     public void show() {
@@ -154,7 +185,5 @@ public class Movable implements Move {
     public boolean isMoving() {
         return this.isMoving;
     }
-
-
 
 }

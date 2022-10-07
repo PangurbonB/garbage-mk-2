@@ -7,6 +7,9 @@ import org.lwjgl.system.MemoryStack;
 
 import garbageboys.garbageman_mk_2.App;
 import garbageboys.garbageman_mk_2.Models.Car;
+import garbageboys.garbageman_mk_2.Models.Move;
+import garbageboys.garbageman_mk_2.Models.Move.Direction;
+import garbageboys.garbageman_mk_2.Models.Move.EdgeBehavior;
 import garbageboys.garbageman_mk_2.Rendering.Render2D;
 import garbageboys.garbageman_mk_2.Sound.SoundManager;
 import garbageboys.garbageman_mk_2.Sound.SoundManager.SoundTypes;
@@ -77,26 +80,52 @@ public class MapScreen implements Screen {
         text_list.add(temp_text_object);
         temp_text_object = text.openText("Park", .25f, .1f, .27f, .11f, .25f);
         text_list.add(temp_text_object);
+
+        cars.get(4).setHeight(.010f);
+        cars.get(4).setWidth(.011f);
+        cars.get(5).setHeight(.010f);
+        cars.get(5).setWidth(.011f);
+        cars.get(6).setHeight(.010f);
+        cars.get(6).setWidth(.011f);
+        cars.get(7).setHeight(.010f);
+        cars.get(7).setWidth(.011f);
     }
 
     @Override
     public void renderFrame(int frame) {
         if(counter == 0) {//first render
-            cars.get(0).teleportTo(.345f, .5f);
-            cars.get(1).teleportTo(, );
-            cars.get(10).teleportTo(, );
-            cars.get(11).teleportTo(,);
+            cars.get(0).teleportTo(.223f, .5f);
+            cars.get(1).teleportTo(.216f, .75f);
+            cars.get(10).teleportTo(.223f, 0f);
+            cars.get(11).teleportTo(.216f,.25f);
 
-            cars.get(2).teleportTo(, );
-            cars.get(3).teleportTo(frame, frame);
-            cars.get(8).teleportTo(frame, frame);
-            cars.get(9).teleportTo(frame, frame);
+            cars.get(2).teleportTo(.558f, .1f);
+            cars.get(3).teleportTo(.551f, .4f);
+            cars.get(8).teleportTo(.558f, .4f);
+            cars.get(9).teleportTo(.551f, .9f);
 
-            cars.get(4).teleportTo(frame, .345f);
-            cars.get(5).teleportTo(frame, .345f);
-            cars.get(6).teleportTo(frame, .345f);
-            cars.get(7).teleportTo(frame, .345);
+            cars.get(4).teleportTo(.45f, .375f);
+            cars.get(5).teleportTo(.7f, .39f);
+            cars.get(6).teleportTo(.6f, .375f);
+            cars.get(7).teleportTo(0f, .39f);
         }
+
+        float speed = 80f;
+        cars.get(0).move(Direction.UP, EdgeBehavior.LOOP, speed);
+        cars.get(1).move(Direction.DOWN,EdgeBehavior.LOOP, speed);
+        cars.get(10).move(Direction.UP, EdgeBehavior.LOOP, speed);
+        cars.get(11).move(Direction.DOWN, EdgeBehavior.LOOP, speed);
+
+        cars.get(2).move(Direction.UP, EdgeBehavior.LOOP, speed);
+        cars.get(3).move(Direction.DOWN, EdgeBehavior.LOOP, speed);
+        cars.get(8).move(Direction.UP, EdgeBehavior.LOOP, speed);
+        cars.get(9).move(Direction.DOWN,EdgeBehavior.LOOP, speed);
+
+        cars.get(4).move(Direction.LEFT, EdgeBehavior.LOOP, speed);
+        cars.get(5).move(Direction.RIGHT, EdgeBehavior.LOOP, speed);
+        cars.get(6).move(Direction.LEFT, EdgeBehavior.LOOP, speed);
+        cars.get(7).move(Direction.RIGHT, EdgeBehavior.LOOP, speed);
+        
 
         MemoryStack stack = MemoryStack.stackPush();
         soundManager.loopSound(MAP_THEME);

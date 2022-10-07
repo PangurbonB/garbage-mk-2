@@ -49,6 +49,7 @@ public interface Move {
      * 
      * @param direction 0 = right 1 = up 2 = left 3 = down (think circle)
      * @param atEdgeLoop 0: keep going 1: if at edge, go to other side of screen 2: 
+     * @param speed: float, 0 doesn't move and 100 moves about the entire screen horizontally in 1 frame
      */
     public void move(Direction direction, EdgeBehavior edgeBehavior, float speed);
 
