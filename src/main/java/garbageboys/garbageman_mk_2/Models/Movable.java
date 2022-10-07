@@ -76,6 +76,7 @@ public class Movable implements Move {
 
     @Override
     public void move(Direction direction, EdgeBehavior edgeBehavior, float speed) {
+        isMoving = true;
         if ((x >= 1 || y >= 1 || x <= 0 || y <= 0) && edgeBehavior == EdgeBehavior.BOUNCE) {
             bounced = !bounced;
             if (x >= 1) {

@@ -37,7 +37,7 @@ public class MapScreen implements Screen {
             "/Assets/Cars/car-blue.png",
             "/Assets/Cars/car-red.png",
             "/Assets/Cars/car-white.png" };
-    final int NUM_CARS = 12;
+    final int NUM_CARS = 13;
     final int NUM_COLORS = 4;
 
     @Override
@@ -108,6 +108,8 @@ public class MapScreen implements Screen {
             cars.get(5).teleportTo(.7f, .39f);
             cars.get(6).teleportTo(.6f, .375f);
             cars.get(7).teleportTo(0f, .39f);
+
+            cars.get(12).teleportTo(.3f, 0f);
         }
 
         float speed = 80f;
@@ -157,6 +159,8 @@ public class MapScreen implements Screen {
         cars.get(5).show();
         cars.get(6).show();
         cars.get(7).show();
+
+        cars.get(12).show();
 
         renderer.renderBatchEnd();
         counter++;
