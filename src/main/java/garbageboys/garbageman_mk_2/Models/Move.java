@@ -27,7 +27,7 @@ public interface Move {
      * @param y endPos 0,1 
      * @param degrees 0-360 rotation
      */
-    public void moveToAndRotate(float x, float y, int degrees, float velocity);
+    public void moveToAndRotate(float x, float y, int degrees, float speed);
 
     /**
      * rotates around a given point on a circle
@@ -51,7 +51,16 @@ public interface Move {
      * @param atEdgeLoop 0: keep going 1: if at edge, go to other side of screen 2: 
      * @param speed: float, 0 doesn't move and 100 moves about the entire screen horizontally in 1 frame
      */
-    public void move(Direction direction, EdgeBehavior edgeBehavior, float speed);
+    public void moveAlongAxis(Direction direction, EdgeBehavior edgeBehavior, float speed);
+
+
+    /**
+     * 
+     * @param direction 0 -360, 90 is up, 270 is down etc
+     * @param atEdgeLoop 0: keep going 1: if at edge, go to other side of screen 2: 
+     * @param speed: float, 0 doesn't move and 100 moves about the entire screen horizontally in 1 frame
+     */
+    public void move(double direction, EdgeBehavior edgeBehavior, float speed);
 
     /**
      * renders image after moving calculations are done

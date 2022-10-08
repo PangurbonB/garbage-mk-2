@@ -109,24 +109,29 @@ public class MapScreen implements Screen {
             cars.get(6).teleportTo(.6f, .375f);
             cars.get(7).teleportTo(0f, .39f);
 
-            cars.get(12).teleportTo(.3f, 0f);
+            cars.get(12).teleportTo(.33f, 0f);
         }
 
         float speed = 80f;
-        cars.get(0).move(Direction.UP, EdgeBehavior.LOOP, speed);
-        cars.get(1).move(Direction.DOWN,EdgeBehavior.LOOP, speed);
-        cars.get(10).move(Direction.UP, EdgeBehavior.LOOP, speed);
-        cars.get(11).move(Direction.DOWN, EdgeBehavior.LOOP, speed);
+        cars.get(0).moveAlongAxis(Direction.UP, EdgeBehavior.LOOP, speed);
+        cars.get(1).moveAlongAxis(Direction.DOWN,EdgeBehavior.LOOP, speed);
+        cars.get(10).moveAlongAxis(Direction.UP, EdgeBehavior.LOOP, speed);
+        cars.get(11).moveAlongAxis(Direction.DOWN, EdgeBehavior.LOOP, speed);
 
-        cars.get(2).move(Direction.UP, EdgeBehavior.LOOP, speed);
-        cars.get(3).move(Direction.DOWN, EdgeBehavior.LOOP, speed);
-        cars.get(8).move(Direction.UP, EdgeBehavior.LOOP, speed);
-        cars.get(9).move(Direction.DOWN,EdgeBehavior.LOOP, speed);
+        cars.get(2).moveAlongAxis(Direction.UP, EdgeBehavior.LOOP, speed);
+        cars.get(3).moveAlongAxis(Direction.DOWN, EdgeBehavior.LOOP, speed);
+        cars.get(8).moveAlongAxis(Direction.UP, EdgeBehavior.LOOP, speed);
+        cars.get(9).moveAlongAxis(Direction.DOWN,EdgeBehavior.LOOP, speed);
 
-        cars.get(4).move(Direction.LEFT, EdgeBehavior.LOOP, speed);
-        cars.get(5).move(Direction.RIGHT, EdgeBehavior.LOOP, speed);
-        cars.get(6).move(Direction.LEFT, EdgeBehavior.LOOP, speed);
-        cars.get(7).move(Direction.RIGHT, EdgeBehavior.LOOP, speed);
+        cars.get(4).moveAlongAxis(Direction.LEFT, EdgeBehavior.LOOP, speed);
+        cars.get(5).moveAlongAxis(Direction.RIGHT, EdgeBehavior.LOOP, speed);
+        cars.get(6).moveAlongAxis(Direction.LEFT, EdgeBehavior.LOOP, speed);
+        cars.get(7).moveAlongAxis(Direction.RIGHT, EdgeBehavior.LOOP, speed);
+
+        cars.get(12).moveTo(1f, .34f, speed);
+        if(cars.get(12).getX() >= .99) {
+            cars.get(12).teleportTo(.33f, 0f);
+        }
         
 
         MemoryStack stack = MemoryStack.stackPush();

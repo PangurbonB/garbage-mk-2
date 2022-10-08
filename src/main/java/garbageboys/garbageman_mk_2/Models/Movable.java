@@ -1,7 +1,5 @@
 package garbageboys.garbageman_mk_2.Models;
 
-import javax.swing.BoundedRangeModel;
-
 import garbageboys.garbageman_mk_2.Rendering.Render2D;
 
 public class Movable implements Move {
@@ -16,6 +14,9 @@ public class Movable implements Move {
     private int layer = 1;
     private boolean isMoving = false;
     private boolean bounced = false;
+
+    private boolean bounceX = false;
+    private boolean bounceY = false;
 
     public Movable() {
     }
@@ -41,7 +42,15 @@ public class Movable implements Move {
      * @param x endPos 0,1
      * @param y endPos 0,1
      */
-    public void moveTo(float x, float y, float velocity) {
+    public void moveTo(float x, float y, float speed) {
+
+        if ((this.x < x + .001 && this.x > x - .001) && (this.y < y + .001 && this.y > y - .001))
+            return;
+        float xDiff = x - this.x;
+        float yDiff = y - this.y;
+        double direction = Math.atan(yDiff / xDiff);
+
+        move(direction, EdgeBehavior.NONE, speed);
 
     }
 
@@ -75,7 +84,7 @@ public class Movable implements Move {
     }
 
     @Override
-    public void move(Direction direction, EdgeBehavior edgeBehavior, float speed) {
+    public void moveAlongAxis(Direction direction, EdgeBehavior edgeBehavior, float speed) {
         isMoving = true;
         if ((x >= 1 || y >= 1 || x <= 0 || y <= 0) && edgeBehavior == EdgeBehavior.BOUNCE) {
             bounced = !bounced;
@@ -93,7 +102,7 @@ public class Movable implements Move {
         if (direction == Direction.DOWN) {
             if (y <= 0 && edgeBehavior == EdgeBehavior.LOOP)
                 y = 1;
-            y = !bounced ? y - speed * speedConstant * 1.3f: y + speed * speedConstant* 1.3f;
+            y = !bounced ? y - speed * speedConstant * 1.3f : y + speed * speedConstant * 1.3f;
         } else if (direction == Direction.UP) {
             if (y >= 1 && edgeBehavior == EdgeBehavior.LOOP)
                 y = 0;
@@ -107,6 +116,45 @@ public class Movable implements Move {
                 x = 0;
             x = !bounced ? x + speed * speedConstant : x - speed * speedConstant;
         }
+    }
+
+    @Override
+    public void move(double direction, EdgeBehavior edgeBehavior, float speed) {
+        float speedConstant = (float) 1 / 95000;
+        x = (float) (!bounceX
+                ? x + Math.cos(direction) * speed * speedConstant
+                : x - Math.cos(direction) * speed * speedConstant);
+        y = (float) (!bounceY
+                ? y + Math.sin(direction) * speed * speedConstant
+                : y - Math.sin(direction) * speed * speedConstant);
+
+        if ((x >= 1 || y >= 1 || x <= 0 || y <= 0) && edgeBehavior == EdgeBehavior.BOUNCE) {
+            if (x >= 1) {
+                x = .999f;
+                bounceX = !bounceX;
+            } else if (x <= 0) {
+                x = .001f;
+                bounceX = !bounceX;
+            } else if (y >= 1) {
+                y = .999f;
+                bounceY = !bounceY;
+            } else if (y <= 0) {
+                bounceY = !bounceY;
+            }
+        } else if ((x >= 1 || y >= 1 || x <= 0 || y <= 0) && edgeBehavior == EdgeBehavior.LOOP) {
+            if (x >= 1) {
+                x = .001f;
+            } else if (x <= 0) {
+                x = .999f;
+
+            } else if (y >= 1) {
+                y = .001f;
+
+            } else if (y <= 0) {
+                y = .999f;
+            }
+        }
+
     }
 
     @Override
