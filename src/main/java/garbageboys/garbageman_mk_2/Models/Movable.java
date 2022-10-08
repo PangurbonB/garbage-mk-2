@@ -12,7 +12,6 @@ public class Movable implements Move {
     private Object img;
     private Render2D renderer;
     private int layer = 1;
-    private boolean isMoving = false;
     private boolean bounced = false;
 
     private boolean bounceX = false;
@@ -85,7 +84,6 @@ public class Movable implements Move {
 
     @Override
     public void moveAlongAxis(Direction direction, EdgeBehavior edgeBehavior, float speed) {
-        isMoving = true;
         if ((x >= 1 || y >= 1 || x <= 0 || y <= 0) && edgeBehavior == EdgeBehavior.BOUNCE) {
             bounced = !bounced;
             if (x >= 1) {
@@ -227,12 +225,5 @@ public class Movable implements Move {
         this.layer = layer;
     }
 
-    public void setIsMoving(boolean isMoving) {
-        this.isMoving = isMoving;
-    }
-
-    public boolean isMoving() {
-        return this.isMoving;
-    }
 
 }
