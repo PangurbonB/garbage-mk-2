@@ -22,7 +22,8 @@ public interface Move {
         MOVETOANDROTATE,
         ROTATE,
         TELEPORTTO,
-        WAIT
+        WAIT,
+        END
     }
 
     /**

@@ -100,6 +100,7 @@ public class MapScreen implements Screen {
         scriptedCar.add(new SequenceParam(FunctionName.MOVETO, .75f, .75f, 80f));
         scriptedCar.add(new SequenceParam(FunctionName.WAIT, 3));
         scriptedCar.add(new SequenceParam(FunctionName.MOVETO, .25f, .25f, 80f));
+        scriptedCar.add(new SequenceParam(FunctionName.END));
         cars.get(14).setSequence(scriptedCar);
     }
 
