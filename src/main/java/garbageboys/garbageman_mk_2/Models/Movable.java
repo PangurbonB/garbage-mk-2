@@ -23,6 +23,9 @@ public class Movable implements Move {
     private int sequenceIndex;
 
     private int waitFrames = 0;
+    private int circleFrames  = 0;
+
+    private final double circleFramesToDegreesConstant;
     
 
     public Movable() {
@@ -84,6 +87,21 @@ public class Movable implements Move {
      * @param y       yPos of center (0-1) starting bottom left
      */
     public void rotate(int degrees, float radius, float x, float y, float speed) {
+        if (moveInCircle(radius, x, y, speed) >= degrees) {
+            sequenceIndex++;
+            circleFrames = 0;
+            return;
+        }
+    }
+
+    //oh so incredibly unsure about this will certainly need to do some testing
+    public float moveInCircle(float radius, float x, float y, float speed) {
+        circleFrames++;
+
+        this.x = radius * Math.cos(speed * circleFrames * circleFramesToDegreesConstant) + x;
+        this.y = radius * Math.sin(speed * circleFrames * circleFramesToDegreesConstant) + y;
+
+        return speed * circleFrames * circleFramesToDegreesConstant;
 
     }
 

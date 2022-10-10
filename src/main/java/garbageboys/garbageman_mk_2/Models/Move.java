@@ -65,6 +65,14 @@ public interface Move {
 
 
     /**
+     * rotates around a given point on a circle
+     * @param radius radius of circle (0-1), percentage of screen size
+     * @param x xPos of center (0-1) starting bottom left
+     * @param y yPos of center (0-1) starting bottom left
+     */
+    public float moveInCircle(float radius, float x, float y, float speed);
+
+    /**
      * 
      * @param direction 0 -360, 90 is up, 270 is down etc
      * @param atEdgeLoop 0: keep going 1: if at edge, go to other side of screen 2: 
