@@ -48,7 +48,6 @@ public class Movable implements Move {
         float xDiff = x - this.x;
         float yDiff = y - this.y;
         double direction = Math.atan(yDiff / xDiff);
-
         move(direction, EdgeBehavior.NONE, speed);
 
     }

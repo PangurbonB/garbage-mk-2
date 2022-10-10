@@ -56,7 +56,7 @@ public interface Move {
 
     /**
      * 
-     * @param direction 0 -360, 90 is up, 270 is down etc
+     * @param direction 0 - 2pi,pi/2 is up, 3pi/2 is down etc
      * @param atEdgeLoop 0: keep going 1: if at edge, go to other side of screen 2: 
      * @param speed: float, 0 doesn't move and 100 moves about the entire screen horizontally in 1 frame
      */
