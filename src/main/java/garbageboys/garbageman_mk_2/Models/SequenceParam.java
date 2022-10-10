@@ -1,6 +1,6 @@
 package garbageboys.garbageman_mk_2.Models;
 
-import garbageboys.garbageman_mk_2.Models.FunctionName;
+import garbageboys.garbageman_mk_2.Models.Move.FunctionName;
 
 public class SequenceParam {
     private FunctionName functionName;

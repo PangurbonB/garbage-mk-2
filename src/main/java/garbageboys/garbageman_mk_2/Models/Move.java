@@ -1,5 +1,7 @@
 package garbageboys.garbageman_mk_2.Models;
 
+import java.util.List;
+
 public interface Move {
     public enum Direction {
         RIGHT,
@@ -37,7 +39,7 @@ public interface Move {
      * @param y endPos 0,1 
      * @param degrees 0-360 rotation
      */
-    public void moveToAndRotate(float x, float y, int degrees, float speed);
+    public void moveToAndRotate(float x, float y,float degrees, float speed);
 
     /**
      * rotates around a given point on a circle
@@ -46,7 +48,7 @@ public interface Move {
      * @param x xPos of center (0-1) starting bottom left
      * @param y yPos of center (0-1) starting bottom left
      */
-    public void rotate(int degrees, float radius, float x, float y, float speed);
+    public void rotate(float degrees, float radius, float x, float y, float speed);
 
     /**
      * teleports to given x and y
@@ -85,7 +87,7 @@ public interface Move {
     /**
      * only use in a sequence, otherwise will freeze object indefinitely
      */
-    public void wait(float seconds);
+    public void wait(double seconds);
 
     /**
      * renders image after moving calculations are done
@@ -96,7 +98,7 @@ public interface Move {
     /**
      * sets the sequence to be run when runSequence is called
      */
-    public void setSequence(List<SequenceName> sequence);
+    public void setSequence(List<SequenceParam> sequence);
 
     /**
      * runs sequence of functions

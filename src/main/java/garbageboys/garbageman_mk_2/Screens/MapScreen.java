@@ -32,13 +32,15 @@ public class MapScreen implements Screen {
     private List<Object> loadedItems;
     private List<TextObject> text_list;
 
-    final String MAP_THEME = "/assets/Sounds/Songs/Beachy.wav";
+    final String MAP_THEME = "/assets/Sounds/Songs/Hot Choccy.wav";
     final String[] CAR_FILES = { "/Assets/Cars/car-black.png",
             "/Assets/Cars/car-blue.png",
             "/Assets/Cars/car-red.png",
-            "/Assets/Cars/car-white.png" };
-    final int NUM_CARS = 14;
-    final int NUM_COLORS = 4;
+            "/Assets/Cars/car-white.png",
+            "/Assets/Cars/car-green.png",
+            "/Assets/Cars/car-lightblue.png"};
+    final int NUM_CARS = 15;
+    final int NUM_COLORS = 6;
 
     @Override
     public void init(Render2D renderer, App app, SoundManager soundManager, TextManager text) {
@@ -129,7 +131,7 @@ public class MapScreen implements Screen {
         cars.get(6).moveAlongAxis(Direction.LEFT, EdgeBehavior.LOOP, speed);
         cars.get(7).moveAlongAxis(Direction.RIGHT, EdgeBehavior.LOOP, speed);
 
-        cars.get(13).move(Math.PI / 4, EdgeBehavior.BOUNCE, 200f);
+        cars.get(13).moveInCircle(.27f, -0.02f, -.14f, speed /2);
 
         cars.get(12).moveTo(1f, .34f, speed);
         if(cars.get(12).getX() >= .99) {
@@ -169,6 +171,7 @@ public class MapScreen implements Screen {
         cars.get(7).show();
 
         cars.get(12).show();
+        cars.get(13).show();
 
         renderer.renderBatchEnd();
         counter++;

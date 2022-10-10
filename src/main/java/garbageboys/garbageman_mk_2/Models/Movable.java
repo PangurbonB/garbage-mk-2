@@ -1,5 +1,7 @@
 package garbageboys.garbageman_mk_2.Models;
 
+import java.util.List;
+
 import garbageboys.garbageman_mk_2.Rendering.Render2D;
 
 public class Movable implements Move {
@@ -11,7 +13,7 @@ public class Movable implements Move {
     private int angle;
     private Object img;
     private Render2D renderer;
-    private int layer = 1;
+    private int layer = 2;
 
 
     private boolean bounced = false;
@@ -25,7 +27,7 @@ public class Movable implements Move {
     private int waitFrames = 0;
     private int circleFrames  = 0;
 
-    private final double circleFramesToDegreesConstant = .45;//multiplier to convert the amount of frames that have passed into the amount of degrees around circke that object has traveled
+    private final double circleFramesToDegreesConstant = .0002;//multiplier to convert the amount of frames that have passed into the amount of degrees around circke that object has traveled
     
 
     public Movable() {
@@ -73,7 +75,7 @@ public class Movable implements Move {
      * @param y       endPos 0,1
      * @param degrees 0-360 rotation
      */
-    public void moveToAndRotate(float x, float y, int degrees, float speed) {
+    public void moveToAndRotate(float x, float y, float degrees, float speed) {
 
     }
 
@@ -85,7 +87,7 @@ public class Movable implements Move {
      * @param x       xPos of center (0-1) starting bottom left
      * @param y       yPos of center (0-1) starting bottom left
      */
-    public void rotate(int degrees, float radius, float x, float y, float speed) {
+    public void rotate(float degrees, float radius, float x, float y, float speed) {
 
         if (moveInCircle(radius, x, y, speed) >= degrees) {
             sequenceIndex++;
@@ -98,10 +100,10 @@ public class Movable implements Move {
     public float moveInCircle(float radius, float x, float y, float speed) {
         circleFrames++;
         double angle = speed * circleFrames * circleFramesToDegreesConstant;
-        this.x = radius * Math.cos(angle) + x;
-        this.y = radius * Math.sin(angle) + y;
+        this.x =  (float) (radius * Math.cos(angle) + x);
+        this.y = (float) ( 1.85f * radius * Math.sin(angle) + y) ;
 
-        return angle;
+        return (float) angle;
 
     }
 
@@ -202,7 +204,7 @@ public class Movable implements Move {
     }
 
     @Override
-    public void setSequence(List<SequenceName> sequence) {
+    public void setSequence(List<SequenceParam> sequence) {
         this.sequence = sequence;
         this.sequenceIndex = 0;
     }
@@ -211,22 +213,22 @@ public class Movable implements Move {
     public void runSequence() {
         SequenceParam action = sequence.get(sequenceIndex);
         switch(action.getFunctionName()) {
-            case FunctionName.LOOP:
+            case LOOP:
                 sequenceIndex++;
                 break;
-            case FunctionName.MOVETO:
+            case MOVETO:
                 moveTo(action.getX(), action.getY(), action.getSpeed());
                 break;
-            case FunctionName.TELEPORTTO:
+            case TELEPORTTO:
                 teleportTo(action.getX(), action.getY());
                 break;
-            case FunctionName.MOVETOANDROTATE:
-                moveToAndRotate(action.getX(), action.getY(), action.getAngle(),action.getSpeed());
+            case MOVETOANDROTATE:
+                moveToAndRotate(action.getX(), action.getY(), action.getAngle(), action.getSpeed());
                 break;
-            case FunctionName.ROTATE:
+            case ROTATE:
                 rotate(action.getAngle(), action.getRadius(), action.getX(), action.getY(), action.getSpeed());
                 break;
-            case FunctionName.WAIT:
+            case WAIT:
                 wait(action.getSeconds());
                 break;
             default:
