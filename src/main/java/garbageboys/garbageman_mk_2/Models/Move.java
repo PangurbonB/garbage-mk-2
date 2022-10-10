@@ -14,12 +14,20 @@ public interface Move {
         BOUNCE
     }
 
+    public enum SequenceName {
+        MOVETO,
+        MOVETOANDROTATE,
+        ROTATE,
+        TELEPORTTO
+    }
+
     /**
+     * 
      * starts from bottom left, goes to top right
      * @param x endPos 0,1 
      * @param y endPos 0,1 
      */
-    public void moveTo(float x, float y, float velocity);
+    public void moveTo(float x, float y, float speed);
 
     /**
      * starts from bottom left, goes to top right
@@ -36,7 +44,7 @@ public interface Move {
      * @param x xPos of center (0-1) starting bottom left
      * @param y yPos of center (0-1) starting bottom left
      */
-    public void rotate(int degrees, float radius, float x, float y, float velocity);
+    public void rotate(int degrees, float radius, float x, float y, float speed);
 
     /**
      * teleports to given x and y
@@ -66,4 +74,8 @@ public interface Move {
      * renders image after moving calculations are done
      */
     public void show();
+
+    public void setSequence(List<SequenceName> sequence);
+
+    public void runSequence();
 }

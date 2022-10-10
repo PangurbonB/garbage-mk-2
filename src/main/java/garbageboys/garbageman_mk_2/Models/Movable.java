@@ -12,10 +12,16 @@ public class Movable implements Move {
     private Object img;
     private Render2D renderer;
     private int layer = 1;
+
+
     private boolean bounced = false;
 
     private boolean bounceX = false;
     private boolean bounceY = false;
+
+    private List<SequenceParam> sequence;
+    private int sequenceIndex;
+    
 
     public Movable() {
     }
@@ -43,8 +49,11 @@ public class Movable implements Move {
      */
     public void moveTo(float x, float y, float speed) {
 
-        if ((this.x < x + .001 && this.x > x - .001) && (this.y < y + .001 && this.y > y - .001))
+        if ((this.x < x + .001 && this.x > x - .001) && (this.y < y + .001 && this.y > y - .001)) {
+            this.sequenceIndex++;
             return;
+        }
+            
         float xDiff = x - this.x;
         float yDiff = y - this.y;
         double direction = Math.atan(yDiff / xDiff);
@@ -60,7 +69,7 @@ public class Movable implements Move {
      * @param y       endPos 0,1
      * @param degrees 0-360 rotation
      */
-    public void moveToAndRotate(float x, float y, int degrees, float velocity) {
+    public void moveToAndRotate(float x, float y, int degrees, float speed) {
 
     }
 
@@ -159,6 +168,20 @@ public class Movable implements Move {
     public void show() {
         renderer.batchImageScreenScaled(img, layer, x, y, width, height);
 
+    }
+
+    @Override
+    public void setSequence(List<SequenceName> sequence) {
+        this.sequence = sequence;
+        this.sequenceIndex = 0;
+    }
+
+    @Override
+    public void runSequence() {
+        switch(sequence.get(sequenceIndex)) {
+            case SequenceName.MOVETO:
+                break;
+        }
     }
 
     public float getX() {
