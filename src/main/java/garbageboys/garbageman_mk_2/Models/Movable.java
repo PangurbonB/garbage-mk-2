@@ -12,10 +12,21 @@ public class Movable implements Move {
     private Object img;
     private Render2D renderer;
     private int layer = 1;
+
+
     private boolean bounced = false;
 
     private boolean bounceX = false;
     private boolean bounceY = false;
+
+    private List<SequenceParam> sequence;
+    private int sequenceIndex;
+
+    private int waitFrames = 0;
+    private int circleFrames  = 0;
+
+    private final double circleFramesToDegreesConstant = .45;//multiplier to convert the amount of frames that have passed into the amount of degrees around circke that object has traveled
+    
 
     public Movable() {
     }
@@ -43,8 +54,11 @@ public class Movable implements Move {
      */
     public void moveTo(float x, float y, float speed) {
 
-        if ((this.x < x + .001 && this.x > x - .001) && (this.y < y + .001 && this.y > y - .001))
+        if ((this.x < x + .001 && this.x > x - .001) && (this.y < y + .001 && this.y > y - .001)) {
+            sequenceIndex++;
             return;
+        }
+            
         float xDiff = x - this.x;
         float yDiff = y - this.y;
         double direction = Math.atan(yDiff / xDiff);
@@ -59,7 +73,7 @@ public class Movable implements Move {
      * @param y       endPos 0,1
      * @param degrees 0-360 rotation
      */
-    public void moveToAndRotate(float x, float y, int degrees, float velocity) {
+    public void moveToAndRotate(float x, float y, int degrees, float speed) {
 
     }
 
@@ -71,7 +85,23 @@ public class Movable implements Move {
      * @param x       xPos of center (0-1) starting bottom left
      * @param y       yPos of center (0-1) starting bottom left
      */
-    public void rotate(int degrees, float radius, float x, float y, float velocity) {
+    public void rotate(int degrees, float radius, float x, float y, float speed) {
+
+        if (moveInCircle(radius, x, y, speed) >= degrees) {
+            sequenceIndex++;
+            circleFrames = 0;
+            return;
+        }
+    }
+
+    //oh so incredibly unsure about this will certainly need to do some testing
+    public float moveInCircle(float radius, float x, float y, float speed) {
+        circleFrames++;
+        double angle = speed * circleFrames * circleFramesToDegreesConstant;
+        this.x = radius * Math.cos(angle) + x;
+        this.y = radius * Math.sin(angle) + y;
+
+        return angle;
 
     }
 
@@ -79,6 +109,7 @@ public class Movable implements Move {
     public void teleportTo(float x, float y) {
         this.x = x;
         this.y = y;
+        this.sequenceIndex++;
     }
 
     @Override
@@ -155,9 +186,54 @@ public class Movable implements Move {
     }
 
     @Override
+    public void wait(double seconds) {
+        waitFrames++;
+        if((float)waitFrames / 24 >= seconds) {
+            sequenceIndex++;
+            waitFrames = 0;
+        }
+        
+    }
+
+    @Override
     public void show() {
         renderer.batchImageScreenScaled(img, layer, x, y, width, height);
 
+    }
+
+    @Override
+    public void setSequence(List<SequenceName> sequence) {
+        this.sequence = sequence;
+        this.sequenceIndex = 0;
+    }
+
+    @Override
+    public void runSequence() {
+        SequenceParam action = sequence.get(sequenceIndex);
+        switch(action.getFunctionName()) {
+            case FunctionName.LOOP:
+                sequenceIndex++;
+                break;
+            case FunctionName.MOVETO:
+                moveTo(action.getX(), action.getY(), action.getSpeed());
+                break;
+            case FunctionName.TELEPORTTO:
+                teleportTo(action.getX(), action.getY());
+                break;
+            case FunctionName.MOVETOANDROTATE:
+                moveToAndRotate(action.getX(), action.getY(), action.getAngle(),action.getSpeed());
+                break;
+            case FunctionName.ROTATE:
+                rotate(action.getAngle(), action.getRadius(), action.getX(), action.getY(), action.getSpeed());
+                break;
+            case FunctionName.WAIT:
+                wait(action.getSeconds());
+                break;
+            default:
+                if(sequence.get(0).getFunctionName() == FunctionName.LOOP)
+                    sequenceIndex = 0;
+                break;
+        }
     }
 
     public float getX() {

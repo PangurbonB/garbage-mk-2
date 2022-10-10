@@ -14,12 +14,22 @@ public interface Move {
         BOUNCE
     }
 
+    public enum FunctionName {
+        LOOP, //only add to index 0 of sequence in order to indicate that sequence should loop once completed
+        MOVETO,
+        MOVETOANDROTATE,
+        ROTATE,
+        TELEPORTTO,
+        WAIT
+    }
+
     /**
+     * 
      * starts from bottom left, goes to top right
      * @param x endPos 0,1 
      * @param y endPos 0,1 
      */
-    public void moveTo(float x, float y, float velocity);
+    public void moveTo(float x, float y, float speed);
 
     /**
      * starts from bottom left, goes to top right
@@ -36,7 +46,7 @@ public interface Move {
      * @param x xPos of center (0-1) starting bottom left
      * @param y yPos of center (0-1) starting bottom left
      */
-    public void rotate(int degrees, float radius, float x, float y, float velocity);
+    public void rotate(int degrees, float radius, float x, float y, float speed);
 
     /**
      * teleports to given x and y
@@ -55,6 +65,15 @@ public interface Move {
 
 
     /**
+     * rotates around a given point on a circle- only call in sequence otherwise will run forever
+     * @param radius radius of circle (0-1), percentage of screen size
+     * @param x xPos of center (0-1) starting bottom left
+     * @param y yPos of center (0-1) starting bottom left
+     * @param speed make negative to move opposite direction, controls how quickly object goes in circle
+     */
+    public float moveInCircle(float radius, float x, float y, float speed);
+
+    /**
      * 
      * @param direction 0 - 2pi,pi/2 is up, 3pi/2 is down etc
      * @param atEdgeLoop 0: keep going 1: if at edge, go to other side of screen 2: 
@@ -62,8 +81,27 @@ public interface Move {
      */
     public void move(double direction, EdgeBehavior edgeBehavior, float speed);
 
+
+    /**
+     * only use in a sequence, otherwise will freeze object indefinitely
+     */
+    public void wait(float seconds);
+
     /**
      * renders image after moving calculations are done
      */
     public void show();
+
+
+    /**
+     * sets the sequence to be run when runSequence is called
+     */
+    public void setSequence(List<SequenceName> sequence);
+
+    /**
+     * runs sequence of functions
+     * 
+     * 
+     */
+    public void runSequence();
 }
