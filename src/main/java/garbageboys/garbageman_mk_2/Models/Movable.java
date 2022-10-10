@@ -21,6 +21,8 @@ public class Movable implements Move {
 
     private List<SequenceParam> sequence;
     private int sequenceIndex;
+
+    private int waitFrames = 0;
     
 
     public Movable() {
@@ -50,7 +52,7 @@ public class Movable implements Move {
     public void moveTo(float x, float y, float speed) {
 
         if ((this.x < x + .001 && this.x > x - .001) && (this.y < y + .001 && this.y > y - .001)) {
-            this.sequenceIndex++;
+            sequenceIndex++;
             return;
         }
             
@@ -81,7 +83,7 @@ public class Movable implements Move {
      * @param x       xPos of center (0-1) starting bottom left
      * @param y       yPos of center (0-1) starting bottom left
      */
-    public void rotate(int degrees, float radius, float x, float y, float velocity) {
+    public void rotate(int degrees, float radius, float x, float y, float speed) {
 
     }
 
@@ -89,6 +91,7 @@ public class Movable implements Move {
     public void teleportTo(float x, float y) {
         this.x = x;
         this.y = y;
+        this.sequenceIndex++;
     }
 
     @Override
@@ -165,6 +168,16 @@ public class Movable implements Move {
     }
 
     @Override
+    public void wait(double seconds) {
+        waitFrames++;
+        if((float)waitFrames / 24 >= seconds) {
+            sequenceIndex++;
+            waitFrames = 0;
+        }
+        
+    }
+
+    @Override
     public void show() {
         renderer.batchImageScreenScaled(img, layer, x, y, width, height);
 
@@ -178,8 +191,29 @@ public class Movable implements Move {
 
     @Override
     public void runSequence() {
-        switch(sequence.get(sequenceIndex)) {
-            case SequenceName.MOVETO:
+        SequenceParam action = sequence.get(sequenceIndex);
+        switch(action.getFunctionName()) {
+            case FunctionName.LOOP:
+                sequenceIndex++;
+                break;
+            case FunctionName.MOVETO:
+                moveTo(action.getX(), action.getY(), action.getSpeed());
+                break;
+            case FunctionName.TELEPORTTO:
+                teleportTo(action.getX(), action.getY());
+                break;
+            case FunctionName.MOVETOANDROTATE:
+                moveToAndRotate(action.getX(), action.getY(), action.getAngle(),action.getSpeed());
+                break;
+            case FunctionName.ROTATE:
+                rotate(action.getAngle(), action.getRadius(), action.getX(), action.getY(), action.getSpeed());
+                break;
+            case FunctionName.WAIT:
+                wait(action.getSeconds());
+                break;
+            default:
+                if(sequence.get(0).getFunctionName() == FunctionName.LOOP)
+                    sequenceIndex = 0;
                 break;
         }
     }

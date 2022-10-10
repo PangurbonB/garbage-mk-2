@@ -14,11 +14,13 @@ public interface Move {
         BOUNCE
     }
 
-    public enum SequenceName {
+    public enum FunctionName {
+        LOOP, //only add to index 0 of sequence in order to indicate that sequence should loop once completed
         MOVETO,
         MOVETOANDROTATE,
         ROTATE,
-        TELEPORTTO
+        TELEPORTTO,
+        WAIT
     }
 
     /**
@@ -70,12 +72,27 @@ public interface Move {
      */
     public void move(double direction, EdgeBehavior edgeBehavior, float speed);
 
+
+    /**
+     * only use in a sequence, otherwise will freeze object indefinitely
+     */
+    public void wait(float seconds);
+
     /**
      * renders image after moving calculations are done
      */
     public void show();
 
+
+    /**
+     * sets the sequence to be run when runSequence is called
+     */
     public void setSequence(List<SequenceName> sequence);
 
+    /**
+     * runs sequence of functions
+     * 
+     * 
+     */
     public void runSequence();
 }
