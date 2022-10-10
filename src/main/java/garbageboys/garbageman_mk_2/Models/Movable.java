@@ -64,6 +64,9 @@ public class Movable implements Move {
         float xDiff = x - this.x;
         float yDiff = y - this.y;
         double direction = Math.atan(yDiff / xDiff);
+        if(x < this.x && y < this.y) {
+            direction += Math.PI;
+        }
         move(direction, EdgeBehavior.NONE, speed);
 
     }
@@ -190,7 +193,7 @@ public class Movable implements Move {
     @Override
     public void wait(double seconds) {
         waitFrames++;
-        if((float)waitFrames / 24 >= seconds) {
+        if((float)waitFrames / 48 >= seconds) {
             sequenceIndex++;
             waitFrames = 0;
         }

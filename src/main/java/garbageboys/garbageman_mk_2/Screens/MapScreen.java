@@ -8,8 +8,10 @@ import org.lwjgl.system.MemoryStack;
 import garbageboys.garbageman_mk_2.App;
 import garbageboys.garbageman_mk_2.Models.Car;
 import garbageboys.garbageman_mk_2.Models.Move;
+import garbageboys.garbageman_mk_2.Models.SequenceParam;
 import garbageboys.garbageman_mk_2.Models.Move.Direction;
 import garbageboys.garbageman_mk_2.Models.Move.EdgeBehavior;
+import garbageboys.garbageman_mk_2.Models.Move.FunctionName;
 import garbageboys.garbageman_mk_2.Rendering.Render2D;
 import garbageboys.garbageman_mk_2.Sound.SoundManager;
 import garbageboys.garbageman_mk_2.Sound.SoundManager.SoundTypes;
@@ -91,6 +93,14 @@ public class MapScreen implements Screen {
         cars.get(6).setWidth(.011f);
         cars.get(7).setHeight(.010f);
         cars.get(7).setWidth(.011f);
+
+        List<SequenceParam> scriptedCar = new ArrayList<>();
+        scriptedCar.add(new SequenceParam(FunctionName.LOOP));
+        scriptedCar.add(new SequenceParam(FunctionName.TELEPORTTO, .5f, .5f));
+        scriptedCar.add(new SequenceParam(FunctionName.MOVETO, .75f, .75f, 80f));
+        scriptedCar.add(new SequenceParam(FunctionName.WAIT, 3));
+        scriptedCar.add(new SequenceParam(FunctionName.MOVETO, .25f, .25f, 80f));
+        cars.get(14).setSequence(scriptedCar);
     }
 
     @Override
@@ -116,6 +126,7 @@ public class MapScreen implements Screen {
         }
 
         float speed = 80f;
+        cars.get(14).runSequence();
         cars.get(0).moveAlongAxis(Direction.UP, EdgeBehavior.LOOP, speed);
         cars.get(1).moveAlongAxis(Direction.DOWN,EdgeBehavior.LOOP, speed);
         cars.get(10).moveAlongAxis(Direction.UP, EdgeBehavior.LOOP, speed);
@@ -172,6 +183,7 @@ public class MapScreen implements Screen {
 
         cars.get(12).show();
         cars.get(13).show();
+        cars.get(14).show();
 
         renderer.renderBatchEnd();
         counter++;
