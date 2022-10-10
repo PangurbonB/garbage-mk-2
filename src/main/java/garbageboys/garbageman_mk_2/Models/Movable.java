@@ -25,7 +25,7 @@ public class Movable implements Move {
     private int waitFrames = 0;
     private int circleFrames  = 0;
 
-    private final double circleFramesToDegreesConstant;
+    private final double circleFramesToDegreesConstant = .45;//multiplier to convert the amount of frames that have passed into the amount of degrees around circke that object has traveled
     
 
     public Movable() {
@@ -87,6 +87,7 @@ public class Movable implements Move {
      * @param y       yPos of center (0-1) starting bottom left
      */
     public void rotate(int degrees, float radius, float x, float y, float speed) {
+
         if (moveInCircle(radius, x, y, speed) >= degrees) {
             sequenceIndex++;
             circleFrames = 0;
@@ -97,11 +98,11 @@ public class Movable implements Move {
     //oh so incredibly unsure about this will certainly need to do some testing
     public float moveInCircle(float radius, float x, float y, float speed) {
         circleFrames++;
+        double angle = speed * circleFrames * circleFramesToDegreesConstant;
+        this.x = radius * Math.cos(angle) + x;
+        this.y = radius * Math.sin(angle) + y;
 
-        this.x = radius * Math.cos(speed * circleFrames * circleFramesToDegreesConstant) + x;
-        this.y = radius * Math.sin(speed * circleFrames * circleFramesToDegreesConstant) + y;
-
-        return speed * circleFrames * circleFramesToDegreesConstant;
+        return angle;
 
     }
 

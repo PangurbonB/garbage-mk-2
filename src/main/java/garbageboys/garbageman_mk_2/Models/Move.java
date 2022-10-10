@@ -65,10 +65,11 @@ public interface Move {
 
 
     /**
-     * rotates around a given point on a circle
+     * rotates around a given point on a circle- only call in sequence otherwise will run forever
      * @param radius radius of circle (0-1), percentage of screen size
      * @param x xPos of center (0-1) starting bottom left
      * @param y yPos of center (0-1) starting bottom left
+     * @param speed make negative to move opposite direction, controls how quickly object goes in circle
      */
     public float moveInCircle(float radius, float x, float y, float speed);
 
