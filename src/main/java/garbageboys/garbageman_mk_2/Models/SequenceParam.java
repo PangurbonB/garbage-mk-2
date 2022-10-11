@@ -9,7 +9,9 @@ public class SequenceParam {
     private float angle;
     private float speed;
     private float radius;
+    private float startingAngle;
     private double seconds;
+
     
 
     public SequenceParam() {
@@ -46,12 +48,14 @@ public class SequenceParam {
         this.angle = angle;
     }
 
-    public SequenceParam(FunctionName functionName, float x, float y, float speed, float angle, float radius) {
+    public SequenceParam(FunctionName functionName, float x, float y, float speed, float angle, float radius, float startingAngle) {
         this.functionName = functionName;
         this.x = x;
         this.y = y;
         this.speed = speed;
+        this.angle = angle;
         this.radius = radius;
+        this.startingAngle = startingAngle;
     }
 
     public FunctionName getFunctionName() {
@@ -81,4 +85,10 @@ public class SequenceParam {
     public double getSeconds() {
         return this.seconds;
     }
+
+    public float getStartingAngle() {
+        return this.startingAngle;
+    }
 }
+
+

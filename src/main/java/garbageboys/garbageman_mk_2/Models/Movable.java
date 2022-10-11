@@ -27,7 +27,7 @@ public class Movable implements Move {
     private int waitFrames = 0;
     private int circleFrames  = 0;
 
-    private final double circleFramesToDegreesConstant = .0002;//multiplier to convert the amount of frames that have passed into the amount of degrees around circke that object has traveled
+    private final double circleFramesToRadiansConstant = .0002;//multiplier to convert the amount of frames that have passed into the amount of degrees around circke that object has traveled
     
 
     public Movable() {
@@ -90,9 +90,9 @@ public class Movable implements Move {
      * @param x       xPos of center (0-1) starting bottom left
      * @param y       yPos of center (0-1) starting bottom left
      */
-    public void rotate(float degrees, float radius, float x, float y, float speed) {
+    public void rotate(float degrees, float radius, float x, float y, float speed, float startingAngle) {
 
-        if (moveInCircle(radius, x, y, speed) >= degrees) {
+        if (Math.abs(moveInCircle(radius, x, y, speed, startingAngle)) >= degrees) {
             sequenceIndex++;
             circleFrames = 0;
             return;
@@ -100,12 +100,11 @@ public class Movable implements Move {
     }
 
     //oh so incredibly unsure about this will certainly need to do some testing
-    public float moveInCircle(float radius, float x, float y, float speed) {
+    public float moveInCircle(float radius, float x, float y, float speed, float startingAngle) {
         circleFrames++;
-        double angle = speed * circleFrames * circleFramesToDegreesConstant;
-        this.x =  (float) (radius * Math.cos(angle) + x);
-        this.y = (float) ( 1.85f * radius * Math.sin(angle) + y) ;
-
+        double angle = speed * circleFrames * circleFramesToRadiansConstant;
+        this.x =  (float) (radius * Math.cos(angle + startingAngle) + x);
+        this.y = (float) ( 1.85f * radius * Math.sin(angle + startingAngle) + y) ;
         return (float) angle;
 
     }
@@ -214,6 +213,7 @@ public class Movable implements Move {
 
     @Override
     public void runSequence() {
+        if(sequence.size() < sequenceIndex) return;
         SequenceParam action = sequence.get(sequenceIndex);
         switch(action.getFunctionName()) {
             case LOOP:
@@ -229,7 +229,7 @@ public class Movable implements Move {
                 moveToAndRotate(action.getX(), action.getY(), action.getAngle(), action.getSpeed());
                 break;
             case ROTATE:
-                rotate(action.getAngle(), action.getRadius(), action.getX(), action.getY(), action.getSpeed());
+                rotate(action.getAngle(), action.getRadius(), action.getX(), action.getY(), action.getSpeed(), action.getStartingAngle());
                 break;
             case WAIT:
                 wait(action.getSeconds());

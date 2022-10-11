@@ -40,9 +40,12 @@ public class MapScreen implements Screen {
             "/Assets/Cars/car-red.png",
             "/Assets/Cars/car-white.png",
             "/Assets/Cars/car-green.png",
-            "/Assets/Cars/car-lightblue.png"};
-    final int NUM_CARS = 15;
-    final int NUM_COLORS = 6;
+            "/Assets/Cars/car-lightblue.png",
+            "/Assets/Cars/car-purple.png",
+            "/Assets/Cars/car-yellow.png",
+        };
+    final int NUM_CARS = 16;
+    final int NUM_COLORS = 4;
 
     @Override
     public void init(Render2D renderer, App app, SoundManager soundManager, TextManager text) {
@@ -96,12 +99,18 @@ public class MapScreen implements Screen {
 
         List<SequenceParam> scriptedCar = new ArrayList<>();
         scriptedCar.add(new SequenceParam(FunctionName.LOOP));
-        scriptedCar.add(new SequenceParam(FunctionName.TELEPORTTO, .5f, .5f));
-        scriptedCar.add(new SequenceParam(FunctionName.MOVETO, .75f, .75f, 80f));
-        scriptedCar.add(new SequenceParam(FunctionName.WAIT, 3));
-        scriptedCar.add(new SequenceParam(FunctionName.MOVETO, .25f, .25f, 80f));
+        scriptedCar.add(new SequenceParam(FunctionName.TELEPORTTO, 0.005f, .42f));
+        scriptedCar.add(new SequenceParam(FunctionName.MOVETO, .005f, .95f, 80f));
+        scriptedCar.add(new SequenceParam(FunctionName.WAIT, 1));
+        scriptedCar.add(new SequenceParam(FunctionName.ROTATE,  .01f, .95f, -100f, (float)Math.PI/2, .01f, (float)Math.PI));
+        scriptedCar.add(new SequenceParam(FunctionName.MOVETO, .78f, .99f, 80f));
         scriptedCar.add(new SequenceParam(FunctionName.END));
         cars.get(14).setSequence(scriptedCar);
+
+        List<SequenceParam> scriptedCar2 = new ArrayList<>();
+        scriptedCar2.add(new SequenceParam(FunctionName.ROTATE,  .5f, .5f, -100f,  (float)Math.PI/2, .01f, (float)Math.PI));
+        scriptedCar2.add(new SequenceParam(FunctionName.END));
+        cars.get(15).setSequence(scriptedCar2);
     }
 
     @Override
@@ -128,6 +137,7 @@ public class MapScreen implements Screen {
 
         float speed = 80f;
         cars.get(14).runSequence();
+        cars.get(15).runSequence();
         cars.get(0).moveAlongAxis(Direction.UP, EdgeBehavior.LOOP, speed);
         cars.get(1).moveAlongAxis(Direction.DOWN,EdgeBehavior.LOOP, speed);
         cars.get(10).moveAlongAxis(Direction.UP, EdgeBehavior.LOOP, speed);
@@ -143,7 +153,7 @@ public class MapScreen implements Screen {
         cars.get(6).moveAlongAxis(Direction.LEFT, EdgeBehavior.LOOP, speed);
         cars.get(7).moveAlongAxis(Direction.RIGHT, EdgeBehavior.LOOP, speed);
 
-        cars.get(13).moveInCircle(.27f, -0.02f, -.14f, speed /2);
+        cars.get(13).moveInCircle(.27f, -0.02f, -.14f, speed /2, 0f);
 
         cars.get(12).moveTo(1f, .34f, speed);
         if(cars.get(12).getX() >= .99) {
@@ -185,6 +195,7 @@ public class MapScreen implements Screen {
         cars.get(12).show();
         cars.get(13).show();
         cars.get(14).show();
+        cars.get(15).show();
 
         renderer.renderBatchEnd();
         counter++;

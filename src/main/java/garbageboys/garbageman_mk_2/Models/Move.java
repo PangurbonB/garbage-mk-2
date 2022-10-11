@@ -49,7 +49,7 @@ public interface Move {
      * @param x xPos of center (0-1) starting bottom left
      * @param y yPos of center (0-1) starting bottom left
      */
-    public void rotate(float degrees, float radius, float x, float y, float speed);
+    public void rotate(float degrees, float radius, float x, float y, float speed, float startingAngle);
 
     /**
      * teleports to given x and y
@@ -74,7 +74,7 @@ public interface Move {
      * @param y yPos of center (0-1) starting bottom left
      * @param speed make negative to move opposite direction, controls how quickly object goes in circle
      */
-    public float moveInCircle(float radius, float x, float y, float speed);
+    public float moveInCircle(float radius, float x, float y, float speed, float startingAngle);
 
     /**
      * 
