@@ -1110,7 +1110,7 @@ public class GarbageRenderer implements Render2D {
 	}
 	
 	private void batchImageRaw(GarbageHandle handle, int layer, float x, float y, float width, float height, float angle) {
-		angle = (float) (Math.PI/6);
+		angle = (float) (0);
 
 		float xm = x + width;
 		float ym = y + width;
@@ -1139,7 +1139,8 @@ public class GarbageRenderer implements Render2D {
 		float sin = (float) Math.sin(angle);
 		ret[0] = (x * cos) - (y * sin);
 		ret[1] = (x * sin) + (y * cos);
-		return ret;
+		return new float[]{x,y};
+		//return ret;
 	}
 
 	private void setHintSleep(long wait_time) {
