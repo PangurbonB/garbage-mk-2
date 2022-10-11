@@ -88,14 +88,10 @@ public class MapScreen implements Screen {
         temp_text_object = text.openText("Park", .25f, .1f, .27f, .11f, .25f);
         text_list.add(temp_text_object);
 
-        cars.get(4).setHeight(.010f);
-        cars.get(4).setWidth(.011f);
-        cars.get(5).setHeight(.010f);
-        cars.get(5).setWidth(.011f);
-        cars.get(6).setHeight(.010f);
-        cars.get(6).setWidth(.011f);
-        cars.get(7).setHeight(.010f);
-        cars.get(7).setWidth(.011f);
+        cars.get(4).setAngle((float)Math.PI / 2);
+        cars.get(5).setAngle((float)Math.PI / 2);
+        cars.get(6).setAngle((float)Math.PI / 2);
+        cars.get(7).setAngle((float)Math.PI / 2);
 
         List<SequenceParam> scriptedCar = new ArrayList<>();
         scriptedCar.add(new SequenceParam(FunctionName.LOOP));
@@ -126,10 +122,10 @@ public class MapScreen implements Screen {
             cars.get(8).teleportTo(.558f, .4f);
             cars.get(9).teleportTo(.551f, .9f);
 
-            cars.get(4).teleportTo(.45f, .375f);
-            cars.get(5).teleportTo(.7f, .39f);
-            cars.get(6).teleportTo(.6f, .375f);
-            cars.get(7).teleportTo(0f, .39f);
+            cars.get(4).teleportTo(.45f, .423f);
+            cars.get(5).teleportTo(.7f, .431f);
+            cars.get(6).teleportTo(.6f, .423f);
+            cars.get(7).teleportTo(0f, .431f);
 
             cars.get(12).teleportTo(.33f, 0f);
             cars.get(13).teleportTo(.5f, .5f);

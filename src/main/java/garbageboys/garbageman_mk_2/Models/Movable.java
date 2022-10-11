@@ -82,11 +82,6 @@ public class Movable implements Move {
 
     }
 
-    @Override
-    public void setAngle(float rads) {
-        this.angle = rads;
-    }
-
     /**
      * rotates around a given point on a circle
      * 
@@ -206,7 +201,7 @@ public class Movable implements Move {
 
     @Override
     public void show() {
-        renderer.batchImageScreenScaled(img, layer, x, y, width, height, 0);
+        renderer.batchImageScreenScaled(img, layer, x, y, width, height, angle);
 
     }
 
@@ -282,7 +277,8 @@ public class Movable implements Move {
         return this.angle;
     }
 
-    public void setAngle(int angle) {
+    @Override
+    public void setAngle(float angle) {
         this.angle = angle;
     }
 
