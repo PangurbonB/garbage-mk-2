@@ -103,6 +103,7 @@ public class Movable implements Move {
     public float moveInCircle(float radius, float x, float y, float speed, float startingAngle) {
         circleFrames++;
         double angle = speed * circleFrames * circleFramesToRadiansConstant;
+        this.angle = (float)angle;
         this.x =  (float) (radius * Math.cos(angle + startingAngle) + x);
         this.y = (float) ( 1.85f * radius * Math.sin(angle + startingAngle) + y) ;
         return (float) angle;
