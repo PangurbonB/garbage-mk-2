@@ -1110,31 +1110,36 @@ public class GarbageRenderer implements Render2D {
 	}
 	
 	private void batchImageRaw(GarbageHandle handle, int layer, float x, float y, float width, float height, float angle) {
-		angle = (float) Math.PI;
-
-		float cos = (float) Math.cos(angle);
-		float sin = (float) Math.sin(angle);
+		angle = (float) (Math.PI/6);
 
 		float xm = x + width;
-		float ym = y + height;
+		float ym = y + width;
 
-		float xr = (x * cos) - (y * sin);
-		float yr = (x * sin) + (y * cos);
+		float[] br = rotatePair(xm, y, angle);
+		float[] bl = rotatePair(x, y, angle);
+		float[] tr = rotatePair(xm, ym, angle);
+		float[] tl = rotatePair(x, ym, angle);
 
-		float xmr = (xm * cos) - (ym * sin);
-		float ymr = (xm * sin) + (ym * cos);
-		
 
 		handle.raw_triangle_data = new float[] {
 				/* Triangle one */
-				xr, yr, -layer / 1000f,
-				xmr, yr, -layer / 1000f,
-				xmr, ymr, -layer / 1000f,
+				bl[0], bl[1], -layer / 1000f,
+				br[0], br[1], -layer / 1000f,
+				tr[0], tr[1], -layer / 1000f,
 				/* Triangle two */
-				xr, yr, -layer / 1000f,
-				xmr, ymr, -layer / 1000f,
-				xr, ymr, -layer / 1000f
+				bl[0], bl[1], -layer / 1000f,
+				tr[0], tr[1], -layer / 1000f,
+				tl[0], tl[1], -layer / 1000f
 		};
+	}
+
+	private float[] rotatePair(float x, float y, float angle){
+		float[] ret = new float[2];
+		float cos = (float) Math.cos(angle);
+		float sin = (float) Math.sin(angle);
+		ret[0] = (x * cos) - (y * sin);
+		ret[1] = (x * sin) + (y * cos);
+		return ret;
 	}
 
 	private void setHintSleep(long wait_time) {
