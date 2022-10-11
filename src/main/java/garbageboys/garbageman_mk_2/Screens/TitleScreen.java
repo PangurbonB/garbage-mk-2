@@ -111,7 +111,7 @@ public class TitleScreen implements Screen {
 		List<Object> current_frames;
 		if (title_loop_complete) {
 			current_frames = title_background_frames_2;
-			renderer.batchImageScreenScaled(play_button, 1, 0.40f, 0.508f, 0.23f, 0.15f);
+			renderer.batchImageScreenScaled(play_button, 1, 0.40f, 0.508f, 0.23f, 0.15f, 0);
 			text.renderText(text_list.get(1));
 	
 		}
@@ -122,7 +122,7 @@ public class TitleScreen implements Screen {
 		title_frame = (frame / 5) % current_frames.size();
 		renderer.batchImageScreenScaled(
 				current_frames.get(title_frame),
-				0, 0.0f, 0.0f, 1.0f, 1.0f);
+				0, 0.0f, 0.0f, 1.0f, 1.0f, 0);
 		//renderer.batchImageScaled(title_background_frames.get(title_frame), 0, 0, 0, 384 * 8, 216 * 8);
 		renderer.renderBatchEnd();
 

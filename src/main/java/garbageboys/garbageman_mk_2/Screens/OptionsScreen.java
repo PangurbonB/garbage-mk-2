@@ -48,7 +48,7 @@ public class OptionsScreen implements Screen {
 
 		renderer.renderBatchStart();
 		MemoryStack stack = MemoryStack.stackPush();
-		renderer.batchImageScreenScaled(volumeSliderBG, 1, 0.40f, 0.508f, 0.23f, 0.15f);
+		renderer.batchImageScreenScaled(volumeSliderBG, 1, 0.40f, 0.508f, 0.23f, 0.15f, 0);
 		
 		
 		renderer.renderBatchEnd();

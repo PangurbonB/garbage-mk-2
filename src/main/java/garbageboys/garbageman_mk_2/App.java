@@ -213,8 +213,8 @@ public class App {
 		MemoryStack stack = MemoryStack.stackPush();
 
 		renderer.renderBatchStart();
-		renderer.batchImageScreenScaled(crafting_screen, 0, 0f, 0f, 1f, 1f);
-		renderer.batchImageScreenScaled(play_button, 1, 0.25f, 0.25f, 0.5f, 0.5f);
+		renderer.batchImageScreenScaled(crafting_screen, 0, 0f, 0f, 1f, 1f, 0);
+		renderer.batchImageScreenScaled(play_button, 1, 0.25f, 0.25f, 0.5f, 0.5f, 0);
 
 		int duration = 60 * 60;
 		Object customer_a = null;
@@ -266,8 +266,8 @@ public class App {
 		int pos_x = (int) (window_width.get(0) * (0.8f * 0.5f * mouse_x + 0.5f));
 		int pos_y = (int) (window_height.get(0) * (0.8f * 0.5f * mouse_y + 0.5f));
 
-		renderer.batchImageScreenScaled(customer_a, 2, customer_a_x, 0f, 0.125f, 0.25f);
-		renderer.batchImageScaled(customer_b, 3, mouse_x - 64, window_height.get(0) - mouse_y - 64, 128, 128);
+		renderer.batchImageScreenScaled(customer_a, 2, customer_a_x, 0f, 0.125f, 0.25f, 0);
+		renderer.batchImageScaled(customer_b, 3, mouse_x - 64, window_height.get(0) - mouse_y - 64, 128, 128, 0);
 		//renderer.batchImageScaled(customer_b, 3, pos_x - 64, pos_y - 64, 128, 128);
 		renderer.renderBatchEnd();
 

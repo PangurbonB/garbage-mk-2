@@ -1,5 +1,8 @@
 package garbageboys.garbageman_mk_2.Rendering;
 
+import org.apache.commons.math3.*;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL;
@@ -972,6 +975,7 @@ public class GarbageRenderer implements Render2D {
 		  		check_gl_errors();
 		  		glDrawArrays(GL_TRIANGLES, 0, triangle_coords.size());
 		  		check_gl_errors();
+				
 
 		  		uv_coords.clear();
 		  		triangle_coords.clear();
@@ -1038,6 +1042,7 @@ public class GarbageRenderer implements Render2D {
 		glDisableVertexAttribArray(1);
 		glDeleteBuffers(vbo);
 		glDeleteBuffers(vbo_uv);
+		
 
 		stack.pop();
 	}
@@ -1062,7 +1067,7 @@ public class GarbageRenderer implements Render2D {
 	}
 
 	@Override
-	public void batchImage(Object raw_handle, int layer, int x, int y) {
+	public void batchImage(Object raw_handle, int layer, int x, int y, float angle) {
 		GarbageHandle handle = (GarbageHandle) raw_handle;
 
 		MemoryStack stack = MemoryStack.stackPush();
@@ -1073,13 +1078,13 @@ public class GarbageRenderer implements Render2D {
 		float screen_width = raw_width.get(0);
 		float screen_height = raw_height.get(0);
 		batchImageScreenScaled(handle, layer, x / screen_width, y / screen_height,
-				handle.image.width / screen_width, handle.image.height / screen_height);
+				handle.image.width / screen_width, handle.image.height / screen_height, angle);
 
 		stack.pop();
 	}
 
 	@Override
-	public void batchImageScaled(Object handle, int layer, int x, int y, int width, int height) {
+	public void batchImageScaled(Object handle, int layer, int x, int y, int width, int height, float angle) {
 		MemoryStack stack = MemoryStack.stackPush();
 
 		IntBuffer raw_width = stack.mallocInt(1);
@@ -1088,33 +1093,69 @@ public class GarbageRenderer implements Render2D {
 		float screen_width = raw_width.get(0);
 		float screen_height = raw_height.get(0);
 		batchImageScreenScaled(handle, layer, x / screen_width, y / screen_height,
-				width / screen_width, height / screen_height);
+				width / screen_width, height / screen_height, angle);
 
 		stack.pop();
 	}
 
 	@Override
-	public void batchImageScreenScaled(Object raw_handle, int layer, float x, float y, float width, float height) {
+	public void batchImageScreenScaled(Object raw_handle, int layer, float x, float y, float width, float height, float angle) {
 			GarbageHandle handle = (GarbageHandle) raw_handle;
 
 		float fixed_x = 2 * x - 1;
 		float fixed_y = 2 * y - 1;
 		float fixed_width = 2 * width;
 		float fixed_height = 2 * height;
-		batchImageRaw(handle, layer, fixed_x, fixed_y, fixed_width, fixed_height);
+		float px = fixed_x + (fixed_width/2f);
+		float py = fixed_y + (fixed_height/2f);
+		batchImageRaw(handle, layer, fixed_x, fixed_y, fixed_width, fixed_height, angle, px, py);
+	}
+
+	@Override
+	public void batchImageScreenScaled(Object raw_handle, int layer, float x, float y, float width, float height, float angle, float px, float py) {
+			GarbageHandle handle = (GarbageHandle) raw_handle;
+
+		float fixed_x = 2 * x - 1;
+		float fixed_y = 2 * y - 1;
+		float fixed_width = 2 * width;
+		float fixed_height = 2 * height;
+		
+		batchImageRaw(handle, layer, fixed_x, fixed_y, fixed_width, fixed_height, angle, px, py);
 	}
 	
-	private void batchImageRaw(GarbageHandle handle, int layer, float x, float y, float width, float height) {
+	private void batchImageRaw(GarbageHandle handle, int layer, float x, float y, float width, float height, float angle, float px, float py) {
+
+		float xm = x + width;
+		float ym = y + height;
+
+		float[] br = rotatePair(xm, y, angle, px, py);
+		float[] bl = rotatePair(x, y, angle, px, py);
+		float[] tr = rotatePair(xm, ym, angle, px, py);
+		float[] tl = rotatePair(x, ym, angle, px, py);
+
+
 		handle.raw_triangle_data = new float[] {
 				/* Triangle one */
-				x, y, -layer / 1000f,
-				x + width, y, -layer / 1000f,
-				x + width, y + height, -layer / 1000f,
+				bl[0], bl[1], -layer / 1000f,
+				br[0], br[1], -layer / 1000f,
+				tr[0], tr[1], -layer / 1000f,
 				/* Triangle two */
-				x, y, -layer / 1000f,
-				x + width, y + height, -layer / 1000f,
-				x, y + height, -layer / 1000f
+				bl[0], bl[1], -layer / 1000f,
+				tr[0], tr[1], -layer / 1000f,
+				tl[0], tl[1], -layer / 1000f
 		};
+	}
+
+	private float[] rotatePair(float x, float y, float angle, float px, float py){
+		float[] ret = new float[2];
+		float cos = (float) Math.cos(angle);
+		float sin = (float) Math.sin(angle);
+		float xscale = (1 - ((7f/16f) * Math.abs(sin)));
+		float yscale = (1 + ((7f/9f) * Math.abs(sin)));
+		ret[0] = ((x * cos) - (y * sin) + px - (cos * px) - (-sin * py)) * xscale;
+		ret[1] = ((x * sin) + (y * cos) + py - (sin * px) - (cos * py)) * yscale;
+		//return new float[]{x,y};
+		return ret;
 	}
 
 	private void setHintSleep(long wait_time) {
