@@ -1106,19 +1106,32 @@ public class GarbageRenderer implements Render2D {
 		float fixed_y = 2 * y - 1;
 		float fixed_width = 2 * width;
 		float fixed_height = 2 * height;
-		batchImageRaw(handle, layer, fixed_x, fixed_y, fixed_width, fixed_height, angle);
+		float px = fixed_x + (fixed_width/2f);
+		float py = fixed_y + (fixed_height/2f);
+		batchImageRaw(handle, layer, fixed_x, fixed_y, fixed_width, fixed_height, angle, px, py);
+	}
+
+	@Override
+	public void batchImageScreenScaled(Object raw_handle, int layer, float x, float y, float width, float height, float angle, float px, float py) {
+			GarbageHandle handle = (GarbageHandle) raw_handle;
+
+		float fixed_x = 2 * x - 1;
+		float fixed_y = 2 * y - 1;
+		float fixed_width = 2 * width;
+		float fixed_height = 2 * height;
+		
+		batchImageRaw(handle, layer, fixed_x, fixed_y, fixed_width, fixed_height, angle, px, py);
 	}
 	
-	private void batchImageRaw(GarbageHandle handle, int layer, float x, float y, float width, float height, float angle) {
-		angle = (float) (0);
+	private void batchImageRaw(GarbageHandle handle, int layer, float x, float y, float width, float height, float angle, float px, float py) {
 
 		float xm = x + width;
-		float ym = y + width;
+		float ym = y + height;
 
-		float[] br = rotatePair(xm, y, angle);
-		float[] bl = rotatePair(x, y, angle);
-		float[] tr = rotatePair(xm, ym, angle);
-		float[] tl = rotatePair(x, ym, angle);
+		float[] br = rotatePair(xm, y, angle, px, py);
+		float[] bl = rotatePair(x, y, angle, px, py);
+		float[] tr = rotatePair(xm, ym, angle, px, py);
+		float[] tl = rotatePair(x, ym, angle, px, py);
 
 
 		handle.raw_triangle_data = new float[] {
@@ -1133,14 +1146,16 @@ public class GarbageRenderer implements Render2D {
 		};
 	}
 
-	private float[] rotatePair(float x, float y, float angle){
+	private float[] rotatePair(float x, float y, float angle, float px, float py){
 		float[] ret = new float[2];
 		float cos = (float) Math.cos(angle);
 		float sin = (float) Math.sin(angle);
-		ret[0] = (x * cos) - (y * sin);
-		ret[1] = (x * sin) + (y * cos);
-		return new float[]{x,y};
-		//return ret;
+		float xscale = (1 - ((7f/16f) * Math.abs(sin)));
+		float yscale = (1 + ((7f/9f) * Math.abs(sin)));
+		ret[0] = ((x * cos) - (y * sin) + px - (cos * px) - (-sin * py)) * xscale;
+		ret[1] = ((x * sin) + (y * cos) + py - (sin * px) - (cos * py)) * yscale;
+		//return new float[]{x,y};
+		return ret;
 	}
 
 	private void setHintSleep(long wait_time) {

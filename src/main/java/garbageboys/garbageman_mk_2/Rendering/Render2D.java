@@ -88,8 +88,11 @@ public interface Render2D {
 	 * @param y
 	 * @param width - size relative to screen width (0 to 1)
 	 * @param height - size relative to screen height (0 to 1)
+	 * @param px - point to rotate around. Leave out to have it rotate around its center
+	 * @param py
 	 */
 	public void batchImageScreenScaled(Object image, int layer, float x, float y, float width, float height, float angle);
+	public void batchImageScreenScaled(Object image, int layer, float x, float y, float width, float height, float angle, float px, float py);
 
 	public enum InteractEventType {
 		LEFT_MOUSE_DOWN, LEFT_MOUSE_UP, RIGHT_MOUSE_DOWN, RIGHT_MOUSE_UP, SCROLL_UP, SCROLL_DOWN
