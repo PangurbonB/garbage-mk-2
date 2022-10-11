@@ -25,6 +25,8 @@ public interface Move {
         WAIT
     }
 
+    public void setAngle(float rads);
+
     /**
      * 
      * starts from bottom left, goes to top right
@@ -37,9 +39,9 @@ public interface Move {
      * starts from bottom left, goes to top right
      * @param x endPos 0,1 
      * @param y endPos 0,1 
-     * @param degrees 0-360 rotation
+     * @param rads 0-2Pi radians
      */
-    public void moveToAndRotate(float x, float y,float degrees, float speed);
+    public void moveToAndRotate(float x, float y,float rads, float speed);
 
     /**
      * rotates around a given point on a circle

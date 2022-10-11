@@ -123,21 +123,21 @@ public class RendererValidation implements Render2D {
 	}
 
 	@Override
-	public void batchImage(Object image, int layer, int x, int y) {
+	public void batchImage(Object image, int layer, int x, int y, float angle) {
 		validate_batch_resource(image);
-		actual_renderer.batchImage(image, layer, x, y);
+		actual_renderer.batchImage(image, layer, x, y, angle);
 	}
 
 	@Override
-	public void batchImageScaled(Object image, int layer, int x, int y, int width, int height) {
+	public void batchImageScaled(Object image, int layer, int x, int y, int width, int height, float angle) {
 		validate_batch_resource(image);
-		actual_renderer.batchImageScaled(image, layer, x, y, width, height);
+		actual_renderer.batchImageScaled(image, layer, x, y, width, height, angle);
 	}
 
 	@Override
-	public void batchImageScreenScaled(Object image, int layer, float x, float y, float width, float height) {
+	public void batchImageScreenScaled(Object image, int layer, float x, float y, float width, float height, float angle) {
 		//validate_batch_resource(image);
-		actual_renderer.batchImageScreenScaled(image, layer, x, y, width, height);
+		actual_renderer.batchImageScreenScaled(image, layer, x, y, width, height, angle);
 	}
 
 	@Override

@@ -10,7 +10,7 @@ public class Movable implements Move {
     private float y;
     private float width;
     private float height;
-    private int angle;
+    private float angle;
     private Object img;
     private Render2D renderer;
     private int layer = 2;
@@ -73,10 +73,15 @@ public class Movable implements Move {
      * 
      * @param x       endPos 0,1
      * @param y       endPos 0,1
-     * @param degrees 0-360 rotation
+     * @param rads 0-2Pi radians
      */
-    public void moveToAndRotate(float x, float y, float degrees, float speed) {
+    public void moveToAndRotate(float x, float y, float rads, float speed) {
 
+    }
+
+    @Override
+    public void setAngle(float rads) {
+        this.angle = rads;
     }
 
     /**
@@ -199,7 +204,7 @@ public class Movable implements Move {
 
     @Override
     public void show() {
-        renderer.batchImageScreenScaled(img, layer, x, y, width, height);
+        renderer.batchImageScreenScaled(img, layer, x, y, width, height, 0);
 
     }
 
@@ -270,7 +275,7 @@ public class Movable implements Move {
         this.height = height;
     }
 
-    public int getAngle() {
+    public float getAngle() {
         return this.angle;
     }
 
