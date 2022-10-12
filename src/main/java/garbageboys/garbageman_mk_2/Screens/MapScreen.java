@@ -149,7 +149,8 @@ public class MapScreen implements Screen {
         cars.get(6).moveAlongAxis(Direction.LEFT, EdgeBehavior.LOOP, speed);
         cars.get(7).moveAlongAxis(Direction.RIGHT, EdgeBehavior.LOOP, speed);
 
-        cars.get(13).moveInCircle(.27f, -0.02f, -.14f, speed /2, 0f);
+        //cars.get(13).moveInCircle(.27f, -0.02f, -.14f, speed /2, 0f);
+        cars.get(13).setAngle((float)counter / 100f);
 
         cars.get(12).moveTo(1f, .34f, speed);
         if(cars.get(12).getX() >= .99) {
