@@ -1102,10 +1102,10 @@ public class GarbageRenderer implements Render2D {
 	public void batchImageScreenScaled(Object raw_handle, int layer, float x, float y, float width, float height, float angle) {
 			GarbageHandle handle = (GarbageHandle) raw_handle;
 
-		float fixed_x = 2 * x - 1;
-		float fixed_y = 2 * y - 1;
-		float fixed_width = 2 * width;
-		float fixed_height = 2 * height;
+		float fixed_x = 2f * x - 1f;
+		float fixed_y = 2f * y - 1f;
+		float fixed_width = 2f * width;
+		float fixed_height = 2f * height;
 		float px = fixed_x + (fixed_width/2f);
 		float py = fixed_y + (fixed_height/2f);
 		batchImageRaw(handle, layer, fixed_x, fixed_y, fixed_width, fixed_height, angle, px, py);
@@ -1115,10 +1115,13 @@ public class GarbageRenderer implements Render2D {
 	public void batchImageScreenScaled(Object raw_handle, int layer, float x, float y, float width, float height, float angle, float px, float py) {
 			GarbageHandle handle = (GarbageHandle) raw_handle;
 
-		float fixed_x = 2 * x - 1;
-		float fixed_y = 2 * y - 1;
-		float fixed_width = 2 * width;
-		float fixed_height = 2 * height;
+		float fixed_x = 2f * x - 1f;
+		float fixed_y = 2f * y - 1f;
+		float fixed_width = 2f * width;
+		float fixed_height = 2f * height;
+
+		px = px * 2f - 1f;
+		py = py * 2f - 1f;
 		
 		batchImageRaw(handle, layer, fixed_x, fixed_y, fixed_width, fixed_height, angle, px, py);
 	}
