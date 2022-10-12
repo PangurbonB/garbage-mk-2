@@ -202,7 +202,7 @@ public class Movable implements Move {
 
     @Override
     public void show() {
-        renderer.batchImageScreenScaled(img, layer, x, y, width, height, angle);
+        renderer.batchImageScreenScaled(img, layer, x, y, width, height, angle );
 
     }
 
