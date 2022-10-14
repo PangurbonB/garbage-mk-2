@@ -50,6 +50,8 @@ public class GarbageRenderer implements Render2D {
 	private int hoffset;
 	private int woffset;
 
+
+	private int c = 0;
 	/*
 	 * GarbageImageID - A structure to quickly identify, and avoid duplication of textures in the atlas
 	 * AtlasInfo - used to hold temporal texture atlas data for a GarbageImageID (used in rendering)
@@ -1138,26 +1140,45 @@ public class GarbageRenderer implements Render2D {
 
 
 		handle.raw_triangle_data = new float[] {
+
 				/* Triangle one */
 				bl[0], bl[1], -layer / 1000f,
 				br[0], br[1], -layer / 1000f,
 				tr[0], tr[1], -layer / 1000f,
+				
 				/* Triangle two */
 				bl[0], bl[1], -layer / 1000f,
 				tr[0], tr[1], -layer / 1000f,
 				tl[0], tl[1], -layer / 1000f
-		};
+
+		};	
+		// if(c++ < 15000 || (Math.abs(angle) == Math.PI || angle < 3))return;	
+		// for(float point: handle.raw_triangle_data) {
+		// 	System.out.println(point);
+		// }
+		// return;
 	}
 
-	private float[] rotatePair(float x, float y, float angle, float px, float py){
+	public float[] rotatePair(float x, float y, float angle, float px, float py){
 		float[] ret = new float[2];
 		float cos = (float) Math.cos(angle);
 		float sin = (float) Math.sin(angle);
-		float xscale = (1 - ((7f/16f) * Math.abs(sin)));
-		float yscale = (1 + ((7f/9f) * Math.abs(sin)));
-		ret[0] = ((x * cos) - (y * sin) + px - (cos * px) - (-sin * py)) * xscale;
-		ret[1] = ((x * sin) + (y * cos) + py - (sin * px) - (cos * py)) * yscale;
-		//return new float[]{x,y};
+
+		float cos2 = (float)(Math.cos(angle*2));
+		float xscale = ((1-(2.7f/16f)) + (2.7f/16f * cos2));
+		float yscale = ((1 + (2.7f/9f)) - (2.7f/9f *  cos2));
+
+
+		// ret[0] = ((x * cos) - (y * sin)  - ((cos * px) + (-sin * py)) ) * xscale ;
+		// ret[1] = ((x * sin) + (y * cos)  - ((sin * px) + (cos * py))) * yscale  ;
+		float tempX = (x-px) * yscale;
+		float tempY = (y-py) * xscale;
+
+		ret[0] = (tempX * cos) - (tempY * sin) + px;
+		ret[1] = (tempX * sin) + (tempY * cos) + py ;
+
+
+
 		return ret;
 	}
 

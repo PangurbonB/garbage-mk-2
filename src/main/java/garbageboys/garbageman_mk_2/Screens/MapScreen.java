@@ -34,7 +34,7 @@ public class MapScreen implements Screen {
     private List<Object> loadedItems;
     private List<TextObject> text_list;
 
-    final String MAP_THEME = "/assets/Sounds/Songs/Hot Choccy.wav";
+    final String MAP_THEME = "/assets/Sounds/Songs/Gibbly(1).wav";
     final String[] CAR_FILES = { "/Assets/Cars/car-black.png",
             "/Assets/Cars/car-blue.png",
             "/Assets/Cars/car-red.png",
@@ -92,6 +92,7 @@ public class MapScreen implements Screen {
         cars.get(5).setAngle((float)Math.PI / 2);
         cars.get(6).setAngle((float)Math.PI / 2);
         cars.get(7).setAngle((float)Math.PI / 2);
+        cars.get(12).setAngle(5.2f);
 
         List<SequenceParam> scriptedCar = new ArrayList<>();
         scriptedCar.add(new SequenceParam(FunctionName.LOOP));
@@ -104,7 +105,7 @@ public class MapScreen implements Screen {
         cars.get(14).setSequence(scriptedCar);
 
         List<SequenceParam> scriptedCar2 = new ArrayList<>();
-        scriptedCar2.add(new SequenceParam(FunctionName.ROTATE,  .5f, .5f, -100f,  (float)Math.PI/2, .01f, (float)Math.PI));
+        scriptedCar2.add(new SequenceParam(FunctionName.ROTATE,  .5f, .5f, -100f,  1000f, 0f, (float)Math.PI));
         scriptedCar2.add(new SequenceParam(FunctionName.END));
         cars.get(15).setSequence(scriptedCar2);
     }
@@ -122,12 +123,12 @@ public class MapScreen implements Screen {
             cars.get(8).teleportTo(.558f, .4f);
             cars.get(9).teleportTo(.551f, .9f);
 
-            cars.get(4).teleportTo(.45f, .423f);
-            cars.get(5).teleportTo(.7f, .431f);
-            cars.get(6).teleportTo(.6f, .423f);
-            cars.get(7).teleportTo(0f, .431f);
+            cars.get(4).teleportTo(.45f, .385f);
+            cars.get(5).teleportTo(.7f, .373f);
+            cars.get(6).teleportTo(.6f, .385f);
+            cars.get(7).teleportTo(0f, .373f);
 
-            cars.get(12).teleportTo(.33f, 0f);
+            cars.get(12).teleportTo(.34f, .0f);
             cars.get(13).teleportTo(.5f, .5f);
         }
 
@@ -149,12 +150,11 @@ public class MapScreen implements Screen {
         cars.get(6).moveAlongAxis(Direction.LEFT, EdgeBehavior.LOOP, speed);
         cars.get(7).moveAlongAxis(Direction.RIGHT, EdgeBehavior.LOOP, speed);
 
-        //cars.get(13).moveInCircle(.27f, -0.02f, -.14f, speed /2, 0f);
-        cars.get(13).setAngle((float)counter / 100f);
+        cars.get(13).moveInCircle(.27f, -0.02f, -.14f, speed /2, 0f);
 
         cars.get(12).moveTo(1f, .34f, speed);
         if(cars.get(12).getX() >= .99) {
-            cars.get(12).teleportTo(.33f, 0f);
+            cars.get(12).teleportTo(.34f, 0f);
         }
         
 
