@@ -1169,6 +1169,9 @@ public class GarbageRenderer implements Render2D {
 		float cos2 = (float)(Math.cos(angle*2));
 		float xscale = ((1-(scaleConst/16f)) + (scaleConst/16f * cos2));
 		float yscale = ((1 + (scaleConst/9f)) - (scaleConst/9f *  cos2));
+		// float cos2 = (float)(Math.abs(Math.sin(angle)));
+		// float xscale = ((1 - scaleConst/16f * cos2));
+		// float yscale = ((1 + scaleConst/9f *  cos2));
 
 
 		// ret[0] = ((x * cos) - (y * sin)  - ((cos * px) + (-sin * py)) ) * xscale ;
