@@ -34,7 +34,7 @@ public class MapScreen implements Screen {
     private List<Object> loadedItems;
     private List<TextObject> text_list;
 
-    final String MAP_THEME = "/assets/Sounds/Songs/Gibbly(1).wav";
+    final String MAP_THEME = "/assets/Sounds/Songs/Causy.wav";
     final String[] CAR_FILES = { "/Assets/Cars/car-black.png",
             "/Assets/Cars/car-blue.png",
             "/Assets/Cars/car-red.png",
@@ -100,14 +100,16 @@ public class MapScreen implements Screen {
         scriptedCar.add(new SequenceParam(FunctionName.MOVETO, .005f, .95f, 80f));
         scriptedCar.add(new SequenceParam(FunctionName.WAIT, 1));
         scriptedCar.add(new SequenceParam(FunctionName.ROTATE,  .01f, .95f, -100f, (float)Math.PI/2, .01f, (float)Math.PI));
-        scriptedCar.add(new SequenceParam(FunctionName.MOVETO, .78f, .99f, 80f));
+        scriptedCar.add(new SequenceParam(FunctionName.MOVETO, .78f, .97f, 80f));
+        scriptedCar.add(new SequenceParam(FunctionName.ROTATE,  .77f, .98f, 100f, 0.0f, .01f, (float)Math.PI));
+        scriptedCar.add(new SequenceParam(FunctionName.MOVETO, .78f, .97f, 80f));
         scriptedCar.add(new SequenceParam(FunctionName.END));
         cars.get(14).setSequence(scriptedCar);
 
-        List<SequenceParam> scriptedCar2 = new ArrayList<>();
-        scriptedCar2.add(new SequenceParam(FunctionName.ROTATE,  .5f, .5f, -100f,  1000f, 0f, (float)Math.PI));
-        scriptedCar2.add(new SequenceParam(FunctionName.END));
-        cars.get(15).setSequence(scriptedCar2);
+        // List<SequenceParam> scriptedCar2 = new ArrayList<>();
+        // scriptedCar2.add(new SequenceParam(FunctionName.ROTATE,  .5f, .5f, -100f,  1000f, 0f, (float)Math.PI));
+        // scriptedCar2.add(new SequenceParam(FunctionName.END));
+        // cars.get(15).setSequence(scriptedCar2);
     }
 
     @Override
@@ -134,7 +136,7 @@ public class MapScreen implements Screen {
 
         float speed = 80f;
         cars.get(14).runSequence();
-        cars.get(15).runSequence();
+        // cars.get(15).runSequence();
         cars.get(0).moveAlongAxis(Direction.UP, EdgeBehavior.LOOP, speed);
         cars.get(1).moveAlongAxis(Direction.DOWN,EdgeBehavior.LOOP, speed);
         cars.get(10).moveAlongAxis(Direction.UP, EdgeBehavior.LOOP, speed);
