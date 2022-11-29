@@ -115,7 +115,7 @@ public class MapScreen implements Screen {
     @Override
     public void renderFrame(int frame) {
         if(counter == 0) {//first render
-            cars.get(0).teleportTo(.223f, .5f);
+            cars.get(0).teleportTo(.223f, 0.5f);
             cars.get(1).teleportTo(.216f, .75f);
             cars.get(10).teleportTo(.223f, 0f);
             cars.get(11).teleportTo(.216f,.25f);
