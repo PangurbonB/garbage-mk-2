@@ -43,6 +43,22 @@
         <lwjgl.natives>natives-windows</lwjgl.natives>
       </properties>
     </profile>
+    <profile>
+      <id>MacOS</id>
+      <!-- Activated by OS -->
+      <activation>
+        <os>
+          <family>unix</family>
+          <arch>arm</arch>
+        </os>
+      </activation>
+      <properties>
+        <lwjgl.version>3.2.2</lwjgl.version>
+        <steamworks4j.version>1.8.0</steamworks4j.version>
+        <steamworks4j-server.version>1.8.0</steamworks4j-server.version>
+        <lwjgl.natives>natives-mac</lwjgl.natives>
+      </properties>
+    </profile>
   </profiles>
 
   <build>

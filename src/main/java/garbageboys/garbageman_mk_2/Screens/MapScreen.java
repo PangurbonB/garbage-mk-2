@@ -172,29 +172,9 @@ public class MapScreen implements Screen {
                 background_frame,
                 0, 0.0f, 0.0f, 1.0f, 1.0f, 0);
 
-        
-
-        cars.get(0).show();
-        cars.get(1).show();
-        cars.get(10).show();
-        cars.get(11).show();
-
-        // in front of school
-        cars.get(2).show();
-        cars.get(3).show();
-        cars.get(8).show();
-        cars.get(9).show();
-
-        // horizontal
-        cars.get(4).show();
-        cars.get(5).show();
-        cars.get(6).show();
-        cars.get(7).show();
-
-        cars.get(12).show();
-        cars.get(13).show();
-        cars.get(14).show();
-        cars.get(15).show();
+        for(int i = 0; i < NUM_CARS; i++) {
+            cars.get(i).show();
+        }
 
         renderer.renderBatchEnd();
         counter++;

@@ -1173,9 +1173,6 @@ public class GarbageRenderer implements Render2D {
 		// float xscale = ((1 - scaleConst/16f * cos2));
 		// float yscale = ((1 + scaleConst/9f *  cos2));
 
-
-		// ret[0] = ((x * cos) - (y * sin)  - ((cos * px) + (-sin * py)) ) * xscale ;
-		// ret[1] = ((x * sin) + (y * cos)  - ((sin * px) + (cos * py))) * yscale  ;
 		float tempX = (x-px) * yscale;
 		float tempY = (y-py) * xscale;
 
