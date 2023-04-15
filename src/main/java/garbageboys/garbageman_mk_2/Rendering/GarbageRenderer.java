@@ -1159,12 +1159,21 @@ public class GarbageRenderer implements Render2D {
 		// return;
 	}
 
+	/**
+	 * 
+	 * @param x     x position of point of rotation
+	 * @param y     y position of point of rotation
+	 * @param angle orientation of image
+	 * @param px    x location of point to rotate
+	 * @param py    x location of point to rotate
+	 * @return coordinates of new location of point
+	 */
 	public float[] rotatePair(float x, float y, float angle, float px, float py){
 		float[] ret = new float[2];
 		float cos = (float) Math.cos(angle);
 		float sin = (float) Math.sin(angle);
 
-		float scaleConst = 2.65f;							
+		float scaleConst = 2.45f;							
 
 		float cos2 = (float)(Math.cos(angle*2));
 		float xscale = ((1-(scaleConst/16f)) + (scaleConst/16f * cos2));
