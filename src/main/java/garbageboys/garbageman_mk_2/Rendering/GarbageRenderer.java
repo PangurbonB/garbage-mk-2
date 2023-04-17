@@ -951,45 +951,45 @@ public class GarbageRenderer implements Render2D {
 				AtlasInfo atlas_info = null;
 				if (i == image_handles.size()
 						|| texture_unit != (atlas_info = atlas_images.get(image_handles.get(i).image)).texture_unit) {
-		  		FloatBuffer uv_buffer = BufferUtils.createFloatBuffer(uv_coords.size());
-		  		for (Float f : uv_coords) {
-		  			uv_buffer.put(f.floatValue());
-		  		}
-		  		uv_buffer.rewind();
-		  		FloatBuffer triangle_buffer = BufferUtils.createFloatBuffer(triangle_coords.size());
-		  		for (Float f : triangle_coords) {
-		  			triangle_buffer.put(f.floatValue());
-		  		}
-		  		triangle_buffer.rewind();
+					FloatBuffer uv_buffer = BufferUtils.createFloatBuffer(uv_coords.size());
+					for (Float f : uv_coords) {
+						uv_buffer.put(f.floatValue());
+					}
+					uv_buffer.rewind();
+					FloatBuffer triangle_buffer = BufferUtils.createFloatBuffer(triangle_coords.size());
+					for (Float f : triangle_coords) {
+						triangle_buffer.put(f.floatValue());
+					}
+					triangle_buffer.rewind();
 
-					glBindBuffer(GL_ARRAY_BUFFER, vbo_uv.get(0));
-		  		check_gl_errors();
-		  		glBufferData(GL_ARRAY_BUFFER, uv_buffer, GL_STATIC_DRAW);
-		  		check_gl_errors();
-		  		glBindBuffer(GL_ARRAY_BUFFER, vbo.get(0));
-		  		check_gl_errors();
-		  		glBufferData(GL_ARRAY_BUFFER, triangle_buffer, GL_STATIC_DRAW);
-		  		check_gl_errors();
+						glBindBuffer(GL_ARRAY_BUFFER, vbo_uv.get(0));
+					check_gl_errors();
+					glBufferData(GL_ARRAY_BUFFER, uv_buffer, GL_STATIC_DRAW);
+					check_gl_errors();
+					glBindBuffer(GL_ARRAY_BUFFER, vbo.get(0));
+					check_gl_errors();
+					glBufferData(GL_ARRAY_BUFFER, triangle_buffer, GL_STATIC_DRAW);
+					check_gl_errors();
 
-		  		glUseProgram(program_id);
-		  		check_gl_errors();
-		  		glUniform1i(texture_location, texture_unit);
-		  		check_gl_errors();
-		  		glDrawArrays(GL_TRIANGLES, 0, triangle_coords.size());
-		  		check_gl_errors();
-				
+					glUseProgram(program_id);
+					check_gl_errors();
+					glUniform1i(texture_location, texture_unit);
+					check_gl_errors();
+					glDrawArrays(GL_TRIANGLES, 0, triangle_coords.size());
+					check_gl_errors();
+					
 
-		  		uv_coords.clear();
-		  		triangle_coords.clear();
-		  		if (i == image_handles.size()) {
-		  			break;
-		  		} else {
-		  			texture_unit = atlas_info.texture_unit;
-		  		}
-				} else {
+					uv_coords.clear();
+					triangle_coords.clear();
+					if (i == image_handles.size()) {
+						break;
+					} else {
+						texture_unit = atlas_info.texture_unit;
+					}
+				} else { //where I *think* the raw_triangle_data is handled lol
 					GarbageHandle handle = image_handles.get(i);
-		    	assert(handle.raw_triangle_data.length == 3 * 6);
-		    	assert(atlas_info.raw_uv_coordinates.length == 2 * 6);
+					assert(handle.raw_triangle_data.length == 3 * 6);
+					assert(atlas_info.raw_uv_coordinates.length == 2 * 6);
 					for (float f : handle.raw_triangle_data) {
 						triangle_coords.add(f);
 					}
@@ -1161,8 +1161,8 @@ public class GarbageRenderer implements Render2D {
 
 	/**
 	 * 
-	 * @param x     x position of point of rotation
-	 * @param y     y position of point of rotation
+	 * @param x     x position of image location
+	 * @param y     y position of image location
 	 * @param angle orientation of image
 	 * @param px    x location of point to rotate
 	 * @param py    x location of point to rotate
@@ -1190,8 +1190,6 @@ public class GarbageRenderer implements Render2D {
 
 		ret[0] = (tempX * cos) - (tempY * sin) + px;
 		ret[1] = (tempX * sin) + (tempY * cos) + py ;
-
-
 
 		return ret;
 	}

@@ -411,7 +411,7 @@ public class TextLoader implements TextManager {
 					(text_object.x) + ((float) curr_width / window_width),
 					(text_object.y) - ((float) (curr_height ) / window_height) - ((float)char_location / default_height),
 					width_scale,
-					height_scale, 0, 0, 0);// places text images on screen
+					height_scale, 0);// places text images on screen
 
 			curr_width += width_scale * window_width;
 			if (curr_width >= text_object.width * window_width)// if reached end of the line
