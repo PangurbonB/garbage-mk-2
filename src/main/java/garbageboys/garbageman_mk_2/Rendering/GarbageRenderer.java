@@ -1175,17 +1175,21 @@ public class GarbageRenderer implements Render2D {
 		float sin = (float) Math.sin(angle);
 		float w = 16f; //width of ellipse to rotate around
 		float h = 9f; //height of ellipse to rotate around
+
+		float xOffset = (float) Math.acos(-1) - 90f;
+		float yOffset = (float) Math.acos(1) - 90f;
 		float scaleConst = 2.45f;							
 
-		float cos2 = (float)(Math.cos(angle*2));
-		float yscale = ((1-(scaleConst/w)) + (scaleConst/w * cos2));
-		float xscale = ((1 + (scaleConst/h)) - (scaleConst/h *  cos2));
+		float cos2XOffset = (float)(Math.cos(angle*2 + xOffset));
+		float cos2YOffset = (float)(Math.cos(angle*2 + yOffset));
+		float yscale = ((1-(scaleConst/w)) + (scaleConst/w * cos2XOffset));
+		float xscale = ((1 + (scaleConst/h)) - (scaleConst/h *  cos2YOffset));
 
 		float tempX = (x-px) * xscale;
 		float tempY = (y-py) * yscale;
 
-		ret[0] = (tempX * cos) - (tempY * sin) + px;
-		ret[1] = (tempX * sin) + ( tempY * cos) + py ;
+		ret[0] =  (( tempX * cos) - (tempY * sin)) + px;
+		ret[1] =  ((tempX * sin) + (tempY * cos)) + py ;
 
 		return ret;
 	}
