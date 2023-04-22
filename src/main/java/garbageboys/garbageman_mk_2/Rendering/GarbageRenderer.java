@@ -1159,10 +1159,11 @@ public class GarbageRenderer implements Render2D {
 		// return;
 	}
 
+	
 	/**
 	 * 
-	 * @param x     x position of point of rotation
-	 * @param y     y position of point of rotation
+	 * @param x     x position of image location
+	 * @param y     y position of image location
 	 * @param angle orientation of image
 	 * @param px    x location of point to rotate
 	 * @param py    x location of point to rotate
@@ -1172,29 +1173,23 @@ public class GarbageRenderer implements Render2D {
 		float[] ret = new float[2];
 		float cos = (float) Math.cos(angle);
 		float sin = (float) Math.sin(angle);
-
+		float w = 16f; //width of ellipse to rotate around
+		float h = 9f; //height of ellipse to rotate around
 		float scaleConst = 2.45f;							
 
 		float cos2 = (float)(Math.cos(angle*2));
-		float xscale = ((1-(scaleConst/16f)) + (scaleConst/16f * cos2));
-		float yscale = ((1 + (scaleConst/9f)) - (scaleConst/9f *  cos2));
-		// float cos2 = (float)(Math.abs(Math.sin(angle)));
-		// float xscale = ((1 - scaleConst/16f * cos2));
-		// float yscale = ((1 + scaleConst/9f *  cos2));
+		float yscale = ((1-(scaleConst/w)) + (scaleConst/w * cos2));
+		float xscale = ((1 + (scaleConst/h)) - (scaleConst/h *  cos2));
 
-
-		// ret[0] = ((x * cos) - (y * sin)  - ((cos * px) + (-sin * py)) ) * xscale ;
-		// ret[1] = ((x * sin) + (y * cos)  - ((sin * px) + (cos * py))) * yscale  ;
-		float tempX = (x-px) * yscale;
-		float tempY = (y-py) * xscale;
+		float tempX = (x-px) * xscale;
+		float tempY = (y-py) * yscale;
 
 		ret[0] = (tempX * cos) - (tempY * sin) + px;
-		ret[1] = (tempX * sin) + (tempY * cos) + py ;
-
-
+		ret[1] = (tempX * sin) + ( tempY * cos) + py ;
 
 		return ret;
 	}
+
 
 	private void setHintSleep(long wait_time) {
 		if (render_mode != RenderMode.PLAIN) {
