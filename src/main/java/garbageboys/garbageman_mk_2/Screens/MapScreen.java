@@ -108,7 +108,7 @@ public class MapScreen implements Screen {
         cars.get(14).setSequence(scriptedCar);
 
         List<SequenceParam> scriptedCar2 = new ArrayList<>();
-        scriptedCar2.add(new SequenceParam(FunctionName.ROTATE, .5f, .5f, -100f, 1000f, 0f, (float) Math.PI));
+        scriptedCar2.add(new SequenceParam(FunctionName.ROTATE, .5f, .5f, -100f, 360f, 0f, (float) Math.PI));
         scriptedCar2.add(new SequenceParam(FunctionName.END));
         cars.get(15).setSequence(scriptedCar2);
     }

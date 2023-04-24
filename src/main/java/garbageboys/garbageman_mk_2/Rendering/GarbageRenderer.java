@@ -1171,25 +1171,24 @@ public class GarbageRenderer implements Render2D {
 	 */
 	public float[] rotatePair(float x, float y, float angle, float px, float py){
 		float[] ret = new float[2];
-		float cos = (float) Math.cos(angle);
-		float sin = (float) Math.sin(angle);
-		float w = 16f; //width of ellipse to rotate around
-		float h = 9f; //height of ellipse to rotate around
-
-		float xOffset = (float) Math.acos(-1) - 90f;
-		float yOffset = (float) Math.acos(1) - 90f;
-		float scaleConst = 2.45f;							
-
-		float cos2XOffset = (float)(Math.cos(angle*2 + xOffset));
-		float cos2YOffset = (float)(Math.cos(angle*2 + yOffset));
-		float yscale = ((1-(scaleConst/w)) + (scaleConst/w * cos2XOffset));
-		float xscale = ((1 + (scaleConst/h)) - (scaleConst/h *  cos2YOffset));
+		final float cos = (float) Math.cos(angle);
+		final float sin = (float) Math.sin(angle);		
+			
+		final float c = 0.1f;
+		final float cos2 = (float)(Math.cos(2 * angle));
+		
+		float xscale = ((1) - (c *  cos2));
+		float yscale = ((1) + (c * cos2));
+		
 
 		float tempX = (x-px) * xscale;
 		float tempY = (y-py) * yscale;
 
-		ret[0] =  (( tempX * cos) - (tempY * sin)) + px;
-		ret[1] =  ((tempX * sin) + (tempY * cos)) + py ;
+		float xRefactor = 1.426f;
+		float yRefactor = .769f;
+
+		ret[0] =  ((1 * tempX * cos) - (tempY * sin)) + px;
+		ret[1] =  ((tempX * sin) + (1 * tempY * cos)) + py ;
 
 		return ret;
 	}
