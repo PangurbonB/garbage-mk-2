@@ -17,8 +17,7 @@ public class Car extends Movable{
    
     @Override
     public void show() {
-        this.getRenderer().batchImageScreenScaled(this.getImg(), this.getLayer(), this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.getAngle(),(this.getX() + this.getWidth()/2f), (this.getY() + this.getHeight()/2f));
-        //, this.getX() + 0, this.getY() + 0
+        this.getRenderer().batchImageScreenScaled(this.getImg(), this.getLayer(), this.getX(), this.getY(), this.getWidth(), this.getHeight(), this.getAngle());
     }
 
 }

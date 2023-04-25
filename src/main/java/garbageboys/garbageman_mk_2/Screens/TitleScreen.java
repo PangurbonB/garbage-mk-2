@@ -122,7 +122,7 @@ public class TitleScreen implements Screen {
 		title_frame = (frame / 5) % current_frames.size();
 		renderer.batchImageScreenScaled(
 				current_frames.get(title_frame),
-				0, 0.0f, 0.0f, 1.0f, 1.0f, 0);
+				0, 0f, 0f, 1f, 1f, 0);
 		//renderer.batchImageScaled(title_background_frames.get(title_frame), 0, 0, 0, 384 * 8, 216 * 8);
 		renderer.renderBatchEnd();
 

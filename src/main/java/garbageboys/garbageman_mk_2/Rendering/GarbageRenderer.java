@@ -50,8 +50,14 @@ public class GarbageRenderer implements Render2D {
 	private int hoffset;
 	private int woffset;
 
+	final float c = 0.21f; //constant that determines how much to change scaling
 
-	private int c = 0;
+	final float xC = 1/(1 - c);
+	final float yC = 1/(1 + c);
+
+	final float wC = 2 * xC;
+	final float hC = 2 * yC;
+
 	/*
 	 * GarbageImageID - A structure to quickly identify, and avoid duplication of textures in the atlas
 	 * AtlasInfo - used to hold temporal texture atlas data for a GarbageImageID (used in rendering)
@@ -1106,21 +1112,21 @@ public class GarbageRenderer implements Render2D {
 
 		float fixed_x = 2f * x - 1f;
 		float fixed_y = 2f * y - 1f;
-		float fixed_width = 2f * width;
-		float fixed_height = 2f * height;
-		float px = fixed_x + (fixed_width/2f);
-		float py = fixed_y + (fixed_height/2f);
+		float fixed_width = wC * width;
+		float fixed_height = hC * height;
+		float px = fixed_x + (fixed_width/2);
+		float py = fixed_y + (fixed_height/2);
 		batchImageRaw(handle, layer, fixed_x, fixed_y, fixed_width, fixed_height, angle, px, py);
 	}
 
 	@Override
 	public void batchImageScreenScaled(Object raw_handle, int layer, float x, float y, float width, float height, float angle, float px, float py) {
-			GarbageHandle handle = (GarbageHandle) raw_handle;
+		GarbageHandle handle = (GarbageHandle) raw_handle;
 
 		float fixed_x = 2f * x - 1f;
 		float fixed_y = 2f * y - 1f;
-		float fixed_width = 2f * width;
-		float fixed_height = 2f * height;
+		float fixed_width = wC * width;
+		float fixed_height = hC * height;
 
 		px = px * 2f - 1f;
 		py = py * 2f - 1f;
@@ -1174,7 +1180,6 @@ public class GarbageRenderer implements Render2D {
 		final float cos = (float) Math.cos(angle);
 		final float sin = (float) Math.sin(angle);		
 			
-		final float c = 0.1f;
 		final float cos2 = (float)(Math.cos(2 * angle));
 		
 		float xscale = ((1) - (c *  cos2));
@@ -1183,9 +1188,6 @@ public class GarbageRenderer implements Render2D {
 
 		float tempX = (x-px) * xscale;
 		float tempY = (y-py) * yscale;
-
-		float xRefactor = 1.426f;
-		float yRefactor = .769f;
 
 		ret[0] =  ((1 * tempX * cos) - (tempY * sin)) + px;
 		ret[1] =  ((tempX * sin) + (1 * tempY * cos)) + py ;
